@@ -1,3 +1,5 @@
+![Demand Pattern Taxonomy Logo](assets/logo.png)
+
 # Demand Pattern Taxonomy
 ## Standard Reference for Pure Demand Forecasting · v1.0.0
 

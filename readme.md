@@ -1,3 +1,5 @@
+![Demand Pattern Taxonomy Logo](docs/assets/logo.png)
+
 # Demand Pattern Taxonomy
 ## Pure Demand Forecasting Model Templates
 
@@ -36,30 +38,19 @@ All templates are fully populated with **specific quantitative values** across a
 
 | # | Dimension | Segments | Core Question |
 |---|---|---|---|
-| 1 | [Lifecycle](docs/01-lifecycle.md) | 7 | Where in commercial life is demand? |
-| 2 | [Behavior](docs/02-behavior.md) | 8 | What is the statistical shape of demand? |
-| 3 | [Driver](docs/03-driver.md) | 6 | What causes demand to move? |
-| 4 | [Magnitude](docs/04-magnitude.md) | 4 | How large is the demand? |
-| 5 | [Trend](docs/05-trend.md) | 5 | Where is demand heading? |
-| 6 | [Concentration](docs/06-concentration.md) | 5 | How is demand distributed in time? |
-| 7 | [Shock](docs/07-shock.md) | 6 | How does demand react to disruptions? |
-| 8 | [Elasticity](docs/08-elasticity.md) | 4 | How sensitive is demand to stimuli? |
-| 9 | [Timing](docs/09-timing.md) | 5 | When does demand arrive vs expectation? |
-| 10 | [Recurrence](docs/10-recurrence.md) | 5 | How consistently does demand repeat? |
-| 11 | [Interaction](docs/11-interaction.md) | 5 | How does demand relate to other SKUs? |
-| 12 | [Signal](docs/12-signal.md) | 5 | How clearly can true demand be read? |
+| 1 | [Lifecycle](docs/dimensions/01-lifecycle.md) | 7 | Where in commercial life is demand? |
+| 2 | [Behavior](docs/dimensions/02-behavior.md) | 8 | What is the statistical shape of demand? |
+| 3 | [Driver](docs/dimensions/03-driver.md) | 6 | What causes demand to move? |
+| 4 | [Magnitude](docs/dimensions/04-magnitude.md) | 4 | How large is the demand? |
+| 5 | [Trend](docs/dimensions/05-trend.md) | 5 | Where is demand heading? |
+| 6 | [Concentration](docs/dimensions/06-concentration.md) | 5 | How is demand distributed in time? |
+| 7 | [Shock](docs/dimensions/07-shock.md) | 6 | How does demand react to disruptions? |
+| 8 | [Elasticity](docs/dimensions/08-elasticity.md) | 4 | How sensitive is demand to stimuli? |
+| 9 | [Timing](docs/dimensions/09-timing.md) | 5 | When does demand arrive vs expectation? |
+| 10 | [Recurrence](docs/dimensions/10-recurrence.md) | 5 | How consistently does demand repeat? |
+| 11 | [Interaction](docs/dimensions/11-interaction.md) | 5 | How does demand relate to other SKUs? |
+| 12 | [Signal](docs/dimensions/12-signal.md) | 5 | How clearly can true demand be read? |
 | | **Total** | **65** | |
-
----
-
-## Logical Grouping
-
-```
-DEMAND IDENTITY      → Lifecycle · Magnitude · Recurrence
-DEMAND SHAPE         → Behavior · Concentration · Trend
-DEMAND CAUSALITY     → Driver · Elasticity · Timing
-DEMAND CONTEXT       → Interaction · Shock · Signal
-```
 
 ---
 
@@ -67,86 +58,43 @@ DEMAND CONTEXT       → Interaction · Shock · Signal
 
 All core segmentation formulas, thresholds, and decision trees are documented in:
 
-→ [Formula Reference](docs/00-formula-reference.md)
+→ [**Formula Reference**](docs/formula-reference/01-core-metrics.md)
 
 Covers: ADI · CV² · Mann-Kendall · DCI · Gini · PED · SNR · CCF · HHI · and all granularity-specific thresholds.
 
 ---
 
-## SKU Fingerprint
-
-Every SKU receives a multi-dimensional fingerprint:
-
-```
-SKU-A:
-  Lifecycle    → Mature
-  Behavior     → Stable
-  Driver       → Seasonal + Promotional
-  Magnitude    → High Volume
-  Trend        → Flat
-  Concentration→ Peaked
-  Shock        → Shock Resistant
-  Elasticity   → Elastic
-  Timing       → Coincident
-  Recurrence   → Regular
-  Interaction  → Independent
-  Signal       → Pure Signal
-```
-
----
-
-## Classification Rules
-
-- **Lifecycle** is assigned first — determines eligibility for Behavior classification
-- **Behavior** uses the ADI × CV² matrix with granularity-specific thresholds
-- **Driver** is an overlay — multiple drivers can apply simultaneously
-- **All other dimensions** are independent overlays applied in parallel
-
----
-
-## Granularities Supported
-
-| Granularity | Thresholds | Rolling Windows | Retraining | Latency |
-|---|---|---|---|---|
-| Daily | Dimension-specific | 7/30/90/180/365 days | Daily | T+4 hours |
-| Weekly | Dimension-specific | 4/8/13/26/52 weeks | Weekly | T+1 day |
-| Monthly | Dimension-specific | 2/3/6/12/24 months | Monthly | T+2 days |
-| Quarterly | Dimension-specific | 1/2/3/4/8 quarters | Quarterly | T+3 days |
-| Yearly | Dimension-specific | 1/2/3/4/5 years | Annually | T+7 days |
-
----
-
-## Repository Structure
+## Repository Structure (Pro Architecture)
 
 ```
 demand-pattern-taxonomy/
-├── README.md
-├── docs/
-│   ├── 00-formula-reference.md     # All formulas + thresholds
-│   ├── 01-lifecycle.md             # 7 segments
-│   ├── 02-behavior.md              # 8 segments
-│   ├── 03-driver.md                # 6 segments
-│   ├── 04-magnitude.md             # 4 segments
-│   ├── 05-trend.md                 # 5 segments
-│   ├── 06-concentration.md         # 5 segments
-│   ├── 07-shock.md                 # 6 segments
-│   ├── 08-elasticity.md            # 4 segments
-│   ├── 09-timing.md                # 5 segments
-│   ├── 10-recurrence.md            # 5 segments
-│   ├── 11-interaction.md           # 5 segments
-│   └── 12-signal.md                # 5 segments
-└── mkdocs.yml
+├── mkdocs.yml                 # MkDocs configuration
+├── docs/                      # Documentation content
+│   ├── index.md               # Portal Landing Page
+│   ├── formula-reference/     # Mathematical foundations
+│   │   ├── 01-core-metrics.md
+│   │   └── ...
+│   ├── dimensions/            # 12-Dimension specifications
+│   │   ├── 01-lifecycle.md
+│   │   └── ...
+│   ├── templates/             # Blank segment templates
+│   └── assets/                # Images and logos
+├── src/                       # Python Taxonomy Engine
+│   └── demand_taxonomy/       # Automated classification logic
+├── .github/workflows/         # CI/CD Automation
+└── CHANGELOG.md               # Version history
 ```
 
 ---
 
-## How to Use
+## Automation Engine
 
-1. **Classify your SKU** — run each dimension's decision tree against your demand history
-2. **Read the segment template** — locate your segment in the relevant dimension file
-3. **Select your model family** — follow the model strategy for your granularity
-4. **Apply thresholds** — use the Formula Reference for granularity-specific values
-5. **Monitor and reclassify** — use the reclassification rules to keep segments current
+This repository includes a Python library in `src/` to automate the classification process:
+```python
+from demand_taxonomy.metrics import calculate_adi, get_behavior_segment
+adi = calculate_adi([10, 0, 12, 0, 11])
+segment = get_behavior_segment(adi, 0.05) # "INTERMITTENT"
+```
 
 ---
 
