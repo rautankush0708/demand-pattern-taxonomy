@@ -158,6 +158,18 @@ INPUT: SKU demand history at chosen granularity
 
 ---
 
+## 0.7 Strategic Overrides & Business Logic
+
+> [!IMPORTANT]
+> **New Product Launch Guardrail:** 
+> For the first 30 days of a **Cold Start** SKU, the forecast must be aligned with the "Marketing Buy-in" quantity. Statistical models are only permitted to adjust the forecast *after* the initial 30-day signal is received.
+
+> [!WARNING]
+> **Phasing Out Protocol:**
+> Once a SKU is flagged as **Phasing Out**, the automated replenishment logic must switch from MAE-optimization to **Clearance-optimization**. Safety stock should be set to zero to avoid terminal stock bloat.
+
+---
+
 # PART 1 — SEGMENT TEMPLATES
 
 ---

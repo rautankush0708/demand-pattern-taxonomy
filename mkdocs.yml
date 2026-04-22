@@ -64,13 +64,16 @@ extra_javascript:
 
 nav:
   - Home: index.md
+  - Glossary: glossary.md
   - Formula Reference:
+    - Overview: formula-reference/index.md
     - 01 · Core Metrics: formula-reference/01-core-metrics.md
     - 02 · Statistical Tests: formula-reference/02-statistical-tests.md
     - 03 · Business Rules: formula-reference/03-business-rules.md
     - 04 · Accuracy Metrics: formula-reference/04-accuracy-metrics.md
     - 05 · Decision Engine: formula-reference/05-decision-engine.md
   - Dimensions:
+    - Overview: dimensions/index.md
     - 01 · Lifecycle: dimensions/01-lifecycle.md
     - 02 · Behavior: dimensions/02-behavior.md
     - 03 · Driver: dimensions/03-driver.md
@@ -83,8 +86,7 @@ nav:
     - 10 · Recurrence: dimensions/10-recurrence.md
     - 11 · Interaction: dimensions/11-interaction.md
     - 12 · Signal: dimensions/12-signal.md
-  - Templates:
-    - Segment Template: templates/segment-template.md
+  - Templates: templates/segment-template.md
 
 plugins:
   - search
