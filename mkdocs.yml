@@ -1,0 +1,91 @@
+site_name: Demand Pattern Taxonomy
+site_description: Technical Specification for 12 Dimensions & 65 Segments of Demand Forecasting
+site_author: Demand Intelligence Team
+site_url: https://rautankush0708.github.io/demand-pattern-taxonomy/
+repo_url: https://github.com/rautankush0708/demand-pattern-taxonomy
+repo_name: rautankush0708/demand-pattern-taxonomy
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  favicon: assets/favicon.png
+  logo: material/chart-timeline-variant
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.tracking
+    - navigation.indexes
+    - search.highlight
+    - search.suggest
+    - search.share
+    - toc.integrate
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - tables
+  - attr_list
+  - md_in_html
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      preserve_tabs: true
+  - pymdownx.details
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Formula Reference:
+    - 01 · Core Metrics: formula-reference/01-core-metrics.md
+    - 02 · Statistical Tests: formula-reference/02-statistical-tests.md
+    - 03 · Business Rules: formula-reference/03-business-rules.md
+    - 04 · Accuracy Metrics: formula-reference/04-accuracy-metrics.md
+    - 05 · Decision Engine: formula-reference/05-decision-engine.md
+  - Dimensions:
+    - 01 · Lifecycle: dimensions/01-lifecycle.md
+    - 02 · Behavior: dimensions/02-behavior.md
+    - 03 · Driver: dimensions/03-driver.md
+    - 04 · Magnitude: dimensions/04-magnitude.md
+    - 05 · Trend: dimensions/05-trend.md
+    - 06 · Concentration: dimensions/06-concentration.md
+    - 07 · Shock: dimensions/07-shock.md
+    - 08 · Elasticity: dimensions/08-elasticity.md
+    - 09 · Timing: dimensions/09-timing.md
+    - 10 · Recurrence: dimensions/10-recurrence.md
+    - 11 · Interaction: dimensions/11-interaction.md
+    - 12 · Signal: dimensions/12-signal.md
+  - Templates:
+    - Segment Template: templates/segment-template.md
+
+plugins:
+  - search
+  - mermaid2
