@@ -1,5 +1,4 @@
 ## I3 · Complementary
-
 ### 1. Definition
 Predicts demand for SKUs that move in sync with a correlated partner SKU (r > 0.50), enabling cross-SKU signal sharing to improve forecast accuracy for both SKUs simultaneously.
 
@@ -32,11 +31,10 @@ A_21 > 0 → A Granger-causes B
 
 | Granularity | WMAPE Improvement vs Independent | Cross-Correlation Maintained | Bias Alert |
 |---|---|---|---|
-| Daily | > 5% improvement | r > 0.40 | |Bias| > 8% |
-| Weekly | > 5% improvement | r > 0.40 | |Bias| > 7% |
-| Monthly | > 5% improvement | r > 0.35 | |Bias| > 6% |
-| Quarterly | > 5% improvement | r > 0.35 | |Bias| > 5% |
-| Yearly | > 4% improvement | r > 0.30 | |Bias| > 4% |
+| Daily | > 5% improvement | r > 0.40 | \|Bias\| > 8% |
+| Weekly | > 5% improvement | r > 0.40 | \|Bias\| > 7% |
+| Monthly | > 5% improvement | r > 0.35 | \|Bias\| > 6% |
+| Quarterly | > 5% improvement | r > 0.35 | \|Bias\| > 5% |
+| Yearly | > 4% improvement | r > 0.30 | \|Bias\| > 4% |
 
 ---
-

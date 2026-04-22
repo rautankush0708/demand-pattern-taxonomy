@@ -1,5 +1,4 @@
 ## I2 · Substitution
-
 ### 1. Definition
 Predicts demand for SKUs that see demand increases when a substitute SKU is unavailable, requiring OOS-conditional forecasting and portfolio-level inventory coordination.
 
@@ -33,11 +32,10 @@ Portfolio total demand conservation:
 
 | Granularity | Baseline WMAPE | OOS-Period WMAPE | Sub Rate Accuracy | Bias Alert |
 |---|---|---|---|---|
-| Daily | Per behavior std | < 30% | ±15% | |Bias| > 12% |
-| Weekly | Per behavior std | < 25% | ±12% | |Bias| > 10% |
-| Monthly | Per behavior std | < 22% | ±10% | |Bias| > 8% |
-| Quarterly | Per behavior std | < 18% | ±8% | |Bias| > 6% |
-| Yearly | Per behavior std | < 15% | ±6% | |Bias| > 5% |
+| Daily | Per behavior std | < 30% | ±15% | \|Bias\| > 12% |
+| Weekly | Per behavior std | < 25% | ±12% | \|Bias\| > 10% |
+| Monthly | Per behavior std | < 22% | ±10% | \|Bias\| > 8% |
+| Quarterly | Per behavior std | < 18% | ±8% | \|Bias\| > 6% |
+| Yearly | Per behavior std | < 15% | ±6% | \|Bias\| > 5% |
 
 ---
-

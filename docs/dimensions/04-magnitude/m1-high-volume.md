@@ -1,5 +1,4 @@
 ## M1 · High Volume
-
 ### 1. Definition
 Predicts demand for SKUs in the top 75th percentile of portfolio demand volume at the relevant granularity, where high absolute quantities make even small percentage errors economically significant and justify investment in the most sophisticated forecasting methods.
 
@@ -173,4 +172,3 @@ z = service level factor (1.28=90%, 1.65=95%, 2.05=98%, 2.33=99%)
 - Full model re-evaluation: Quarterly; after any major demand shock or structural break
 
 ---
-

@@ -9,6 +9,8 @@
 
 ---
 
+---
+
 ## Dimension Segments
 - [E1 · Elastic](e1-elastic.md)
 - [E2 · Inelastic](e2-inelastic.md)

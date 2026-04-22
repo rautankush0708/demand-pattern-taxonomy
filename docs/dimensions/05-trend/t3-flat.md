@@ -1,5 +1,4 @@
 ## T3 · Flat
-
 ### 1. Definition
 Predicts demand for SKUs where no statistically significant directional trend exists, where standard level-based forecasting methods are optimal and trend components should be suppressed to avoid spurious drift.
 
@@ -165,4 +164,3 @@ Forecast: F(t+h) = l_t + s_{t+h−m}
 - Per cycle automated dashboard with stationarity monitor; bi-weekly S&OP; quarterly full re-evaluation
 
 ---
-

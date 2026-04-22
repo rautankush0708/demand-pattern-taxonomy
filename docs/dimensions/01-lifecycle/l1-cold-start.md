@@ -1,5 +1,4 @@
 ## L1 · Cold Start
-
 ### 1. Definition
 Predicts demand for SKUs with insufficient history to detect any statistical pattern; applicable to all newly listed products regardless of category, where analogue-based or prior-informed forecasting is the only viable approach.
 
@@ -170,4 +169,3 @@ Predicts demand for SKUs with insufficient history to detect any statistical pat
 - Full model re-evaluation: After every 10 new launches to recalibrate analogue pool
 
 ---
-

@@ -1,5 +1,4 @@
 ## TM5 · Accelerated
-
 ### 1. Definition
 Predicts demand for SKUs where customers pull forward purchases ahead of the expected timing — driven by anticipated price increases, supply scarcity signals, or promotional end-dates — creating artificial spikes followed by demand troughs.
 
@@ -35,8 +34,14 @@ Net demand: Σ d_accel + Σ d_trough = Σ d_baseline (demand conserved — only 
 
 | Granularity | Accel WMAPE | Trough WMAPE | Net Demand Conservation | Bias Alert |
 |---|---|---|---|---|
-| Daily | < 35% | < 30% | ±10% of baseline total | |Bias| > 15% |
-| Weekly | < 30% | < 25% | ±8% | |Bias| > 12% |
-| Monthly | < 25% | < 20% | ±6% | |Bias| > 10% |
-| Quarterly | < 22% | < 18% | ±5% | |Bias| > 8% |
-| Yearly | < 18% | < 15% | ±4% | |Bias| > 6% |
+| Daily | < 35% | < 30% | ±10% of baseline total | \|Bias\| > 15% |
+| Weekly | < 30% | < 25% | ±8% | \|Bias\| > 12% |
+| Monthly | < 25% | < 20% | ±6% | \|Bias\| > 10% |
+| Quarterly | < 22% | < 18% | ±5% | \|Bias\| > 8% |
+| Yearly | < 18% | < 15% | ±4% | \|Bias\| > 6% |
+
+---
+
+# DIMENSION 10 — RECURRENCE PATTERN
+
+---

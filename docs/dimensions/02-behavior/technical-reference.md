@@ -267,3 +267,7 @@ Minimum 2 full cycles required for detection
 
 ---
 
+---
+
+# PART 1 — SEGMENT TEMPLATES
+

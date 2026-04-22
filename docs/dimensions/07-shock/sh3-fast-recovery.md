@@ -1,5 +1,4 @@
 ## SH3 · Fast Recovery
-
 ### 1. Definition
 Predicts demand for SKUs that exhibit significant shock deviation but return to pre-shock baseline rapidly (within the fast recovery threshold), allowing short-horizon shock correction and return to standard modelling quickly.
 
@@ -144,4 +143,3 @@ pent_up(t) = max(0, 1 − e^{−λ_pud × (t − t_shock_end)}) × pud_magnitude
 - Post-shock debrief within 1 week; quarterly HRT recalibration; annual full re-evaluation
 
 ---
-

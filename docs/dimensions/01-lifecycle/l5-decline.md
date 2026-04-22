@@ -1,5 +1,4 @@
 ## L5 · Decline
-
 ### 1. Definition
 Predicts demand for SKUs with a statistically confirmed negative demand slope, requiring trend-aware models with downward bias controls to avoid systematic over-forecasting and inventory accumulation.
 
@@ -149,4 +148,3 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, r
 - Full model re-evaluation: Quarterly or on delisting decision
 
 ---
-

@@ -1,5 +1,4 @@
 ## B2 · Intermittent
-
 ### 1. Definition
 Predicts demand for SKUs with low demand variance (CV² < 0.49) but low demand frequency (ADI ≥ granularity threshold), where demand occurs sporadically but in consistent quantities when it does occur; requires specialist intermittent demand methods.
 
@@ -189,4 +188,3 @@ SBA correction: F_SBA = (1 − α/2) × F_Croston
 - Full model re-evaluation: Quarterly or on install base change
 
 ---
-

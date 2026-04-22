@@ -1,5 +1,4 @@
 ## B1 · Stable
-
 ### 1. Definition
 Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand frequency (ADI below granularity threshold), where demand is consistent, well-behaved, and highly forecastable with standard time-series methods.
 
@@ -168,4 +167,3 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 - Full model re-evaluation: Quarterly
 
 ---
-

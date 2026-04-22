@@ -1,5 +1,4 @@
 ## T2 · Downward Trend
-
 ### 1. Definition
 Predicts demand for SKUs with a statistically confirmed negative demand slope, where damped trend-aware models are required to prevent systematic over-forecasting and inventory accumulation in declining demand environments.
 
@@ -170,4 +169,3 @@ phi < 1 → trend fades over horizon (prevents forecast going negative)
 - Per cycle automated dashboard with over-forecast alert; bi-weekly obsolescence review; quarterly full re-evaluation
 
 ---
-

@@ -1,5 +1,4 @@
 ## I1 · Independent
-
 ### 1. Definition
 Predicts demand for SKUs with no statistically significant cross-SKU correlation (|r| < 0.20), where standalone models are optimal and portfolio-level effects can be ignored.
 
@@ -10,4 +9,3 @@ Predicts demand for SKUs with no statistically significant cross-SKU correlation
 ### Evaluation — Standard per Behavior segment
 
 ---
-

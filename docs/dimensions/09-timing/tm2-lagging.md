@@ -1,5 +1,4 @@
 ## TM2 · Lagging
-
 ### 1. Definition
 Predicts demand for SKUs where demand follows an identifiable external trigger signal with a consistent delay, enabling causal forecasting by detecting the trigger and applying the known lag to project demand.
 
@@ -47,13 +46,12 @@ k* = argmax |CCF(k)| for k > 0
 
 | Granularity | WMAPE Target | Lag R² | Bias Alert |
 |---|---|---|---|
-| Daily | < 22% | > 0.25 | |Bias| > 10% |
-| Weekly | < 18% | > 0.25 | |Bias| > 8% |
-| Monthly | < 15% | > 0.20 | |Bias| > 7% |
-| Quarterly | < 12% | > 0.18 | |Bias| > 6% |
-| Yearly | < 10% | > 0.15 | |Bias| > 5% |
+| Daily | < 22% | > 0.25 | \|Bias\| > 10% |
+| Weekly | < 18% | > 0.25 | \|Bias\| > 8% |
+| Monthly | < 15% | > 0.20 | \|Bias\| > 7% |
+| Quarterly | < 12% | > 0.18 | \|Bias\| > 6% |
+| Yearly | < 10% | > 0.15 | \|Bias\| > 5% |
 
 ### 11–13. Standard protocols + quarterly lag recalibration
 
 ---
-

@@ -9,6 +9,8 @@
 
 ---
 
+---
+
 ## Dimension Segments
 - [C1 · Uniform](c1-uniform.md)
 - [C2 · Peaked](c2-peaked.md)

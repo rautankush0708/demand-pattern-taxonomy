@@ -1,5 +1,4 @@
 ## SH5 · Permanent Shift
-
 ### 1. Definition
 Predicts demand for SKUs where a shock has caused a lasting upward level change (Δ > +15%) that does not revert to the pre-shock baseline, requiring complete rebaselining and treatment as a new demand regime from the shock point forward.
 
@@ -97,4 +96,3 @@ Warm-up period after shift:
 - Weekly during warm-up; monthly new baseline validation; quarterly capacity alignment review; annual full re-evaluation
 
 ---
-

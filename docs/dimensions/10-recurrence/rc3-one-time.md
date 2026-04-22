@@ -1,5 +1,4 @@
 ## RC3 · One Time
-
 ### 1. Definition
 Predicts demand for SKUs with a single observed demand event and no recurrence expectation, where the primary decision is whether future demand will occur at all.
 
@@ -31,4 +30,3 @@ If P(recurrence) < 0.20 → Flag for potential Inactive lifecycle
 - Secondary KPI: False positive rate (flagging non-recurring as recurring)
 
 ---
-

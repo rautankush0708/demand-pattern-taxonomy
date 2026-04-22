@@ -1,5 +1,4 @@
 ## D5 · Customer Driven
-
 ### 1. Definition
 Predicts demand for SKUs where demand is highly concentrated among a small number of customers (HHI > 0.60), requiring customer-level forecasting and key account planning integration to avoid concentration risk mismanagement.
 
@@ -152,4 +151,3 @@ Churn risk score:      Based on order frequency change, complaints, contract exp
 - Full model re-evaluation: Quarterly or on key account contract renewal/loss
 
 ---
-

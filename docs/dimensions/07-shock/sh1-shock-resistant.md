@@ -1,5 +1,4 @@
 ## SH1 · Shock Resistant
-
 ### 1. Definition
 Predicts demand for SKUs where historical shock events have caused no statistically significant deviation from the demand baseline, indicating the SKU is insensitive to external disruptions and requires no shock-specific modelling adjustments.
 
@@ -102,4 +101,3 @@ Predicts demand for SKUs where historical shock events have caused no statistica
 - Per cycle SRS monitoring; quarterly shock history review; annual full re-evaluation
 
 ---
-

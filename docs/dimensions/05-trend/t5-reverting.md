@@ -1,5 +1,4 @@
 ## T5 · Reverting
-
 ### 1. Definition
 Predicts demand for SKUs that systematically deviate from a stable long-run mean and return to it, where mean-reversion models outperform trend extrapolation and prevent over-reaction to temporary deviations.
 

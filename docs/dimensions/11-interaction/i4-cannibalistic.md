@@ -1,5 +1,4 @@
 ## I4 · Cannibalistic
-
 ### 1. Definition
 Predicts demand for SKUs where growth of a related SKU systematically reduces demand (δ < −0.15), requiring portfolio-level demand sharing models to avoid double-counting and produce internally consistent forecasts.
 
@@ -40,4 +39,3 @@ Estimate jointly via GLS — captures cross-equation correlation
 | Yearly | < 10% | CV(δ) < 0.30 | < 3% |
 
 ---
-

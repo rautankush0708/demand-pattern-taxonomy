@@ -1,5 +1,4 @@
 ## SG1 · Pure Signal
-
 ### 1. Definition
 Predicts demand for SKUs where the observed demand series accurately reflects true underlying consumption (SNR > 4.0; DI < 0.10), enabling direct application of statistical and ML models without pre-processing corrections.
 
@@ -10,4 +9,3 @@ Predicts demand for SKUs where the observed demand series accurately reflects tr
 ### Evaluation — Standard per Behavior segment; add SNR as monitoring metric
 
 ---
-

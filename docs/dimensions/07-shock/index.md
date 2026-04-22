@@ -9,6 +9,8 @@
 
 ---
 
+---
+
 ## Dimension Segments
 - [SH1 · Shock Resistant](sh1-shock-resistant.md)
 - [SH2 · Shock Sensitive](sh2-shock-sensitive.md)

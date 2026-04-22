@@ -1,5 +1,4 @@
 ## D6 · Supply Constrained
-
 ### 1. Definition
 Predicts true (unconstrained) demand for SKUs where historical observed demand is systematically below true demand due to supply stockouts, ensuring forecasts reflect genuine customer appetite rather than corrupted supply-limited actuals.
 

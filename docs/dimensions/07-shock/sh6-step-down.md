@@ -1,5 +1,4 @@
 ## SH6 · Step Down
-
 ### 1. Definition
 Predicts demand for SKUs where a shock has caused a lasting downward level change (Δ < −15%) that does not recover, requiring complete rebaselining at the lower level and immediate inventory run-down management.
 

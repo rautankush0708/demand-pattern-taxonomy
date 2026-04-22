@@ -1,5 +1,4 @@
 ## L7 · Inactive
-
 ### 1. Definition
 Assigns zero forecast to SKUs with zero demand beyond the inactive threshold while continuously monitoring for reactivation signals to enable rapid lifecycle graduation.
 

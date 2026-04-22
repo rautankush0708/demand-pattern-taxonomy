@@ -1,5 +1,4 @@
 ## L6 · Phasing Out
-
 ### 1. Definition
 Predicts residual demand for SKUs with a confirmed planned discontinuation date, where the primary objective is inventory run-down optimisation rather than demand accuracy.
 
@@ -142,4 +141,3 @@ Demand(t) = Demand(T0) × (Periods_Remaining(t) / Total_Periods_at_Flag)
 - Full model re-evaluation: After every 10 completed phase-outs
 
 ---
-

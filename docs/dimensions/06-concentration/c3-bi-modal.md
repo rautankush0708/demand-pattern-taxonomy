@@ -1,5 +1,4 @@
 ## C3 · Bi-Modal
-
 ### 1. Definition
 Predicts demand for SKUs with two distinct significant demand peaks per cycle, requiring dual-peak modelling and separate peak-specific inventory policies for each of the two demand surges.
 
@@ -130,4 +129,3 @@ Example monthly: TBATS with m_1 = 6 (6-month peak gap), m_2 = 12 (annual)
 - Pre-peak1 review; pre-peak2 review; post-cycle debrief; annual full re-evaluation
 
 ---
-

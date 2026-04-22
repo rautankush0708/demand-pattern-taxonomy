@@ -1,5 +1,4 @@
 ## T4 · Cyclical Trend
-
 ### 1. Definition
 Predicts demand for SKUs exhibiting long-wave demand cycles beyond the primary seasonal frequency, where standard seasonal models underfit and multi-period cycle-aware models are required to capture boom-bust or long-cycle patterns.
 
@@ -125,4 +124,3 @@ where λ = 2π / T_c (cycle frequency); ρ ∈ (0,1) = damping factor
 - Quarterly cycle position update; semi-annual macro review; annual full re-evaluation
 
 ---
-

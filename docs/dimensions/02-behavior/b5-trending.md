@@ -1,5 +1,4 @@
 ## B5 · Trending
-
 ### 1. Definition
 Predicts demand for SKUs with a statistically confirmed directional slope (either positive or negative) that sits within the Stable/Slow Mover CV²-ADI quadrant, requiring trend-aware models to avoid systematic directional bias.
 
@@ -102,4 +101,3 @@ Predicts demand for SKUs with a statistically confirmed directional slope (eithe
 - Per cycle with slope monitor; bi-weekly review; quarterly full re-evaluation
 
 ---
-

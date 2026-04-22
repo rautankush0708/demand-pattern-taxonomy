@@ -1,5 +1,4 @@
 ## SH2 · Shock Sensitive
-
 ### 1. Definition
 Predicts demand for SKUs that exhibit significant demand deviation during external shock events (SRS < 0.40), requiring shock-aware scenario planning, wider prediction intervals, and rapid model adaptation protocols during disruption periods.
 
@@ -167,4 +166,3 @@ shock_indicator(t) = 1 during shock period; 0 otherwise
 - Continuous monitoring during shock state; post-shock debrief within 2 weeks; quarterly shock history update; annual full re-evaluation
 
 ---
-

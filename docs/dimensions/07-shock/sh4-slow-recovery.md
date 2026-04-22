@@ -1,5 +1,4 @@
 ## SH4 · Slow Recovery
-
 ### 1. Definition
 Predicts demand for SKUs that deviate significantly during shocks and require an extended period to return to pre-shock baseline, demanding prolonged recovery modelling, sustained safety stock buffers, and multi-horizon recovery path forecasting.
 
@@ -131,4 +130,3 @@ where h = periods since shock end
 - Weekly during active recovery; monthly recovery path calibration; quarterly HRT update; annual full re-evaluation
 
 ---
-

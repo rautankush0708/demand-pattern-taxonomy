@@ -1,5 +1,4 @@
 ## D2 · Event Driven
-
 ### 1. Definition
 Predicts demand for SKUs where discrete, non-recurring external events cause statistically significant demand spikes or drops, requiring event calendar integration and event-specific uplift modelling.
 
@@ -184,4 +183,3 @@ where X_{k,t} = event indicator variables (proximity, type, magnitude)
 - Full model re-evaluation: Annually; after any event type change
 
 ---
-

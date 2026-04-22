@@ -9,6 +9,8 @@
 
 ---
 
+---
+
 ## Dimension Segments
 - [T1 · Upward Trend](t1-upward-trend.md)
 - [T2 · Downward Trend](t2-downward-trend.md)

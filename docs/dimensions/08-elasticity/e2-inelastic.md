@@ -1,5 +1,4 @@
 ## E2 · Inelastic
-
 ### 1. Definition
 Predicts demand for SKUs where demand quantity responds less than proportionally to price or promotional stimulus changes (|PED| < 1.0), where causal features add minimal forecast value and standard time-series methods are more reliable than causal models.
 
@@ -157,4 +156,3 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 - Monthly PED monitor; quarterly full elasticity re-estimation; annual pricing strategy alignment
 
 ---
-

@@ -1,5 +1,4 @@
 ## T1 · Upward Trend
-
 ### 1. Definition
 Predicts demand for SKUs with a statistically confirmed positive demand slope, where trend-aware models are required to avoid systematic under-forecasting and chronic stockout in rising demand environments.
 
@@ -186,4 +185,3 @@ Forecast: F(t+h) = l_t + h × b_t
 - Per cycle automated dashboard with slope monitor and tracking signal; weekly commercial review; quarterly full re-evaluation
 
 ---
-

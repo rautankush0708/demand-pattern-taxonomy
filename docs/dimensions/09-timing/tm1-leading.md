@@ -1,5 +1,4 @@
 ## TM1 · Leading
-
 ### 1. Definition
 Predicts demand for SKUs where demand moves systematically ahead of an identifiable external trigger signal, enabling anticipatory forecasting by using leading indicators to predict demand before it materialises.
 
@@ -84,13 +83,12 @@ d(t) = α + β × trigger(t + k*) + Σγ × controls(t) + ARIMA residual
 
 | Granularity | WMAPE Target | Lead Indicator R² | CCF Stability | Bias Alert |
 |---|---|---|---|---|
-| Daily | < 22% | > 0.25 | CV(k*) < 0.30 | |Bias| > 10% |
-| Weekly | < 18% | > 0.25 | CV(k*) < 0.30 | |Bias| > 8% |
-| Monthly | < 15% | > 0.20 | CV(k*) < 0.30 | |Bias| > 7% |
-| Quarterly | < 12% | > 0.18 | CV(k*) < 0.30 | |Bias| > 6% |
-| Yearly | < 10% | > 0.15 | CV(k*) < 0.30 | |Bias| > 5% |
+| Daily | < 22% | > 0.25 | CV(k*) < 0.30 | \|Bias\| > 10% |
+| Weekly | < 18% | > 0.25 | CV(k*) < 0.30 | \|Bias\| > 8% |
+| Monthly | < 15% | > 0.20 | CV(k*) < 0.30 | \|Bias\| > 7% |
+| Quarterly | < 12% | > 0.18 | CV(k*) < 0.30 | \|Bias\| > 6% |
+| Yearly | < 10% | > 0.15 | CV(k*) < 0.30 | \|Bias\| > 5% |
 
 ### 11–13. Standard protocols + quarterly lead time recalibration; annual leading indicator relevance review
 
 ---
-

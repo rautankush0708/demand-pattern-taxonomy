@@ -1,5 +1,4 @@
 ## M2 · Medium Volume
-
 ### 1. Definition
 Predicts demand for SKUs in the 25th–75th percentile of portfolio demand volume, representing the core middle tier of the portfolio where standard forecasting methods deliver reliable results with moderate feature complexity.
 
@@ -160,4 +159,3 @@ Predicts demand for SKUs in the 25th–75th percentile of portfolio demand volum
 - Weekly automated dashboard; bi-weekly S&OP review; quarterly full re-evaluation
 
 ---
-

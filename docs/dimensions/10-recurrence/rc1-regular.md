@@ -1,5 +1,4 @@
 ## RC1 · Regular
-
 ### 1. Definition
 Predicts demand for SKUs with highly consistent inter-arrival intervals (CV_IAT < 0.20), where timing predictability enables interval-based forecasting models.
 
@@ -38,11 +37,10 @@ Croston with α = 0.05:
 
 | Granularity | Timing Accuracy (±1 period) | Quantity MAE | Bias Alert |
 |---|---|---|---|
-| Daily | > 95% | < 10% of mean | |Bias| > 8% |
-| Weekly | > 90% | < 10% of mean | |Bias| > 8% |
-| Monthly | > 90% | < 8% | |Bias| > 6% |
-| Quarterly | > 85% | < 8% | |Bias| > 6% |
-| Yearly | > 85% | < 6% | |Bias| > 5% |
+| Daily | > 95% | < 10% of mean | \|Bias\| > 8% |
+| Weekly | > 90% | < 10% of mean | \|Bias\| > 8% |
+| Monthly | > 90% | < 8% | \|Bias\| > 6% |
+| Quarterly | > 85% | < 8% | \|Bias\| > 6% |
+| Yearly | > 85% | < 6% | \|Bias\| > 5% |
 
 ---
-

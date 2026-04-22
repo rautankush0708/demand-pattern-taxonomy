@@ -1,5 +1,4 @@
 ## E1 · Elastic
-
 ### 1. Definition
 Predicts demand for SKUs where demand quantity responds more than proportionally to price or promotional stimulus changes (|PED| > 1.0), requiring causal forecasting models that explicitly capture stimulus-response dynamics and promotional planning integration.
 
@@ -185,4 +184,3 @@ Post-promo forecast = baseline × (1 − dip_factor × e^{−λ_dip × h})
 - Weekly during active promotional periods; monthly PED stability check; quarterly full elasticity re-estimation; annual pricing strategy alignment
 
 ---
-

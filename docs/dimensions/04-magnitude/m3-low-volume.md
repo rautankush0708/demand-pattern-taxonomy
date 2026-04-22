@@ -1,5 +1,4 @@
 ## M3 · Low Volume
-
 ### 1. Definition
 Predicts demand for SKUs in the 5th–25th percentile of portfolio demand volume, where low absolute quantities make percentage-based metrics unreliable and specialist low-volume methods are required to avoid overfitting and metric distortion.
 
@@ -168,4 +167,3 @@ Safety stock        = z × σ_demand × √Lead_time   [if σ reliable]
 - Monthly automated portfolio-level dashboard; quarterly range rationalisation review; annual full re-evaluation
 
 ---
-

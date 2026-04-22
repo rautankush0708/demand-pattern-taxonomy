@@ -1,5 +1,4 @@
 ## M4 · Ultra Low
-
 ### 1. Definition
 Predicts demand for SKUs in the bottom 5th percentile of portfolio demand volume where near-zero absolute quantities make statistical forecasting unreliable, and the primary decision is whether to stock at all rather than how much to forecast.
 

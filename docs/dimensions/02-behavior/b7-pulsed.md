@@ -1,5 +1,4 @@
 ## B7 · Pulsed
-
 ### 1. Definition
 Predicts demand for SKUs with regular inter-arrival intervals and consistent quantities, where demand arrives in predictable bulk pulses — typically driven by periodic ordering behavior rather than underlying consumption patterns.
 
@@ -115,4 +114,3 @@ Predicts demand for SKUs with regular inter-arrival intervals and consistent qua
 - Per pulse event review; monthly pulsed portfolio review; quarterly full re-evaluation
 
 ---
-

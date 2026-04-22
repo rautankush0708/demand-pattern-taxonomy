@@ -1,5 +1,4 @@
 ## D4 · Weather Driven
-
 ### 1. Definition
 Predicts demand for SKUs where meteorological variables explain a statistically significant portion of demand variance, requiring weather data integration and weather-conditioned forecasting.
 
@@ -170,4 +169,3 @@ d_t = β_0 + β_temp × temp_t + β_rain × rain_t + β_extreme × extreme_t + �
 - Full model re-evaluation: Annually at season start; after any climate anomaly year
 
 ---
-

@@ -1,5 +1,4 @@
 ## E4 · Saturation
-
 ### 1. Definition
 Predicts demand for SKUs where demand response to stimulus follows a diminishing returns curve, reaching a maximum ceiling beyond which additional stimulus generates negligible incremental demand, requiring non-linear causal models and saturation-aware promotional investment optimisation.
 

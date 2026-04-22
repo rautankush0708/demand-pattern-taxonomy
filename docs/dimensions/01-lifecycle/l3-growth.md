@@ -1,5 +1,4 @@
 ## L3 · Growth
-
 ### 1. Definition
 Predicts demand for SKUs with a statistically confirmed positive demand slope over a granularity-specific rolling window, where trend-aware models are required to avoid systematic under-forecasting.
 
@@ -164,4 +163,3 @@ Predicts demand for SKUs with a statistically confirmed positive demand slope ov
 - Full model re-evaluation: Quarterly or on distribution step-change event
 
 ---
-

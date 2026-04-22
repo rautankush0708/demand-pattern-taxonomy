@@ -1,5 +1,4 @@
 ## L2 · New Launch
-
 ### 1. Definition
 Predicts demand for SKUs where an initial demand pattern is emerging but insufficient for full statistical modelling; hybrid of analogue and own-SKU signal, transitioning toward data-driven forecasting across 8–16 weeks of history.
 
@@ -180,4 +179,3 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 - Full model re-evaluation: Quarterly analogue pool refresh
 
 ---
-

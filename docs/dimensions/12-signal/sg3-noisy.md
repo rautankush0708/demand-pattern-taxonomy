@@ -1,5 +1,4 @@
 ## SG3 · Noisy
-
 ### 1. Definition
 Predicts demand for SKUs where true demand signal is heavily masked by random variation (SNR < 1.0), requiring noise reduction pre-processing and robust low-sensitivity models that do not overfit to noise.
 
@@ -48,11 +47,10 @@ H >> Q → noisy observations; state estimated smoothly from noisy signal
 
 | Granularity | WMAPE (on smoothed) | SNR Post-Smoothing | Overfitting Check | Bias Alert |
 |---|---|---|---|---|
-| Daily | < 25% | SNR > 2.0 | Validation WMAPE < Train × 1.20 | |Bias| > 12% |
-| Weekly | < 22% | SNR > 2.0 | Validation < Train × 1.20 | |Bias| > 10% |
-| Monthly | < 18% | SNR > 2.0 | Validation < Train × 1.20 | |Bias| > 8% |
-| Quarterly | < 15% | SNR > 2.0 | Validation < Train × 1.20 | |Bias| > 6% |
-| Yearly | < 12% | SNR > 2.0 | Validation < Train × 1.20 | |Bias| > 5% |
+| Daily | < 25% | SNR > 2.0 | Validation WMAPE < Train × 1.20 | \|Bias\| > 12% |
+| Weekly | < 22% | SNR > 2.0 | Validation < Train × 1.20 | \|Bias\| > 10% |
+| Monthly | < 18% | SNR > 2.0 | Validation < Train × 1.20 | \|Bias\| > 8% |
+| Quarterly | < 15% | SNR > 2.0 | Validation < Train × 1.20 | \|Bias\| > 6% |
+| Yearly | < 12% | SNR > 2.0 | Validation < Train × 1.20 | \|Bias\| > 5% |
 
 ---
-

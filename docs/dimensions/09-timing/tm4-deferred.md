@@ -1,5 +1,4 @@
 ## TM4 · Deferred
-
 ### 1. Definition
 Predicts demand for SKUs where customer decision cycles cause demand to arrive significantly later than the triggering event, requiring extended post-trigger forecast horizons and patience-adjusted demand models.
 
@@ -40,11 +39,10 @@ Mean lag = λ / (1−λ)   [average deferral period]
 
 | Granularity | WMAPE Target | Deferral Distribution Accuracy | Bias Alert |
 |---|---|---|---|
-| Daily | < 28% | Distribution within ±15% | |Bias| > 12% |
-| Weekly | < 24% | Distribution within ±12% | |Bias| > 10% |
-| Monthly | < 20% | Distribution within ±10% | |Bias| > 8% |
-| Quarterly | < 17% | Distribution within ±8% | |Bias| > 6% |
-| Yearly | < 14% | Distribution within ±6% | |Bias| > 5% |
+| Daily | < 28% | Distribution within ±15% | \|Bias\| > 12% |
+| Weekly | < 24% | Distribution within ±12% | \|Bias\| > 10% |
+| Monthly | < 20% | Distribution within ±10% | \|Bias\| > 8% |
+| Quarterly | < 17% | Distribution within ±8% | \|Bias\| > 6% |
+| Yearly | < 14% | Distribution within ±6% | \|Bias\| > 5% |
 
 ---
-

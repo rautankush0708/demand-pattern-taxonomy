@@ -1,5 +1,4 @@
 ## C2 · Peaked
-
 ### 1. Definition
 Predicts demand for SKUs where demand is concentrated in one dominant period within the cycle, requiring period-specific uplift modelling and asymmetric safety stock policies to capture the peak accurately while avoiding excess inventory in non-peak periods.
 
@@ -212,4 +211,3 @@ Pre-season buy: Use P75 for peak period stock commitment
 - Pre-peak review (6–8 weeks before peak); post-peak debrief within 2 weeks; annual SI calibration; quarterly monitoring
 
 ---
-

@@ -1,5 +1,4 @@
 ## TM3 · Coincident
-
 ### 1. Definition
 Predicts demand for SKUs where demand moves simultaneously with an identifiable external trigger signal (max CCF at k = 0), requiring real-time external signal integration for contemporaneous demand forecasting.
 
@@ -32,11 +31,10 @@ CCF(0) = contemporaneous correlation strength
 
 | Granularity | WMAPE Target | Trigger R² | Bias Alert |
 |---|---|---|---|
-| Daily | < 20% | > 0.30 | |Bias| > 8% |
-| Weekly | < 17% | > 0.25 | |Bias| > 7% |
-| Monthly | < 14% | > 0.20 | |Bias| > 6% |
-| Quarterly | < 11% | > 0.18 | |Bias| > 5% |
-| Yearly | < 9% | > 0.15 | |Bias| > 4% |
+| Daily | < 20% | > 0.30 | \|Bias\| > 8% |
+| Weekly | < 17% | > 0.25 | \|Bias\| > 7% |
+| Monthly | < 14% | > 0.20 | \|Bias\| > 6% |
+| Quarterly | < 11% | > 0.18 | \|Bias\| > 5% |
+| Yearly | < 9% | > 0.15 | \|Bias\| > 4% |
 
 ---
-

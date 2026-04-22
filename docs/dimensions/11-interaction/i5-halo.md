@@ -1,5 +1,4 @@
 ## I5 · Halo
-
 ### 1. Definition
 Predicts demand for SKUs where a hero SKU's performance lifts demand for associated SKUs (r > 0.40; causal direction confirmed), requiring hero-follower modelling where the hero SKU forecast is used as a leading input for follower SKU forecasts.
 
@@ -26,8 +25,14 @@ Causal direction test: Granger causality from hero to follower (not reverse)
 
 | Granularity | Follower WMAPE | Halo Granger Causality | Halo Coefficient Stability | Bias Alert |
 |---|---|---|---|---|
-| Daily | < 22% | p < 0.05 confirmed | CV(β) < 0.30 | |Bias| > 10% |
-| Weekly | < 18% | p < 0.05 | CV(β) < 0.30 | |Bias| > 8% |
-| Monthly | < 15% | p < 0.05 | CV(β) < 0.30 | |Bias| > 7% |
-| Quarterly | < 12% | p < 0.05 | CV(β) < 0.30 | |Bias| > 6% |
-| Yearly | < 10% | p < 0.05 | CV(β) < 0.30 | |Bias| > 5% |
+| Daily | < 22% | p < 0.05 confirmed | CV(β) < 0.30 | \|Bias\| > 10% |
+| Weekly | < 18% | p < 0.05 | CV(β) < 0.30 | \|Bias\| > 8% |
+| Monthly | < 15% | p < 0.05 | CV(β) < 0.30 | \|Bias\| > 7% |
+| Quarterly | < 12% | p < 0.05 | CV(β) < 0.30 | \|Bias\| > 6% |
+| Yearly | < 10% | p < 0.05 | CV(β) < 0.30 | \|Bias\| > 5% |
+
+---
+
+# DIMENSION 12 — SIGNAL PATTERN
+
+---

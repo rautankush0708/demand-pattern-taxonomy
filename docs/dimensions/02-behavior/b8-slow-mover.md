@@ -1,5 +1,4 @@
 ## B8 · Slow Mover
-
 ### 1. Definition
 Predicts demand for SKUs with regular demand frequency and low variance (same CV²-ADI quadrant as Stable) but with absolute volume below the 5th portfolio percentile, where low volume creates amplified percentage error and specialist treatment improves inventory efficiency.
 

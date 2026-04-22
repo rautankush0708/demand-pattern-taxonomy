@@ -1,5 +1,4 @@
 ## L4 · Mature
-
 ### 1. Definition
 Predicts demand for SKUs with stable, flat demand over an extended period where no statistically significant trend exists and demand is well understood; the primary workhorse forecasting segment representing the majority of portfolio volume.
 
@@ -158,4 +157,3 @@ Predicts demand for SKUs with stable, flat demand over an extended period where 
 - Full model re-evaluation: Quarterly
 
 ---
-

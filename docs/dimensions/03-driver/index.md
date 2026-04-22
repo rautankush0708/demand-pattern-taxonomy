@@ -9,6 +9,8 @@
 
 ---
 
+---
+
 ## Dimension Segments
 - [D1 · Seasonal](d1-seasonal.md)
 - [D2 · Event Driven](d2-event-driven.md)

@@ -1,4 +1,3 @@
-
 # PART 0 — FORMULA & THRESHOLD REFERENCE
 ## Concentration Pattern Specific
 
@@ -201,4 +200,8 @@ Coverage = Actuals within [P10, P90] / n × 100  (Target: 80%)
 # PART 1 — SEGMENT TEMPLATES
 
 ---
+
+---
+
+# PART 1 — SEGMENT TEMPLATES
 

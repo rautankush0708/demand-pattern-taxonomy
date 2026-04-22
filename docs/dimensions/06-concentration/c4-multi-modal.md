@@ -1,5 +1,4 @@
 ## C4 · Multi-Modal
-
 ### 1. Definition
 Predicts demand for SKUs with three or more distinct significant demand peaks per cycle, requiring decomposition-based modelling and period-specific inventory policies across multiple demand surges within the same cycle.
 
@@ -124,4 +123,3 @@ Optimise m_k via FFT peak detection on detrended series
 - Pre-each-peak review; post-cycle full debrief; annual TBATS frequency re-calibration
 
 ---
-

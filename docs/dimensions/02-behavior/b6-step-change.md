@@ -1,5 +1,4 @@
 ## B6 · Step Change
-
 ### 1. Definition
 Predicts demand for SKUs where a structural break has caused a permanent shift in the demand level, requiring rebaselining before any pattern model is applied; the pre-processing segment that protects other segments from corrupted baselines.
 
@@ -95,4 +94,3 @@ F > F_critical (p < 0.05) → structural break confirmed
 - Daily break scan on all SKUs; immediate alert on detection; monthly false-positive review
 
 ---
-

@@ -1,5 +1,4 @@
 ## B3 · Erratic
-
 ### 1. Definition
 Predicts demand for SKUs with high demand variance (CV² ≥ 0.49) and high demand frequency (ADI below granularity threshold), where demand occurs regularly but in highly unpredictable quantities.
 
@@ -154,4 +153,3 @@ Predicts demand for SKUs with high demand variance (CV² ≥ 0.49) and high dema
 - Full model re-evaluation: Quarterly
 
 ---
-

@@ -1,5 +1,4 @@
 ## E3 · Threshold
-
 ### 1. Definition
 Predicts demand for SKUs where demand shows no meaningful response to stimulus below a critical activation threshold but responds strongly above it, requiring piecewise causal modelling with explicit threshold detection and non-linear response functions.
 
@@ -154,4 +153,3 @@ ln(Q_t) = α + β_below × stimulus_t × I(stimulus_t < T*)
 - Monthly T* stability check; quarterly threshold re-estimation; annual trade planning alignment
 
 ---
-

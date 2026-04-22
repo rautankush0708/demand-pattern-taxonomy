@@ -1,5 +1,4 @@
 ## D1 · Seasonal
-
 ### 1. Definition
 Predicts demand for SKUs where a statistically significant portion of demand variance is explained by repeating calendar-driven cycles, requiring seasonal decomposition and period-aware modelling to capture predictable peaks and troughs.
 
@@ -193,4 +192,3 @@ Combine:      (1 − φ_1B − ... − φ_pB^p)(1 − Φ_1B^m − ... − Φ_PB^
 - Full model re-evaluation: Annually post full cycle; after any seasonal calendar change
 
 ---
-

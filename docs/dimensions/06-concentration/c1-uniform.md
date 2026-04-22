@@ -1,5 +1,4 @@
 ## C1 · Uniform
-
 ### 1. Definition
 Predicts demand for SKUs where demand is distributed evenly across all periods within a cycle, requiring no period-specific adjustment and permitting the simplest forecasting approaches without seasonal index complexity.
 
@@ -179,4 +178,3 @@ Expected: σ_residual / μ_demand < 0.20 for well-performing Uniform segment
 - Weekly automated dashboard; monthly DCI and Gini monitor; quarterly full re-evaluation
 
 ---
-

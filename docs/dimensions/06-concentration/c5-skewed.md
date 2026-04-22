@@ -1,5 +1,4 @@
 ## C5 · Skewed
-
 ### 1. Definition
 Predicts demand for SKUs where demand within a cycle is asymmetrically distributed — concentrated earlier or later in the cycle — requiring asymmetric seasonal indices and lead-time-aware inventory positioning to capture directional demand concentration.
 

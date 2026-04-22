@@ -1,5 +1,4 @@
 ## RC4 · Declining Recurrence
-
 ### 1. Definition
 Predicts demand for SKUs where the frequency of demand events is decreasing over time (Mann-Kendall on RR(t); p < 0.05; Z < 0), indicating a category or customer relationship in decline.
 
@@ -30,4 +29,3 @@ Demand forecast: RR_forecast(t+h) × quantity_per_event
 | Yearly | RR within ±10% | < 15% | Bias > +5% |
 
 ---
-

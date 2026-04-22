@@ -1,5 +1,4 @@
 ## RC5 · Growing Recurrence
-
 ### 1. Definition
 Predicts demand for SKUs where the frequency of demand events is increasing over time (Mann-Kendall on RR(t); p < 0.05; Z > 0), indicating growing customer adoption or expanding use cases.
 
@@ -26,3 +25,9 @@ Cap: RR_max = 1.0 (demand every period — cannot exceed)
 | Monthly | RR within ±15% | < 22% | Bias < −8% |
 | Quarterly | RR within ±12% | < 18% | Bias < −6% |
 | Yearly | RR within ±10% | < 15% | Bias < −5% |
+
+---
+
+# DIMENSION 11 — INTERACTION PATTERN
+
+---

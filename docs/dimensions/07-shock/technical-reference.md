@@ -1,4 +1,3 @@
-
 # PART 0 — FORMULA & THRESHOLD REFERENCE
 ## Shock Pattern Specific
 
@@ -197,4 +196,8 @@ Shock-specific metrics:
 # PART 1 — SEGMENT TEMPLATES
 
 ---
+
+---
+
+# PART 1 — SEGMENT TEMPLATES
 

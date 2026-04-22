@@ -1,5 +1,4 @@
 ## B4 · Lumpy
-
 ### 1. Definition
 Predicts demand for SKUs with high demand variance (CV² ≥ 0.49) and low demand frequency (ADI ≥ granularity threshold), the hardest-to-forecast segment combining sporadic occurrence with large unpredictable quantity spikes.
 
@@ -164,4 +163,3 @@ Note: For lumpy, z_t has high variance — wide prediction intervals required
 - Per cycle automated; monthly lumpy demand review; quarterly full re-evaluation
 
 ---
-

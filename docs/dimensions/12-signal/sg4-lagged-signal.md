@@ -1,5 +1,4 @@
 ## SG4 · Lagged Signal
-
 ### 1. Definition
 Predicts demand for SKUs where the observed demand signal consistently lags true consumption by a known duration (L > granularity threshold), requiring lag correction to align the demand signal with actual consumption timing before modelling.
 
@@ -33,11 +32,10 @@ Forecast at t for horizon h:
 
 | Granularity | Lag Estimate Accuracy | WMAPE on Corrected | Bias Alert |
 |---|---|---|---|
-| Daily | Lag within ±2 days | Per behavior standard | |Bias| > 8% |
-| Weekly | Lag within ±1 week | Per behavior standard | |Bias| > 7% |
-| Monthly | Lag within ±1 month | Per behavior standard | |Bias| > 6% |
-| Quarterly | Lag within ±1 quarter | Per behavior standard | |Bias| > 5% |
-| Yearly | Lag within ±6 months | Per behavior standard | |Bias| > 4% |
+| Daily | Lag within ±2 days | Per behavior standard | \|Bias\| > 8% |
+| Weekly | Lag within ±1 week | Per behavior standard | \|Bias\| > 7% |
+| Monthly | Lag within ±1 month | Per behavior standard | \|Bias\| > 6% |
+| Quarterly | Lag within ±1 quarter | Per behavior standard | \|Bias\| > 5% |
+| Yearly | Lag within ±6 months | Per behavior standard | \|Bias\| > 4% |
 
 ---
-

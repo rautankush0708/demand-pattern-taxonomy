@@ -1,5 +1,4 @@
 ## D3 · Promotional
-
 ### 1. Definition
 Predicts demand for SKUs where internal pricing and trade promotion activities cause statistically significant demand uplifts, requiring promotion calendar integration, uplift modelling, and post-promotion dip correction.
 
@@ -191,4 +190,3 @@ promo_type_factor = {price_cut: 1.0, multibuy: 0.8, display: 0.6, TPR: 0.9}
 - Full model re-evaluation: Quarterly or after major promotional strategy change
 
 ---
-
