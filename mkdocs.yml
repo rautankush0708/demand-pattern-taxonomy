@@ -74,18 +74,119 @@ nav:
     - 05 · Decision Engine: formula-reference/05-decision-engine.md
   - Dimensions:
     - Overview: dimensions/index.md
-    - 01 · Lifecycle: dimensions/01-lifecycle.md
-    - 02 · Behavior: dimensions/02-behavior.md
-    - 03 · Driver: dimensions/03-driver.md
-    - 04 · Magnitude: dimensions/04-magnitude.md
-    - 05 · Trend: dimensions/05-trend.md
-    - 06 · Concentration: dimensions/06-concentration.md
-    - 07 · Shock: dimensions/07-shock.md
-    - 08 · Elasticity: dimensions/08-elasticity.md
-    - 09 · Timing: dimensions/09-timing.md
-    - 10 · Recurrence: dimensions/10-recurrence.md
-    - 11 · Interaction: dimensions/11-interaction.md
-    - 12 · Signal: dimensions/12-signal.md
+    - 01 · Lifecycle:
+      - Overview: dimensions/01-lifecycle/index.md
+      - Technical Reference: dimensions/01-lifecycle/technical-reference.md
+      - Segments:
+        - L1 · Cold start: dimensions/01-lifecycle/l1-cold-start.md
+        - L2 · New launch: dimensions/01-lifecycle/l2-new-launch.md
+        - L3 · Growth: dimensions/01-lifecycle/l3-growth.md
+        - L4 · Mature: dimensions/01-lifecycle/l4-mature.md
+        - L5 · Decline: dimensions/01-lifecycle/l5-decline.md
+        - L6 · Phasing out: dimensions/01-lifecycle/l6-phasing-out.md
+        - L7 · Inactive: dimensions/01-lifecycle/l7-inactive.md
+    - 02 · Behavior:
+      - Overview: dimensions/02-behavior/index.md
+      - Technical Reference: dimensions/02-behavior/technical-reference.md
+      - Segments:
+        - B1 · Stable: dimensions/02-behavior/b1-stable.md
+        - B2 · Intermittent: dimensions/02-behavior/b2-intermittent.md
+        - B3 · Erratic: dimensions/02-behavior/b3-erratic.md
+        - B4 · Lumpy: dimensions/02-behavior/b4-lumpy.md
+        - B5 · Trending: dimensions/02-behavior/b5-trending.md
+        - B6 · Step change: dimensions/02-behavior/b6-step-change.md
+        - B7 · Pulsed: dimensions/02-behavior/b7-pulsed.md
+        - B8 · Slow mover: dimensions/02-behavior/b8-slow-mover.md
+    - 03 · Driver:
+      - Overview: dimensions/03-driver/index.md
+      - Technical Reference: dimensions/03-driver/technical-reference.md
+      - Segments:
+        - D1 · Seasonal: dimensions/03-driver/d1-seasonal.md
+        - D2 · Event driven: dimensions/03-driver/d2-event-driven.md
+        - D3 · Promotional: dimensions/03-driver/d3-promotional.md
+        - D4 · Weather driven: dimensions/03-driver/d4-weather-driven.md
+        - D5 · Customer driven: dimensions/03-driver/d5-customer-driven.md
+        - D6 · Supply constrained: dimensions/03-driver/d6-supply-constrained.md
+    - 04 · Magnitude:
+      - Overview: dimensions/04-magnitude/index.md
+      - Technical Reference: dimensions/04-magnitude/technical-reference.md
+      - Segments:
+        - M1 · High volume: dimensions/04-magnitude/m1-high-volume.md
+        - M2 · Medium volume: dimensions/04-magnitude/m2-medium-volume.md
+        - M3 · Low volume: dimensions/04-magnitude/m3-low-volume.md
+        - M4 · Ultra low: dimensions/04-magnitude/m4-ultra-low.md
+    - 05 · Trend:
+      - Overview: dimensions/05-trend/index.md
+      - Technical Reference: dimensions/05-trend/technical-reference.md
+      - Segments:
+        - T1 · Upward trend: dimensions/05-trend/t1-upward-trend.md
+        - T2 · Downward trend: dimensions/05-trend/t2-downward-trend.md
+        - T3 · Flat: dimensions/05-trend/t3-flat.md
+        - T4 · Cyclical trend: dimensions/05-trend/t4-cyclical-trend.md
+        - T5 · Reverting: dimensions/05-trend/t5-reverting.md
+    - 06 · Concentration:
+      - Overview: dimensions/06-concentration/index.md
+      - Technical Reference: dimensions/06-concentration/technical-reference.md
+      - Segments:
+        - C1 · Uniform: dimensions/06-concentration/c1-uniform.md
+        - C2 · Peaked: dimensions/06-concentration/c2-peaked.md
+        - C3 · Bi modal: dimensions/06-concentration/c3-bi-modal.md
+        - C4 · Multi modal: dimensions/06-concentration/c4-multi-modal.md
+        - C5 · Skewed: dimensions/06-concentration/c5-skewed.md
+    - 07 · Shock:
+      - Overview: dimensions/07-shock/index.md
+      - Technical Reference: dimensions/07-shock/technical-reference.md
+      - Segments:
+        - SH1 · Shock resistant: dimensions/07-shock/sh1-shock-resistant.md
+        - SH2 · Shock sensitive: dimensions/07-shock/sh2-shock-sensitive.md
+        - SH3 · Fast recovery: dimensions/07-shock/sh3-fast-recovery.md
+        - SH4 · Slow recovery: dimensions/07-shock/sh4-slow-recovery.md
+        - SH5 · Permanent shift: dimensions/07-shock/sh5-permanent-shift.md
+        - SH6 · Step down: dimensions/07-shock/sh6-step-down.md
+    - 08 · Elasticity:
+      - Overview: dimensions/08-elasticity/index.md
+      - Technical Reference: dimensions/08-elasticity/technical-reference.md
+      - Segments:
+        - E1 · Elastic: dimensions/08-elasticity/e1-elastic.md
+        - E2 · Inelastic: dimensions/08-elasticity/e2-inelastic.md
+        - E3 · Threshold: dimensions/08-elasticity/e3-threshold.md
+        - E4 · Saturation: dimensions/08-elasticity/e4-saturation.md
+    - 09 · Timing:
+      - Overview: dimensions/09-timing/index.md
+      - Technical Reference: dimensions/09-timing/technical-reference.md
+      - Segments:
+        - TM1 · Leading: dimensions/09-timing/tm1-leading.md
+        - TM2 · Lagging: dimensions/09-timing/tm2-lagging.md
+        - TM3 · Coincident: dimensions/09-timing/tm3-coincident.md
+        - TM4 · Deferred: dimensions/09-timing/tm4-deferred.md
+        - TM5 · Accelerated: dimensions/09-timing/tm5-accelerated.md
+    - 10 · Recurrence:
+      - Overview: dimensions/10-recurrence/index.md
+      - Technical Reference: dimensions/10-recurrence/technical-reference.md
+      - Segments:
+        - RC1 · Regular: dimensions/10-recurrence/rc1-regular.md
+        - RC2 · Irregular: dimensions/10-recurrence/rc2-irregular.md
+        - RC3 · One time: dimensions/10-recurrence/rc3-one-time.md
+        - RC4 · Declining recurrence: dimensions/10-recurrence/rc4-declining-recurrence.md
+        - RC5 · Growing recurrence: dimensions/10-recurrence/rc5-growing-recurrence.md
+    - 11 · Interaction:
+      - Overview: dimensions/11-interaction/index.md
+      - Technical Reference: dimensions/11-interaction/technical-reference.md
+      - Segments:
+        - I1 · Independent: dimensions/11-interaction/i1-independent.md
+        - I2 · Substitution: dimensions/11-interaction/i2-substitution.md
+        - I3 · Complementary: dimensions/11-interaction/i3-complementary.md
+        - I4 · Cannibalistic: dimensions/11-interaction/i4-cannibalistic.md
+        - I5 · Halo: dimensions/11-interaction/i5-halo.md
+    - 12 · Signal:
+      - Overview: dimensions/12-signal/index.md
+      - Technical Reference: dimensions/12-signal/technical-reference.md
+      - Segments:
+        - SG1 · Pure signal: dimensions/12-signal/sg1-pure-signal.md
+        - SG2 · Distorted: dimensions/12-signal/sg2-distorted.md
+        - SG3 · Noisy: dimensions/12-signal/sg3-noisy.md
+        - SG4 · Lagged signal: dimensions/12-signal/sg4-lagged-signal.md
+        - SG5 · Amplified: dimensions/12-signal/sg5-amplified.md
   - Templates: templates/segment-template.md
 
 plugins:

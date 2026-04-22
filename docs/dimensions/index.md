@@ -11,18 +11,18 @@
 
 | # | Dimension | Focus |
 |---|---|---|
-| 1 | [**Lifecycle**](01-lifecycle.md) | Product maturity and commercial stage. |
-| 2 | [**Behavior**](02-behavior.md) | Statistical patterns of volume and frequency (ADI/CV²). |
-| 3 | [**Driver**](03-driver.md) | The underlying cause of demand movement. |
-| 4 | [**Magnitude**](04-magnitude.md) | Absolute volume and value tiering. |
-| 5 | [**Trend**](05-trend.md) | Long-term directional movement. |
-| 6 | [**Concentration**](06-concentration.md) | Density and peakedness of demand. |
-| 7 | [**Shock**](07-shock.md) | Resilience and recovery from disruptions. |
-| 8 | [**Elasticity**](08-elasticity.md) | Sensitivity to price and promotional stimulus. |
-| 9 | [**Timing**](09-timing.md) | Lead/Lag and arrival characteristics. |
-| 10 | [**Recurrence**](10-recurrence.md) | Consistency of repeat purchase intervals. |
-| 11 | [**Interaction**](11-interaction.md) | Cross-SKU relationships (Halo/Cannibalism). |
-| 12 | [**Signal**](12-signal.md) | Noise levels and data quality metrics. |
+| 1 | [**Lifecycle**](01-lifecycle/index.md) | Product maturity and commercial stage. |
+| 2 | [**Behavior**](02-behavior/index.md) | Statistical patterns of volume and frequency (ADI/CV²). |
+| 3 | [**Driver**](03-driver/index.md) | The underlying cause of demand movement. |
+| 4 | [**Magnitude**](04-magnitude/index.md) | Absolute volume and value tiering. |
+| 5 | [**Trend**](05-trend/index.md) | Long-term directional movement. |
+| 6 | [**Concentration**](06-concentration/index.md) | Density and peakedness of demand. |
+| 7 | [**Shock**](07-shock/index.md) | Resilience and recovery from disruptions. |
+| 8 | [**Elasticity**](08-elasticity/index.md) | Sensitivity to price and promotional stimulus. |
+| 9 | [**Timing**](09-timing/index.md) | Lead/Lag and arrival characteristics. |
+| 10 | [**Recurrence**](10-recurrence/index.md) | Consistency of repeat purchase intervals. |
+| 11 | [**Interaction**](11-interaction/index.md) | Cross-SKU relationships (Halo/Cannibalism). |
+| 12 | [**Signal**](12-signal/index.md) | Noise levels and data quality metrics. |
 
 ---
 
