@@ -30,18 +30,18 @@ graph TD
 
 | Dimension | Key Focus | Segments |
 | :--- | :--- | :---: |
-| [**01 · Lifecycle**](dimensions/01-lifecycle.md) | Product age and trend status | 7 |
-| [**02 · Behavior**](dimensions/02-behavior.md) | CV² and ADI classification | 8 |
-| [**03 · Driver**](dimensions/03-driver.md) | Causal factors (Weather, Promo) | 6 |
-| [**04 · Magnitude**](dimensions/04-magnitude.md) | Volume-based tiering | 4 |
-| [**05 · Trend**](dimensions/05-trend.md) | Growth/Decline trajectories | 5 |
-| [**06 · Concentration**](dimensions/06-concentration.md) | Demand density patterns | 5 |
-| [**07 · Shock**](dimensions/07-shock.md) | Sensitivity to disruptions | 6 |
-| [**08 · Elasticity**](dimensions/08-elasticity.md) | Price and promo sensitivity | 4 |
-| [**09 · Timing**](dimensions/09-timing.md) | Lead/Lag trigger patterns | 5 |
-| [**10 · Recurrence**](dimensions/10-recurrence.md) | Interval consistency | 5 |
-| [**11 · Interaction**](dimensions/11-interaction.md) | Substitution & Halo effects | 5 |
-| [**12 · Signal**](dimensions/12-signal.md) | SNR and Bullwhip quality | 5 |
+| [**01 · Lifecycle**](dimensions/01-lifecycle/index.md) | Product age and trend status | 7 |
+| [**02 · Behavior**](dimensions/02-behavior/index.md) | CV² and ADI classification | 8 |
+| [**03 · Driver**](dimensions/03-driver/index.md) | Causal factors (Weather, Promo) | 6 |
+| [**04 · Magnitude**](dimensions/04-magnitude/index.md) | Volume-based tiering | 4 |
+| [**05 · Trend**](dimensions/05-trend/index.md) | Growth/Decline trajectories | 5 |
+| [**06 · Concentration**](dimensions/06-concentration/index.md) | Demand density patterns | 5 |
+| [**07 · Shock**](dimensions/07-shock/index.md) | Sensitivity to disruptions | 6 |
+| [**08 · Elasticity**](dimensions/08-elasticity/index.md) | Price and promo sensitivity | 4 |
+| [**09 · Timing**](dimensions/09-timing/index.md) | Lead/Lag trigger patterns | 5 |
+| [**10 · Recurrence**](dimensions/10-recurrence/index.md) | Interval consistency | 5 |
+| [**11 · Interaction**](dimensions/11-interaction/index.md) | Substitution & Halo effects | 5 |
+| [**12 · Signal**](dimensions/12-signal/index.md) | SNR and Bullwhip quality | 5 |
 
 ---
 

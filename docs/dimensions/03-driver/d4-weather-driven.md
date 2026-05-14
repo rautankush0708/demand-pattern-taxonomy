@@ -1,8 +1,15 @@
-## D4 · Weather Driven
+# Segment Model Template
+
+## Dimension 3 · Weather Driven
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where meteorological variables explain a statistically significant portion of demand variance, requiring weather data integration and weather-conditioned forecasting.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Beverages (temperature-driven), apparel (temperature/rainfall), energy (heating/cooling), outdoor leisure, agriculture, ice cream, umbrellas, cold/flu remedies
 - **Boundaries:**
 
@@ -18,21 +25,25 @@ Predicts demand for SKUs where meteorological variables explain a statistically 
 - **Differentiation from other models:** Unlike Seasonal, correlation is with weather variable values not calendar position; unlike Event Driven, weather effect is continuous not discrete
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Overstock during unexpected cold/wet summer (e.g. ice cream, beer)
 - **Primary risk (under-forecast):** Stockout during unexpected heat wave (e.g. cold drinks, fans)
 - **Strategic importance:** High — weather uncertainty compounds demand uncertainty; responsive supply chain critical
 
 ### 4. Priority Level
+
 🟠 Tier 2 — High value when weather forecasts are integrated; requires external data pipeline.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.70 in peak weather conditions; may drop in adverse weather
 - Classifier: Logistic Regression with weather threshold features
 - Regressor: LightGBM with weather variables as primary features
 
 #### 5.2 Analogue / Similarity Logic
+
 - Analogues: Prior periods with similar weather conditions (not similar SKUs)
 - k = 10 most similar weather periods in history
 - Similarity: Euclidean distance on normalised weather variables (temperature, rainfall) over window
@@ -63,12 +74,14 @@ Weather lag features:   temp_{t−1}, temp_{t−2}, rain_{t−1}, rain_{t−2}
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM with weather variables as primary features
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, RMSE
 - Key features: Temperature (observed and forecast), rainfall, weather deviation from norm, extreme flags, seasonal index, rolling baseline mean
 - When to use: Primary model — weather variables as tabular features work well with LightGBM
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT with weather forecast as known future covariate
 
 | Granularity | Lookback | Future Covariates | Output |
@@ -83,6 +96,7 @@ Weather lag features:   temp_{t−1}, temp_{t−2}, rain_{t−1}, rain_{t−2}
 - When to use: When weather forecast feed is available as future input — critical advantage
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: Dynamic Regression (ARIMAX) with weather as exogenous variable
 
 **ARIMAX Formula:**
@@ -95,6 +109,7 @@ d_t = β_0 + β_temp × temp_t + β_rain × rain_t + β_extreme × extreme_t + �
 - When to use: Interpretability required; coefficient quantification for weather sensitivity reporting
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Weather forecast API unavailable; model convergence failure
 - Fallback model: Seasonal model (ignore weather component) — conservative approach
 - Logging & alerting: Alert if weather feed unavailable; alert if temperature deviation > 3σ from norm
@@ -110,11 +125,13 @@ d_t = β_0 + β_temp × temp_t + β_rain × rain_t + β_extreme × extreme_t + �
 | \|r\| > 0.70 | 60% | 35% | 5% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Scenario quantiles — cold scenario (P10), normal scenario (P50), hot scenario (P90)
 - Output: [P10, P50, P90] based on weather forecast uncertainty cone
 - Use case: Safety stock = P75 in high weather-sensitivity season; P50 in low-sensitivity periods
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Extreme weather cap: min(forecast, 2 × rolling max) during heat waves
 - Weather revision: Reforecast triggered automatically when 7-day weather forecast updates significantly (> 3°C deviation)
@@ -155,17 +172,22 @@ d_t = β_0 + β_temp × temp_t + β_rain × rain_t + β_extreme × extreme_t + �
 | Yearly | Annually | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Weather API feed failure → fallback to seasonal model; temperature deviation > 3σ → trigger reforecast; demand deviation > 2σ from weather-adjusted forecast → investigate supply constraint
 - Manual override: Buyer weather hedging decision; contingency stock for extreme weather
 
 ### 12. Reclassification / Model Selection
+
 - Remove Weather Driven driver: If \|r\| drops below 0.20 for 2 consecutive years
 - Add Seasonal driver: Weather driver often co-exists with seasonality — test both simultaneously
 - Add Event Driven driver: Extreme weather events (floods, droughts) treated as events
 
 ### 13. Review Cadence
+
 - Performance monitoring: Daily in peak weather-sensitive season; weekly otherwise
 - Model review meeting: Monthly weather sensitivity review; seasonal outlook briefing
 - Full model re-evaluation: Annually at season start; after any climate anomaly year
+
+---
 
 ---

@@ -1,8 +1,15 @@
-## C4 · Multi-Modal
+# Segment Model Template
+
+## Dimension 6 · Multi-Modal
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with three or more distinct significant demand peaks per cycle, requiring decomposition-based modelling and period-specific inventory policies across multiple demand surges within the same cycle.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Weekly promotions creating multiple monthly peaks, quarterly + mid-quarter peaks, multiple holiday categories, product lines with 3+ seasonal occasions
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs with three or more distinct significant demand peaks pe
 - **Differentiation from other models:** Unlike Bi-Modal, three or more peaks; unlike Peaked, demand is distributed across multiple occasions; most complex Concentration segment
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Simultaneous overstock across multiple peaks — compounding inventory burden
 - **Primary risk (under-forecast):** Stockout across multiple occasions — compounding lost sales
 - **Strategic importance:** High — complex demand management challenge; model sophistication directly translates to commercial value
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Multiple peak management is complex; error at any peak is commercially significant.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Full Decomposition Approach
+
 ```
 Demand Decomposition:
   d(t) = Baseline(t) + Σ Peak_k(t)   for k = 1 to K peaks
@@ -84,10 +94,12 @@ Optimise m_k via FFT peak detection on detrended series
 | Trough periods | 50% | 30% | 20% |
 
 ### 8. Uncertainty Quantification
+
 - [P10, P50, P90] — separate intervals per peak
 - Use case: Individual peak stock buy per peak; consolidated safety stock across all peaks
 
 ### 9. Business Rules
+
 - Separate peak locks: Each peak period locked independently for procurement
 - Peak priority rule: If stock limited → prioritise highest-revenue peak by SI × expected volume
 - Manual overrides: Independent adjustments per peak; peak cancellation flag for any individual peak
@@ -109,6 +121,7 @@ Optimise m_k via FFT peak detection on detrended series
 #### 10.3 Retraining — pre-each-peak retrain triggered + standard cadence
 
 ### 11. Exception Handling
+
 - Alert: Number of peaks changes vs prior cycle → reclassify; any peak amplitude changes > 30%; peak timing shifts > 1 period
 
 ### 12. Reclassification
@@ -120,6 +133,9 @@ Optimise m_k via FFT peak detection on detrended series
 | DCI_norm drops below threshold | Uniform | 2 cycles |
 
 ### 13. Review Cadence
+
 - Pre-each-peak review; post-cycle full debrief; annual TBATS frequency re-calibration
+
+---
 
 ---

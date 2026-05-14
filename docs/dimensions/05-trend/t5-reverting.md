@@ -1,8 +1,15 @@
-## T5 · Reverting
+# Segment Model Template
+
+## Dimension 5 · Reverting
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs that systematically deviate from a stable long-run mean and return to it, where mean-reversion models outperform trend extrapolation and prevent over-reaction to temporary deviations.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Commodity-like demand, budget-constrained categories (spend reverts to annual budget), weather-normalised categories, post-shock recovery demand
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs that systematically deviate from a stable long-run mean
 - **Differentiation from other models:** Unlike Flat, demand does deviate noticeably; unlike Upward/Downward, deviation reverses direction; unlike Cyclical, reversion is probabilistic not structural
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Over-reacting to temporary upswing — building stock that isn't needed as demand reverts
 - **Primary risk (under-forecast):** Under-reacting to temporary dip — cutting stock before demand recovers
 - **Strategic importance:** Medium — primary value is avoiding over-reaction to noise
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Mean-reversion models prevent costly over-reactions; medium complexity.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Mean Reversion Model (Primary)
+
 ```
 Long-run mean: μ_LR = mean over extended window
 Current deviation: dev(t) = d(t) − μ_LR
@@ -62,6 +72,7 @@ Forecast h periods ahead:
 ### 6. Model Families
 
 #### 6.1 ML: LightGBM with deviation and reversion features
+
 - Objective: reg:squarederror | Metric: WMAPE, RMSE
 
 #### 6.2 DL: Not primary — mean reversion is well captured statistically
@@ -103,11 +114,13 @@ Half-life HL = ln(2) / θ
 | > 2 years | 45% | 40% | 15% |
 
 ### 8. Uncertainty Quantification
+
 - Method: OU analytical distribution — exact probability distribution available
 - Output: [P10, P50, P90] from OU distribution conditioned on current deviation
 - Use case: Deviation from mean triggers safety stock adjustment; large deviations trigger investigation
 
 ### 9. Business Rules
+
 - Non-negativity: max(0, forecast)
 - Mean anchor: Forecast must converge toward μ_LR as horizon increases
 - Deviation alert: If |dev(t)| > 2σ → flag for planner review (unusual deviation)
@@ -123,6 +136,7 @@ Half-life HL = ln(2) / θ
 | Yearly | < 10% | Same | \|Bias\| > 5% |
 
 ### 11. Exception Handling
+
 - Alert: ADF p rises above 0.10 (non-stationary → reclassify); half-life estimate > extended window (too slow to confirm reversion); mean level shift detected (structural break → Step Change behavior)
 
 ### 12. Reclassification
@@ -134,9 +148,7 @@ Half-life HL = ln(2) / θ
 | Structural break detected | Step Change (Behavior) | Immediate |
 
 ### 13. Review Cadence
+
 - Monthly automated stationarity check; quarterly reversion speed calibration; annual full re-evaluation
 
 ---
-
-*End of Dimension 5 · Trend Pattern*
-*5 Segments Complete · T1 through T5*

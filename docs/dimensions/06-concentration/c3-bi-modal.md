@@ -1,8 +1,15 @@
-## C3 · Bi-Modal
+# Segment Model Template
+
+## Dimension 6 · Bi-Modal
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with two distinct significant demand peaks per cycle, requiring dual-peak modelling and separate peak-specific inventory policies for each of the two demand surges.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Summer and winter peaks (apparel, beverages), back-to-school + holiday (stationery, toys), Q1 and Q3 budget cycles, dual-season sports categories
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs with two distinct significant demand peaks per cycle, r
 - **Differentiation from other models:** Unlike Peaked, two peaks exist — managing them separately is required; unlike Multi-Modal, exactly two peaks; unlike Seasonal (which handles regular multi-peak), the two peaks may have different magnitudes and drivers
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Post-first-peak overstock carried into second peak; combined inventory burden
 - **Primary risk (under-forecast):** Stockout at either peak — two windows of high commercial risk per cycle
 - **Strategic importance:** High — managing both peaks correctly doubles the commercial opportunity vs single-peak
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Two independent peak events per cycle; each is individually high-stakes; combined error impact is significant.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Dual-Peak Decomposition
+
 ```
 Decompose demand into three components:
   Peak 1 component: Demand attributable to first peak (timed around t_peak1)
@@ -52,6 +62,7 @@ Dual seasonal model: F(t) = baseline × SI_1(period_of_t) × SI_2(period_of_t)
 ### 6. Model Families
 
 #### 6.1 ML: LightGBM — three-way split model (peak1 / peak2 / baseline)
+
 - Peak models: Higher complexity; peak-period upweighting in training
 - Baseline model: Simpler; level-focused
 
@@ -87,12 +98,14 @@ Example monthly: TBATS with m_1 = 6 (6-month peak gap), m_2 = 12 (annual)
 | Trough periods | 50% | 20% | 30% |
 
 ### 8. Uncertainty Quantification
+
 - Output: [P10, P50, P90] — separate intervals for each peak
 - Peak 1 buy: P75 of peak1 forecast
 - Peak 2 buy: P75 of peak2 forecast (adjusted for unsold Peak1 stock remaining)
 - Use case: Dual pre-season buy; inter-peak inventory run-down plan
 
 ### 9. Business Rules
+
 - Non-negativity: max(0, forecast)
 - Inter-peak run-down rule: Forecast for trough between peaks ≤ remaining peak1 stock / expected trough periods (prevents over-ordering for peak2 when peak1 stock remains)
 - Separate peak locks: Peak1 forecast locked separately from Peak2 forecast
@@ -115,6 +128,7 @@ Example monthly: TBATS with m_1 = 6 (6-month peak gap), m_2 = 12 (annual)
 #### 10.3 Retraining — pre-peak1 retrain + pre-peak2 retrain + standard cadence
 
 ### 11. Exception Handling
+
 - Alert: Peak timing shifts > 1 period for either peak; peak magnitude changes > 25%; one peak disappears for 1 cycle → reclassify to Peaked
 
 ### 12. Reclassification
@@ -126,6 +140,9 @@ Example monthly: TBATS with m_1 = 6 (6-month peak gap), m_2 = 12 (annual)
 | 3+ peaks emerge for 2 cycles | Multi-Modal | 2 cycles |
 
 ### 13. Review Cadence
+
 - Pre-peak1 review; pre-peak2 review; post-cycle debrief; annual full re-evaluation
+
+---
 
 ---

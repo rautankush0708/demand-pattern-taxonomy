@@ -1,4 +1,5 @@
 # PART 0 — FORMULA & THRESHOLD REFERENCE
+
 ## Lifecycle Pattern Specific
 
 ---
@@ -147,12 +148,3 @@ INPUT: SKU demand history at chosen granularity
 ```
 
 ---
-
-# PART 1 — SEGMENT TEMPLATES
-
----
-
----
-
-# PART 1 — SEGMENT TEMPLATES
-

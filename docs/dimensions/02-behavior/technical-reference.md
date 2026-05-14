@@ -1,4 +1,5 @@
 # PART 0 — FORMULA & THRESHOLD REFERENCE
+
 ## Behavior Pattern Specific
 
 ---
@@ -262,12 +263,3 @@ Minimum 2 full cycles required for detection
 | **Yearly** | Annually | T+7 days | All available | 1 year |
 
 ---
-
-# PART 1 — SEGMENT TEMPLATES
-
----
-
----
-
-# PART 1 — SEGMENT TEMPLATES
-

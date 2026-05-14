@@ -1,8 +1,15 @@
-## T2 · Downward Trend
+# Segment Model Template
+
+## Dimension 5 · Downward Trend
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with a statistically confirmed negative demand slope, where damped trend-aware models are required to prevent systematic over-forecasting and inventory accumulation in declining demand environments.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Declining categories, distribution losses, market share erosion, ageing products, price-driven volume decline
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, w
 - **Differentiation from other models:** Unlike Flat, slope is confirmed negative; unlike Reverting, demand is not bouncing back to a long-run mean but continuing downward; unlike Phasing Out lifecycle, decline is market-driven not supply-side-decided
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Systematic inventory accumulation — the dominant risk; write-off and obsolescence
 - **Primary risk (under-forecast):** Minimal — over-forecast risk dominates entirely for this segment
 - **Strategic importance:** Medium — primary goal is inventory run-down management, not service level optimisation
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Over-forecast prevention dominates; damped models and conservative forecasting are the primary tools.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.50 — declining SKUs approach zero over time
 - Classifier: Logistic Regression with trend and time-to-zero features
 - Regressor: LightGBM with negative slope features + damped ETS
 - Fallback: Flat rolling mean (conservative — prevents over-extrapolation of decline)
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 3 (SKUs that previously showed similar downward trend — now Inactive or Phasing Out)
 - Similarity criteria: Category, slope magnitude (%/period), volume at decline start
 - Temporal decay: weight = exp(−age / half-life)
@@ -59,17 +70,20 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, w
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM with downward bias correction
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, MAE; over-forecast penalty applied
 - Over-forecast correction: If bias > 0 for 3 consecutive periods → apply −β₁ × 1.5 × h correction
 - When to use: Primary model
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT (attention captures declining trend)
 - Not recommended for steep decline SKUs — model complexity unjustified as volume approaches zero
 - When to use: Only if history > 1 year AND decline is mild (relative slope < 2%/period)
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,A,N) with **damped trend** — critical for downward trend to prevent forecast crossing zero
 
 **Damped Holt's Linear Trend:**
@@ -91,6 +105,7 @@ phi < 1 → trend fades over horizon (prevents forecast going negative)
 - When to use: Always included — damped trend is essential safety model for decline
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Slope reversal detected (reclassification triggered)
 - Fallback model: Rolling mean (conservative hold — no trend extrapolation)
 - Logging & alerting: Alert if fallback triggered AND over-forecast bias > 10%
@@ -108,11 +123,13 @@ phi < 1 → trend fades over horizon (prevents forecast going negative)
 - Weight determination: Error-inverse on over-forecast-penalised WMAPE
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression
 - Output: [P10, P50, P90] — P10 for minimum buy; P50 for base; P90 for maximum exposure
 - Use case: Inventory run-down planning using P10; obsolescence risk using P90
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Decline cap: max(forecast, 0) — damped model prevents negative; hard floor at zero
 - Ceiling: min(forecast, prior rolling mean) — forecast must not drift upward
@@ -153,6 +170,7 @@ phi < 1 → trend fades over horizon (prevents forecast going negative)
 | Yearly | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: Slope reversal (Z positive) for 3 consecutive periods → reclassification trigger; forecast > prior rolling mean → immediate over-forecast alert; demand reaches zero for 3+ consecutive periods → Inactive reclassification trigger
 - Manual override: Commercial decision to reinvest; distribution plan reversal
 - Override expiration: Single cycle
@@ -166,6 +184,9 @@ phi < 1 → trend fades over horizon (prevents forecast going negative)
 | Zero demand ≥ Inactive threshold | Flat → Lifecycle: Inactive | Immediate | Hard switch |
 
 ### 13. Review Cadence
+
 - Per cycle automated dashboard with over-forecast alert; bi-weekly obsolescence review; quarterly full re-evaluation
+
+---
 
 ---

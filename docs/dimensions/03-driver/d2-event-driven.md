@@ -1,8 +1,15 @@
-## D2 · Event Driven
+# Segment Model Template
+
+## Dimension 3 · Event Driven
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where discrete, non-recurring external events cause statistically significant demand spikes or drops, requiring event calendar integration and event-specific uplift modelling.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Sports events, product launches, political events, natural disasters, trade shows, one-time regulatory changes
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs where discrete, non-recurring external events cause sta
 - **Differentiation from other models:** Unlike Seasonal, pattern does not repeat every year at same calendar position; unlike Promotional, driven by external events not internal pricing decisions
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Overbuying for event that doesn't materialise or is cancelled
 - **Primary risk (under-forecast):** Stockout during event — event windows are short; recovery impossible
 - **Strategic importance:** High — event-period revenue is often disproportionately large
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Event windows are narrow; stockout during event is unrecoverable; cancellation risk requires scenario planning.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.70 in event window; standard threshold outside
 - Classifier: Logistic Regression with event proximity features
 - Regressor: LightGBM with event uplift features
 - Fallback: Baseline forecast × historical event uplift factor
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 5 (prior occurrences of same or similar events)
 - Similarity criteria: Event type, event magnitude (attendance, reach), category, season
 - Temporal decay: weight = exp(−age / half-life)
@@ -72,12 +83,14 @@ Post-event dip:      1 if within post-event normalisation window
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM — separate models for event periods and baseline periods
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, Uplift Accuracy
 - Key features: Event proximity, event type flags, event magnitude, days to/since event, baseline rolling mean, seasonal index
 - When to use: Primary model when ≥ 3 prior event occurrences available in history
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT with known future inputs (event calendar fed as future covariate)
 
 | Granularity | Lookback | Future Covariates | Output |
@@ -92,6 +105,7 @@ Post-event dip:      1 if within post-event normalisation window
 - When to use: When event calendar is available as future input — TFT leverages known future events
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: Regression with event dummies on ARIMA residuals (RegARIMA)
 
 **RegARIMA Formula:**
@@ -105,6 +119,7 @@ where X_{k,t} = event indicator variables (proximity, type, magnitude)
 - When to use: Interpretability required; event uplift coefficients needed for reporting
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: No prior event occurrences; event calendar missing
 - Fallback model: Baseline forecast (ignore event) + manual uplift override from commercial team
 - Logging & alerting: Alert if event detected with no model coverage; alert on event cancellation
@@ -112,6 +127,7 @@ where X_{k,t} = event indicator variables (proximity, type, magnitude)
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_lgbm × LightGBM + w_tft × TFT + w_stat × RegARIMA
 - Weight determination: Error-inverse on event-period WMAPE from prior events
 
@@ -124,11 +140,13 @@ where X_{k,t} = event indicator variables (proximity, type, magnitude)
 | > 5 events | 60% | 30% | 10% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Scenario-based quantiles — event occurs vs event cancelled
 - Output: [P10 (cancelled scenario), P50 (base), P90 (high attendance)] — three-scenario approach
 - Use case: Safety stock = P75 assuming event occurs; contingency stock for cancellation at P10
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Event cap: min(forecast, 3 × historical max single event demand)
 - Cancellation rule: If event confirmed cancelled → revert to baseline forecast immediately
@@ -168,18 +186,23 @@ where X_{k,t} = event indicator variables (proximity, type, magnitude)
 | Yearly | Annually | — | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Event confirmed cancelled → immediate baseline revert; new event added to calendar → trigger model rerun; demand spike > 5 × baseline outside event window → investigate unlisted event
 - Manual override process: Commercial team event magnitude adjustment; planner cancellation flag
 - Override expiration: Per event occurrence
 
 ### 12. Reclassification / Model Selection
+
 - Promote to Seasonal: If event recurs annually at same calendar position for ≥ 3 years
 - Remove Event Driven driver: If no event occurrences in rolling 2-year window
 - Add Seasonal driver: If recurring events create apparent seasonality alongside event signal
 
 ### 13. Review Cadence
+
 - Performance monitoring: Per event occurrence — post-event debrief within 2 weeks
 - Model review meeting: Monthly event calendar review with commercial team
 - Full model re-evaluation: Annually; after any event type change
+
+---
 
 ---

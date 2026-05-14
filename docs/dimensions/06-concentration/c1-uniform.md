@@ -1,8 +1,15 @@
-## C1 · Uniform
+# Segment Model Template
+
+## Dimension 6 · Uniform
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where demand is distributed evenly across all periods within a cycle, requiring no period-specific adjustment and permitting the simplest forecasting approaches without seasonal index complexity.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Essential staples, commodity replenishment, utility-driven demand, subscription-like purchasing patterns
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs where demand is distributed evenly across all periods w
 - **Differentiation from other models:** Unlike Peaked, no dominant period; unlike Skewed, distribution is symmetric; seasonal component adds minimal forecast improvement — level model is sufficient
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Consistent slight over-forecast across all periods — slow inventory build
 - **Primary risk (under-forecast):** Consistent slight under-forecast — gradual service level erosion
 - **Strategic importance:** Medium-high — uniform demand SKUs are the easiest to manage; focus is on accuracy of the level estimate
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Relatively easy to forecast well; primary challenge is maintaining accurate level estimate rather than capturing seasonal shape.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.90 — uniform demand means consistently active
 - Classifier: Rule-based flag only
 - Regressor: LightGBM (level features only); ETS(A,N,N) simple smoothing
 - Fallback: Rolling mean (extended window)
 
 #### 5.2 Analogue / Similarity Logic
+
 - Not applicable — sufficient own history; uniform demand is stable and reliable
 
 #### 5.3 Feature Engineering
@@ -51,12 +62,14 @@ Predicts demand for SKUs where demand is distributed evenly across all periods w
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM (level-focused; minimal feature set)
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, RMSE; max_depth = 4 (prevent overfit on seasonal noise)
 - Key features: Rolling means (all windows), rolling std, holiday flag, promo flag
 - When to use: Primary model
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: N-BEATS (generic block — no seasonal block to avoid spurious seasonal injection)
 
 | Granularity | Lookback | Features | Output |
@@ -70,6 +83,7 @@ Predicts demand for SKUs where demand is distributed evenly across all periods w
 - When to use: History > 2 years; applied selectively — simple models often sufficient for Uniform
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,N,N) — simple exponential smoothing (no trend, no seasonality)
 
 **Simple Exponential Smoothing:**
@@ -91,6 +105,7 @@ Low α preferred for uniform demand — preserves stable level estimate
 - When to use: Always included — simple smoothing is the natural model for uniform demand
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback: Rolling mean (extended window) — equivalent to ETS with very low α
 - Logging & alerting: Alert if fallback rate > 10%
 
@@ -107,6 +122,7 @@ Low α preferred for uniform demand — preserves stable level estimate
 - Weight determination: Error-inverse on rolling 8-period WMAPE
 
 ### 8. Uncertainty Quantification
+
 - Method: Conformal prediction on residuals — symmetric intervals expected for uniform demand
 - Output: [P10, P50, P90]
 - Use case: Safety stock from σ_residual × z_service_level; symmetric intervals appropriate
@@ -120,6 +136,7 @@ Expected: σ_residual / μ_demand < 0.20 for well-performing Uniform segment
 ```
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Capping: min(forecast, 1.3 × extended rolling max) — tight cap appropriate for uniform demand
 - Floor: max(forecast, 0.7 × extended rolling min) — symmetric floor
@@ -161,6 +178,7 @@ Expected: σ_residual / μ_demand < 0.20 for well-performing Uniform segment
 | Yearly | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: DCI_norm rises above 0.20 for 2 consecutive cycles → reclassify to Peaked or Skewed; period variance in forecast rises above 0.15 → model introducing spurious seasonal pattern — check feature set
 - Manual override: Level change event only — seasonal pattern adjustment not applicable
 - Override expiration: Single cycle
@@ -175,6 +193,9 @@ Expected: σ_residual / μ_demand < 0.20 for well-performing Uniform segment
 | Gini rises above 0.40 for 2 cycles | Peaked or Skewed | 2 cycles |
 
 ### 13. Review Cadence
+
 - Weekly automated dashboard; monthly DCI and Gini monitor; quarterly full re-evaluation
+
+---
 
 ---

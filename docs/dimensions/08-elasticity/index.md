@@ -1,4 +1,5 @@
 # Dimension 8 · Elasticity Pattern
+
 ## Demand Forecasting Model Templates
 
 ---

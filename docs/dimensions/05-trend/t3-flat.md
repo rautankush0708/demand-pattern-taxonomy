@@ -1,8 +1,15 @@
-## T3 · Flat
+# Segment Model Template
+
+## Dimension 5 · Flat
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where no statistically significant directional trend exists, where standard level-based forecasting methods are optimal and trend components should be suppressed to avoid spurious drift.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Established core products, mature market SKUs, staple categories, commodity lines
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs where no statistically significant directional trend ex
 - **Differentiation from other models:** Unlike Upward/Downward Trend, no slope confirmed; unlike Reverting, demand is not deviating and returning — it is consistently near the mean; unlike Cyclical, no long-wave cycle detected
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Gradual inventory accumulation from small consistent positive bias
 - **Primary risk (under-forecast):** Gradual service level erosion from small consistent negative bias
 - **Strategic importance:** Very high — Flat trend SKUs are the bulk of mature portfolios; accuracy is paramount
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Flat trend is the most common segment; even small systematic bias creates significant cumulative inventory impact across the portfolio.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.85 — flat demand means consistently active
 - Classifier: Rule-based flag only
 - Regressor: LightGBM + ETS — no trend component
 - Fallback: Rolling mean (extended window)
 
 #### 5.2 Analogue / Similarity Logic
+
 - Not applicable — sufficient own history; flat trend means signal is stable and reliable
 
 #### 5.3 Feature Engineering
@@ -49,12 +60,14 @@ Predicts demand for SKUs where no statistically significant directional trend ex
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM (no trend features — suppress trend component explicitly)
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, RMSE
 - Key features: Rolling means (all windows), seasonal index, promo flag, holiday flag, period of year
 - Explicit exclusion: Slope features, trend index — adding these introduces spurious trend
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: N-BEATS (generic block — no explicit trend block to avoid trend injection)
 
 | Granularity | Lookback | Features | Output |
@@ -68,6 +81,7 @@ Predicts demand for SKUs where no statistically significant directional trend ex
 - When to use: History > 2 years; seasonal pattern present
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,N,A) — additive error, **no trend**, additive seasonality
 
 **Holt-Winters No-Trend (Flat):**
@@ -89,6 +103,7 @@ Forecast: F(t+h) = l_t + s_{t+h−m}
 - When to use: Always included — no trend ETS is the natural model for flat demand
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback: Same period last year
 - Logging & alerting: Alert if fallback rate > 10%
 
@@ -103,11 +118,13 @@ Forecast: F(t+h) = l_t + s_{t+h−m}
 | > 2 years | 50% | 20% | 30% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Conformal prediction on residuals
 - Output: [P10, P50, P90]
 - Use case: Safety stock at target service level; symmetric intervals expected for flat demand
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Capping: min(forecast, 1.5 × full-year rolling max)
 - Floor: max(forecast, 0.5 × full-year rolling min)
@@ -147,6 +164,7 @@ Forecast: F(t+h) = l_t + s_{t+h−m}
 | Yearly | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: Mann-Kendall p < 0.05 for 4 periods → reclassify to Upward or Downward Trend; tracking signal |TS| > 6 → reforecast triggered
 - Manual override: S&OP consensus adjustment; known structural change input
 - Override expiration: Single cycle unless permanent change confirmed
@@ -161,6 +179,9 @@ Forecast: F(t+h) = l_t + s_{t+h−m}
 | ADF p < 0.05 AND deviations detected | Reverting | 4 periods | Soft blend |
 
 ### 13. Review Cadence
+
 - Per cycle automated dashboard with stationarity monitor; bi-weekly S&OP; quarterly full re-evaluation
+
+---
 
 ---

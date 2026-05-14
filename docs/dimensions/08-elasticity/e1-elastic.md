@@ -1,8 +1,15 @@
-## E1 · Elastic
+# Segment Model Template
+
+## Dimension 8 · Elastic
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where demand quantity responds more than proportionally to price or promotional stimulus changes (|PED| > 1.0), requiring causal forecasting models that explicitly capture stimulus-response dynamics and promotional planning integration.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Discretionary categories, branded FMCG with strong promotional response, price-sensitive consumer electronics, fashion, commoditised categories with easy substitution
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs where demand quantity responds more than proportionally
 - **Differentiation from other models:** Unlike Inelastic, demand responds strongly to stimulus; unlike Threshold, response is linear and proportional (not step-change); unlike Saturation, no ceiling effect
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Over-estimating promotional uplift — excess promotional stock
 - **Primary risk (under-forecast):** Under-estimating promotional uplift — stockout during promotion; missing the price-driven demand surge
 - **Strategic importance:** Very high — elastic SKUs are the primary vehicle for revenue growth through promotional investment; ROI is directly tied to forecast accuracy
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Promotional ROI depends entirely on accurate uplift forecasting; elastic SKUs are the promotional workhorses of most FMCG and retail portfolios.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Causal Model Architecture
+
 ```
 Total demand decomposition:
   d(t) = d_baseline(t) × price_response(t) × promo_response(t) × seasonal_index(t)
@@ -45,6 +55,7 @@ Combined causal forecast:
 ```
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 3 (similar elastic SKUs from same category at similar PED)
 - Similarity criteria: |PED| range ±0.3, category, price tier, substitutability index
 - Use: Supplement own elasticity estimate when own price variation is limited
@@ -62,6 +73,7 @@ Combined causal forecast:
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM with causal price and promo features
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, Uplift Accuracy
 - Key features: Log price, price index, promo depth, promo type, promo interaction terms (depth × type), post-promo dip, baseline rolling mean, seasonal index, competitor price index
@@ -69,6 +81,7 @@ Combined causal forecast:
 - When to use: Primary model — causal features make LightGBM very effective for elastic demand
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT with price and promo calendar as known future covariates
 
 | Granularity | Lookback | Future Covariates | Output |
@@ -83,6 +96,7 @@ Combined causal forecast:
 - When to use: When price and promo plans are available as future inputs — significant advantage
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ARIMAX / RegARIMA with price and promo as exogenous variables
 
 **Log-Log ARIMAX:**
@@ -96,6 +110,7 @@ ln(Q_t) = α + β_price × ln(P_t) + β_promo × depth(t) + β_type × type(t)
 - When to use: Interpretability requirement; price elasticity reporting; regulatory / trade planning
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Price/promo features missing; insufficient price variation for elasticity estimation
 - Fallback model: Baseline rolling mean × category average uplift for promo type
 - Logging & alerting: Alert if promo period without causal model coverage; alert if PED estimate reverses sign
@@ -103,6 +118,7 @@ ln(Q_t) = α + β_price × ln(P_t) + β_promo × depth(t) + β_type × type(t)
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_lgbm × LightGBM + w_tft × TFT + w_arimax × ARIMAX
 - Weight determination: Error-inverse on promotional period WMAPE
 
@@ -115,6 +131,7 @@ ln(Q_t) = α + β_price × ln(P_t) + β_promo × depth(t) + β_type × type(t)
 | > 12 events | 55% | 30% | 15% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression on causal model residuals
 - Output: [P10, P50, P90] — wider during promotional periods (higher uncertainty)
 - Use case: Promotional stock buy = P75; post-promo run-down = P25 for residual stock
@@ -128,6 +145,7 @@ Post-promo forecast = baseline × (1 − dip_factor × e^{−λ_dip × h})
 ```
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Promo cap: min(promo_forecast, 3 × baseline rolling mean)
 - Post-promo dip correction: max(postpromo_forecast, 0.5 × baseline) — prevent over-correction
@@ -168,6 +186,7 @@ Post-promo forecast = baseline × (1 − dip_factor × e^{−λ_dip × h})
 | Yearly | Annually | On annual pricing strategy | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: PED estimate becomes > −0.5 for 3 consecutive estimations → reclassify to Inelastic; uplift consistently < 8% → reclassify; price response R² drops below 0.15 → flag low confidence
 - Manual override: Trade manager promo depth confirmation; pricing team price change input; competitor response flag
 - Override expiration: Per price/promo event
@@ -181,6 +200,9 @@ Post-promo forecast = baseline × (1 − dip_factor × e^{−λ_dip × h})
 | Saturation confirmed (Q ≥ 0.90 × Q_max) | Saturation | 2 estimates |
 
 ### 13. Review Cadence
+
 - Weekly during active promotional periods; monthly PED stability check; quarterly full elasticity re-estimation; annual pricing strategy alignment
+
+---
 
 ---

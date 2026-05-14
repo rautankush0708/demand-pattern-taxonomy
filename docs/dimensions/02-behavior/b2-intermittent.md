@@ -1,8 +1,15 @@
-## B2 · Intermittent
+# Segment Model Template
+
+## Dimension 2 · Intermittent
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with low demand variance (CV² < 0.49) but low demand frequency (ADI ≥ granularity threshold), where demand occurs sporadically but in consistent quantities when it does occur; requires specialist intermittent demand methods.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Spare parts, B2B specialty items, niche products, slow-moving lines with occasional orders
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) but low demand f
 - **Differentiation from other models:** Unlike Lumpy, quantity is consistent (low CV²); unlike Sparse, ADI is moderate not extreme; unlike Pulsed, inter-arrival intervals are irregular
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Dead stock accumulation between demand events
 - **Primary risk (under-forecast):** Stockout when demand arrives — often critical in aftermarket or MRO context
 - **Strategic importance:** Medium-high for aftermarket and MRO; medium for niche retail
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Moderate volume but high service criticality in aftermarket and spare parts contexts.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.30 — many zero periods are expected and correct
 - Classifier type: XGBoost on inter-arrival features
 - Regressor type: Croston / SBA on non-zero demand only
 - Fallback: Croston's method as primary statistical fallback
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 3 from same part family or category
 - Similarity criteria: ADI range ±0.5, CV² range ±0.1, category, price tier
 - Temporal decay: weight = exp(−age / half-life)
@@ -63,6 +74,7 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) but low demand f
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: XGBoost (classifier) + XGBoost (regressor on non-zero periods)
 - Classifier: Objective = binary:logistic; Metric = AUC, Precision/Recall at 0.30 threshold
 - Regressor: Objective = reg:absoluteerror; Metric = MAE on non-zero periods only
@@ -70,6 +82,7 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) but low demand f
 - When to use: When ≥ 8 demand events in history
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: DeepAR (handles intermittent natively via negative binomial output distribution)
 
 | Granularity | Lookback | Features | Output |
@@ -84,6 +97,7 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) but low demand f
 - When to use: Large portfolio of intermittent SKUs — cross-learning across SKUs improves performance
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: Croston's method (primary); SBA (Syntetos-Boylan Approximation) for bias correction
 
 **Croston Formula:**
@@ -107,6 +121,7 @@ SBA correction: F_SBA = (1 − α/2) × F_Croston
 - When to use: Default statistical model for intermittent demand; always included in ensemble
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Fewer than 5 demand events; XGBoost convergence failure
 - Fallback model: Croston's method (always computable)
 - Logging & alerting: Alert if fallback rate > 30%
@@ -114,6 +129,7 @@ SBA correction: F_SBA = (1 − α/2) × F_Croston
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_xgb × XGBoost + w_sba × SBA + w_dar × DeepAR
 - Weight determination: Error-inverse weighting on non-zero period MAE
 
@@ -126,11 +142,13 @@ SBA correction: F_SBA = (1 − α/2) × F_Croston
 | > 20 events | 50% | 30% | 20% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Negative binomial distribution fit; quantile regression on non-zero demand
 - Output: [P10, P50, P90] on both demand occurrence and quantity separately
 - Use case: Stock availability optimisation; spare parts service level
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Capping: min(forecast, 3 × historical max single demand event)
 - Manual overrides: Known upcoming demand event (scheduled maintenance, contract renewal)
@@ -169,6 +187,7 @@ SBA correction: F_SBA = (1 − α/2) × F_Croston
 | Yearly | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Forecast > 0 for 8+ consecutive periods with zero actuals; demand event > 3 × historical max
 - Manual override process: Planner input for known demand events; approval logged
 - Override expiration: Single cycle
@@ -183,8 +202,11 @@ SBA correction: F_SBA = (1 − α/2) × F_Croston
 | Inter-arrival CV drops below 0.3 | Pulsed | 5 events |
 
 ### 13. Review Cadence
+
 - Performance monitoring: Weekly automated — focus on non-zero period accuracy
 - Model review meeting: Monthly intermittent demand review
 - Full model re-evaluation: Quarterly or on install base change
+
+---
 
 ---

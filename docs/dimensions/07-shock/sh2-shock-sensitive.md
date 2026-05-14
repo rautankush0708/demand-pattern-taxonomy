@@ -1,8 +1,15 @@
-## SH2 · Shock Sensitive
+# Segment Model Template
+
+## Dimension 7 · Shock Sensitive
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs that exhibit significant demand deviation during external shock events (SRS < 0.40), requiring shock-aware scenario planning, wider prediction intervals, and rapid model adaptation protocols during disruption periods.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Discretionary categories, luxury goods, travel-related demand, restaurant and hospitality supply, event-dependent categories, panic-buying susceptible staples
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs that exhibit significant demand deviation during extern
 - **Differentiation from other models:** Unlike Shock Resistant, significant deviation occurs; unlike Fast/Slow Recovery, sensitivity classification is independent of recovery speed — a sensitive SKU may recover quickly or slowly
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Massive overstock during negative shocks (demand collapse)
 - **Primary risk (under-forecast):** Severe stockout during positive shocks (demand surge, panic buying)
 - **Strategic importance:** High — Shock Sensitive SKUs create the most acute supply chain stress during disruptions
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Shock events create acute inventory crises for sensitive SKUs; scenario planning and rapid response are critical.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Dual-State Model Architecture
+
 ```
 Normal state: Standard behavior model — applied when no shock detected
 Shock state:  Shock-specific model — activated immediately on shock detection
@@ -45,6 +55,7 @@ Shock model inputs:
 ```
 
 #### 5.2 Analogue / Similarity Logic (Shock Analogues)
+
 - Number of analogues: k = 5 (most similar historical shock events for this SKU + similar SKUs)
 - Similarity criteria: Shock type (positive/negative), shock severity (dev magnitude ±1σ), category, season of shock
 - Temporal decay: weight = exp(−age / half-life)
@@ -70,16 +81,19 @@ Shock model inputs:
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Normal state: Standard LightGBM per behavior segment
 - Shock state: XGBoost trained on historical shock periods only; shock analogue features as primary inputs
 - State classifier: Logistic Regression — P(shock state) based on current deviation and external signals
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT with shock event as past observed covariate
 - Shock encoding: Binary shock flag + shock severity as time-varying covariate in TFT
 - When to use: When ≥ 3 historical shock events available for training
 
 #### 6.3 Statistical / Time Series Models
+
 - Normal state: Standard ETS per behavior segment
 - Shock state: Intervention model — add impulse/step function to baseline model
 
@@ -93,6 +107,7 @@ shock_indicator(t) = 1 during shock period; 0 otherwise
 ```
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback during shock: Historical mean shock deviation × baseline; P10/P90 as bounds
 - Alert: Shock state activated — P1 alert to supply chain team immediately
 
@@ -107,6 +122,7 @@ shock_indicator(t) = 1 during shock period; 0 otherwise
 | Shock state (≥ 3 shock events) | 40% | 30% | 30% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Scenario analysis — three scenarios during shock
 - Output:
 
@@ -120,6 +136,7 @@ shock_indicator(t) = 1 during shock period; 0 otherwise
 - Use case: Inventory decisions held; supply commitments minimised during shock state
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Shock state rules:
   - Positive shock: Cap at 3 × pre-shock baseline (prevent extreme over-order)
@@ -140,15 +157,18 @@ shock_indicator(t) = 1 during shock period; 0 otherwise
 | Yearly | Per Behavior standard | < 30% | > 85% | < 5% | \|Bias\| > 10% |
 
 #### 10.2 Backtesting Protocol
+
 - Backtesting split: Separate evaluation on shock periods vs normal periods
 - Leave-one-shock-out: Hold out most recent shock; train on prior shocks; test on held-out shock
 - Min shock events for reliable backtest: ≥ 3 shock events
 
 #### 10.3 Retraining
+
 - Normal cadence per Behavior segment
 - Shock trigger: Immediate retrain on shock detection; retrain again on shock resolution
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: Shock state activated → P1 alert; SRS improves above 0.60 for 3+ consecutive shocks → reclassify to Shock Resistant
 - Manual override: Crisis team shock severity and expected duration input; supply allocation decision override
 - Override expiration: Per shock event
@@ -163,6 +183,9 @@ shock_indicator(t) = 1 during shock period; 0 otherwise
 | Level change permanent (Δ > ±15%) | Permanent Shift or Step Down | Post-stabilisation |
 
 ### 13. Review Cadence
+
 - Continuous monitoring during shock state; post-shock debrief within 2 weeks; quarterly shock history update; annual full re-evaluation
+
+---
 
 ---

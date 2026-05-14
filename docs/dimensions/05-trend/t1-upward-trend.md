@@ -1,8 +1,15 @@
-## T1 · Upward Trend
+# Segment Model Template
+
+## Dimension 5 · Upward Trend
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with a statistically confirmed positive demand slope, where trend-aware models are required to avoid systematic under-forecasting and chronic stockout in rising demand environments.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Growing categories, distribution expansion, market share gains, post-launch ramp, price-driven volume growth
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs with a statistically confirmed positive demand slope, w
 - **Differentiation from other models:** Unlike Flat, slope is statistically confirmed positive; unlike Cyclical Trend, movement is monotonically upward not cyclical; unlike Reverting, demand is not returning to a historical mean but reaching new highs
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Excess inventory if trend flattens or reverses unexpectedly
 - **Primary risk (under-forecast):** Systematic chronic stockout as demand outpaces static forecasts — the dominant risk for this segment
 - **Strategic importance:** Very high — upward trend SKUs are the growth engine; stockout during growth is a compounding loss
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Under-forecast risk dominates; chronic stockout during upward trend is commercially damaging and self-reinforcing (lost sales reduce observed demand, further suppressing forecast).
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.75 — rising demand means fewer zero periods over time
 - Classifier: Rule-based — monitor for unexpected zero periods as anomaly signal
 - Regressor: LightGBM with trend slope features; TFT for multi-horizon trend projection
 - Fallback: Rolling mean + slope extrapolation (β₀ + β₁ × t_forecast)
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 3 (SKUs that previously showed similar upward trend — now Mature)
 - Similarity criteria: Category, slope magnitude relative to mean (%/period), starting volume level
 - Temporal decay: weight = exp(−age / half-life)
@@ -61,6 +72,7 @@ Predicts demand for SKUs with a statistically confirmed positive demand slope, w
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM with trend-aware features
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, RMSE; directional bias penalty applied
 - Key features: Slope coefficient, relative slope, slope acceleration, rolling means (all windows), distribution coverage growth, category growth index
@@ -68,6 +80,7 @@ Predicts demand for SKUs with a statistically confirmed positive demand slope, w
 - When to use: Primary model — always applied
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT (captures trend via attention) + N-BEATS (explicit trend block)
 
 | Granularity | Lookback | Features | Output |
@@ -82,6 +95,7 @@ Predicts demand for SKUs with a statistically confirmed positive demand slope, w
 - When to use: History > 1 year equivalent; multi-horizon forecast required
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,A,N) — additive error, additive trend, no seasonality (or ETS(A,A,A) if seasonal)
 - Trend: Additive — no damping applied (upward trend expected to continue)
 - Seasonality: ETS(A,A,A) if Seasonal driver also present; SARIMA(p,1,q) for non-stationary with trend
@@ -105,6 +119,7 @@ Forecast: F(t+h) = l_t + h × b_t
 - When to use: Always included in ensemble; interpretability and trend coefficient reporting
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Model convergence failure; slope reversal detected
 - Fallback model: Rolling mean + β₁ × forecast_horizon (simple trend extrapolation)
 - Logging & alerting: Alert if fallback rate > 15%
@@ -112,6 +127,7 @@ Forecast: F(t+h) = l_t + h × b_t
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_lgbm × LightGBM + w_tft × TFT + w_nbeats × N-BEATS + w_ets × ETS(A,A,N)
 - Weight determination: Error-inverse on directional bias-adjusted WMAPE (penalise under-forecast more heavily)
 
@@ -125,11 +141,13 @@ Forecast: F(t+h) = l_t + h × b_t
 | > 24 months equiv. | 40% | 30% | 20% | 10% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression + conformal prediction
 - Output: [P10, P50, P90] — P90 used for safety stock; P50 for base replenishment
 - Use case: Safety stock calibrated to P75 (lean upward); replenishment trigger at P50
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Trend cap: Forecast growth rate per period ≤ 2 × historical maximum growth rate observed
 - Anti-stockout rule: If bias tracking signal TS > 4 → automatically increase forecast by β₁ × 2 periods
@@ -169,6 +187,7 @@ Forecast: F(t+h) = l_t + h × b_t
 | Yearly | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: Slope reversal (Z changes sign) for 3 consecutive periods → reclassification trigger; forecast > 3 × rolling max → cap and alert; tracking signal |TS| > 6 → automatic upward adjustment
 - Manual override: Commercial confirmation of trend continuation; supply expansion plan alignment
 - Override expiration: Single cycle — reviewed each period given trend sensitivity
@@ -182,6 +201,9 @@ Forecast: F(t+h) = l_t + h × b_t
 | ADF p < 0.05 (mean-reverting confirmed) | Reverting | 4 periods | Soft blend |
 
 ### 13. Review Cadence
+
 - Per cycle automated dashboard with slope monitor and tracking signal; weekly commercial review; quarterly full re-evaluation
+
+---
 
 ---

@@ -1,8 +1,15 @@
-## B1 · Stable
+# Segment Model Template
+
+## Dimension 2 · Stable
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand frequency (ADI below granularity threshold), where demand is consistent, well-behaved, and highly forecastable with standard time-series methods.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Core FMCG lines, everyday essentials, high-frequency replenishment items, staple categories
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 - **Differentiation from other models:** Unlike Volatile/Erratic, CV² is low; unlike Slow Mover, volume is above threshold; unlike Intermittent, ADI is below threshold; unlike Trending, no directional slope detected
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Excess working capital in inventory — low probability with good models
 - **Primary risk (under-forecast):** Service level breaches on core revenue lines
 - **Strategic importance:** Very high — Stable SKUs form the revenue backbone of most portfolios
 
 ### 4. Priority Level
+
 🔴 Tier 1 — High volume, high frequency — even small percentage errors create large absolute inventory waste.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.90 — stable SKUs rarely go to zero
 - Classifier type: Rule-based flag only — 2+ consecutive zero periods triggers alert
 - Regressor type: LightGBM primary; ETS supplementary
 - Fallback: Rolling mean over extended window
 
 #### 5.2 Analogue / Similarity Logic
+
 - Not applicable — sufficient own history; analogues not used for Stable SKUs
 
 #### 5.3 Feature Engineering
@@ -51,12 +62,14 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, RMSE
 - Key features: All rolling means, seasonal index, promo flag, price index, holiday flag, period of year
 - When to use: Primary model — rich feature set, well-understood demand
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: N-BEATS / TFT
 
 | Granularity | Lookback | Features | Output |
@@ -71,6 +84,7 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 - When to use: High-volume SKUs with complex seasonal patterns; history > 1 year equivalent
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,N,A) — Holt-Winters additive seasonality
 
 | Granularity | Seasonal Period | Model Variant |
@@ -84,6 +98,7 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 - When to use: Interpretability requirement; prediction intervals needed; short history
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Feature pipeline failure; model convergence issue
 - Fallback model: Same period last year (naive seasonal)
 - Logging & alerting: Alert if fallback rate > 10%
@@ -91,6 +106,7 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_lgbm × LightGBM + w_ets × ETS + w_dl × N-BEATS
 - Weight determination: Error-inverse weighting on 8-period rolling WMAPE
 
@@ -102,11 +118,13 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 | > 1 year equivalent | 50% | 30% | 20% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Conformal prediction on residuals
 - Output: [P10, P50, P90]
 - Use case: Safety stock optimisation at target service level; P90 used for max stock bound
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Capping: min(forecast, 1.5 × full-year rolling max)
 - Manual overrides: Range review decisions; promotional plan changes; known supply disruptions
@@ -145,6 +163,7 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 | Yearly | Annually | No | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Forecast > 2 × historical max; 3+ consecutive zero actuals; bias drift > alert threshold for 4 periods
 - Manual override process: Planner approval via dashboard; reason code required; logged with timestamp
 - Override expiration: Single cycle unless permanent range change flagged
@@ -162,8 +181,11 @@ Predicts demand for SKUs with low demand variance (CV² < 0.49) and high demand 
 - Switching logic: Soft blend over 4 periods for gradual transitions; hard switch for Step Change
 
 ### 13. Review Cadence
+
 - Performance monitoring: Per cycle automated dashboard
 - Model review meeting: Bi-weekly S&OP forecast review
 - Full model re-evaluation: Quarterly
+
+---
 
 ---

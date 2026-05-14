@@ -1,4 +1,5 @@
 # Dimension 1 · Lifecycle Pattern
+
 ## Demand Forecasting Model Templates
 
 ---

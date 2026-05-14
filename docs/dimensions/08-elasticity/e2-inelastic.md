@@ -1,8 +1,15 @@
-## E2 · Inelastic
+# Segment Model Template
+
+## Dimension 8 · Inelastic
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where demand quantity responds less than proportionally to price or promotional stimulus changes (|PED| < 1.0), where causal features add minimal forecast value and standard time-series methods are more reliable than causal models.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Essential staples, habitual purchases, medically/nutritionally necessary products, utility-like demand, high switching-cost categories, brand-loyal categories with low substitutability
 - **Boundaries:**
 
@@ -18,21 +25,25 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 - **Differentiation from other models:** Unlike Elastic, promotional ROI is low — price/promo features add noise not signal; unlike Threshold, response is consistently weak across all stimulus levels; standard time-series models outperform causal models for Inelastic SKUs
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Standard model risk only — price features not required
 - **Primary risk (under-forecast):** Standard model risk only
 - **Strategic importance:** High revenue stability — inelastic SKUs provide reliable baseline revenue; promotional investment here delivers low ROI
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Lower forecast complexity; primary business value is identifying where NOT to invest promotional spend.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Causal Feature Suppression
+
 - Explicitly suppress price and promo features — they add noise for Inelastic SKUs
 - Standard time-series model applied; causal model only used for strategic analysis (not operational forecasting)
 - Elasticity estimate retained as metadata for pricing team reporting
 
 #### 5.2 Analogue / Similarity Logic
+
 - Not applicable — sufficient own history; inelastic demand is stable and reliable
 
 #### 5.3 Feature Engineering
@@ -50,12 +61,14 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM (standard — no causal features)
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, RMSE
 - Key features: Rolling means, seasonal index, holiday flag, promo binary flag (for outlier control only)
 - When to use: Primary model — same as standard Stable behavior segment
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: N-BEATS (no causal external inputs)
 
 | Granularity | Lookback | Features | Output |
@@ -69,6 +82,7 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 - When to use: History > 2 years; seasonal pattern present
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,N,A) — standard; SARIMA for complex seasonality
 
 | Granularity | Model | Period |
@@ -82,6 +96,7 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 - When to use: Always included — no causal model needed
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback: Same period last year
 - Alert if fallback rate > 10%
 
@@ -96,11 +111,13 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 | > 2 years | 50% | 20% | 30% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Conformal prediction on residuals
 - Output: [P10, P50, P90] — symmetric intervals expected for inelastic demand
 - Use case: Standard safety stock from σ_residual × z_service_level; no promo-specific buffer needed
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Capping: min(forecast, 1.5 × full-year rolling max)
 - Promotional override rule: If large promo planned (> 30% discount) on Inelastic SKU → flag for commercial review; ROI likely negative; do not increase forecast significantly
@@ -140,6 +157,7 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 | Yearly | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: PED drops below −1.0 for 3 consecutive estimates → reclassify to Elastic; large promo uplift detected (> 15%) → flag for re-estimation
 - Manual override: Pricing team major price change input (even if inelastic, very large changes may have some impact); supply constraint flag
 - Override expiration: Single cycle
@@ -153,6 +171,9 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 | Saturation detected | Saturation | 2 estimates |
 
 ### 13. Review Cadence
+
 - Monthly PED monitor; quarterly full elasticity re-estimation; annual pricing strategy alignment
+
+---
 
 ---

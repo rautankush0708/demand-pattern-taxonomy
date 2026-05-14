@@ -1,8 +1,15 @@
-## SH3 · Fast Recovery
+# Segment Model Template
+
+## Dimension 7 · Fast Recovery
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs that exhibit significant shock deviation but return to pre-shock baseline rapidly (within the fast recovery threshold), allowing short-horizon shock correction and return to standard modelling quickly.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Discretionary categories with strong underlying need, weather-disrupted categories, short-duration supply disruptions, elastic demand with quick consumer readjustment
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs that exhibit significant shock deviation but return to 
 - **Differentiation from other models:** Unlike Shock Resistant, deviation does occur; unlike Slow Recovery, return is rapid; unlike Permanent Shift, demand returns to original baseline
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Ordering during shock using pre-shock baseline — not needed as recovery is fast
 - **Primary risk (under-forecast):** Missing post-shock pent-up demand surge — over-recovery spike
 - **Strategic importance:** Medium-high — fast recovery means short-duration impact; supply chain agility is the key requirement
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Short-duration impact; agility and rapid model response more important than complex shock modelling.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Three-Phase Model
+
 ```
 Phase 1 (Shock): Active during shock period
   Model: Shock-adjusted baseline (reduced/elevated per shock direction)
@@ -67,6 +77,7 @@ Pent-up demand factor:
 ### 6. Model Families
 
 #### 6.1 ML: LightGBM — phase-specific models (3 models: shock / recovery / normal)
+
 - Recovery model: Objective = reg:squarederror; recovery curve features as primary inputs
 
 #### 6.2 DL: TFT — captures recovery dynamics in sequence
@@ -101,12 +112,14 @@ pent_up(t) = max(0, 1 − e^{−λ_pud × (t − t_shock_end)}) × pud_magnitude
 | Normal phase | Standard ensemble per behavior segment |
 
 ### 8. Uncertainty Quantification
+
 - Shock phase: [P5, P50, P95] — wide during shock
 - Recovery phase: Narrowing from [P10, P50, P90] to standard as recovery confirmed
 - Post-recovery: Standard [P10, P50, P90]
 - Pent-up demand scenario: P90 includes pent-up spike; P10 excludes it
 
 ### 9. Business Rules
+
 - Non-negativity: max(0, forecast)
 - Recovery hold: Do not commit new supply during shock phase — wait for recovery signal
 - Pent-up buy: On recovery phase entry, prepare additional stock at P75 for pent-up demand
@@ -129,6 +142,7 @@ pent_up(t) = max(0, 1 − e^{−λ_pud × (t − t_shock_end)}) × pud_magnitude
 #### 10.3 Retraining — immediate on shock detection; immediate on recovery confirmation; standard cadence otherwise
 
 ### 11. Exception Handling
+
 - Alert: Recovery not confirmed by HRT → reclassify to Slow Recovery; permanent level change detected → Permanent Shift or Step Down
 
 ### 12. Reclassification
@@ -140,6 +154,9 @@ pent_up(t) = max(0, 1 − e^{−λ_pud × (t − t_shock_end)}) × pud_magnitude
 | No deviation in new shock event | Shock Resistant | Post-shock reclassification |
 
 ### 13. Review Cadence
+
 - Post-shock debrief within 1 week; quarterly HRT recalibration; annual full re-evaluation
+
+---
 
 ---

@@ -1,8 +1,15 @@
-## SH6 · Step Down
+# Segment Model Template
+
+## Dimension 7 · Step Down
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where a shock has caused a lasting downward level change (Δ < −15%) that does not recover, requiring complete rebaselining at the lower level and immediate inventory run-down management.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Permanent consumer behaviour change against category, lasting distribution loss, regulatory restriction, category disruption by substitute product, demographic or structural market decline
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs where a shock has caused a lasting downward level chang
 - **Differentiation from other models:** Unlike Slow Recovery, demand does not recover; unlike Step Down lifecycle (Phasing Out), the lower level is the new normal — not approaching zero; unlike Permanent Shift, direction is downward
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Catastrophic inventory build at pre-shift baseline → massive write-off
 - **Primary risk (under-forecast):** Minimal — over-forecast is the dominant risk
 - **Strategic importance:** Very high — Step Down requires immediate supply chain and inventory restructuring; failure to recognise creates acute write-off risk
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Immediate action required; over-forecast at pre-shift baseline is catastrophically costly; supply reduction must begin immediately.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Full Rebaselining Protocol (Downward)
+
 ```
 On Step Down confirmation:
   STEP 1: Set new (lower) baseline = μ_post
@@ -39,12 +49,14 @@ On Step Down confirmation:
 ```
 
 #### 5.2 Feature Engineering (Post-Shift)
+
 - All features computed on post-shift data only
 - Step down magnitude: |Δ| retained as metadata
 - Run-down timeline feature: Periods of excess inventory at old baseline level (supply chain planning)
 - Pre-shift data: Excluded from model training
 
 ### 6. Model Families
+
 - Immediate: Emergency flat forecast at post-shift rolling mean — prevent any upward drift
 - Warm-up: Cold Start model on post-shift data
 - Post-warm-up: Standard behavior model at new baseline; Decline Lifecycle likely
@@ -61,16 +73,19 @@ b_0 = 0 or slight negative if further decline detected
 #### 6.4 Fallback: Post-shift rolling mean only; hard rule against using pre-shift data
 
 ### 7. Ensemble
+
 - Warm-up: Post-shift rolling mean (primary) + category index (supplementary)
 - Post-warm-up: Standard ensemble per behavior segment on post-shift data
 
 ### 8. Uncertainty Quantification
+
 - Warm-up: [P5, P50, P95] — high uncertainty; risk of further step down
 - Post-warm-up: [P10, P50, P90]
 - Further decline risk: P10 = 50% × new baseline (further step down scenario)
 - Use case: Order only to P10 initially — conservative; increase as new baseline confirmed
 
 ### 9. Business Rules
+
 - Non-negativity: max(0, forecast)
 - Hard supply cap: Immediately cap all new orders at new baseline × (1 + small safety buffer)
 - Run-down plan: Excess inventory = (old stock − new safety stock) must be cleared within run-down horizon
@@ -88,6 +103,7 @@ b_0 = 0 or slight negative if further decline detected
 | Yearly | Detected within 1 year | < 12% | Bias > +5% | Excess cleared within 1 year |
 
 ### 11. Exception Handling
+
 - Alert: Any forecast above new baseline → immediate over-forecast alert; further step down detected (second Δ < −15%) → emergency review; pre-shift data accidentally used → retrain immediately with post-shift data only
 - Manual override: Emergency supply stop order; accelerated clearance authorisation
 
@@ -101,9 +117,7 @@ b_0 = 0 or slight negative if further decline detected
 | Demand recovers to pre-shift level | Fast or Slow Recovery | Recovery detection |
 
 ### 13. Review Cadence
+
 - Daily during first 2 weeks post-detection; weekly during warm-up; monthly new baseline validation; quarterly inventory run-down progress; annual full re-evaluation
 
 ---
-
-*End of Dimension 7 · Shock Pattern*
-*6 Segments Complete · SH1 through SH6*

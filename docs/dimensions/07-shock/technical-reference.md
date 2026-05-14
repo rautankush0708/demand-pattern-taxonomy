@@ -1,4 +1,5 @@
 # PART 0 — FORMULA & THRESHOLD REFERENCE
+
 ## Shock Pattern Specific
 
 ---
@@ -192,12 +193,3 @@ Shock-specific metrics:
 | **Yearly** | Annually + shock trigger | T+7 days | All available | 1 year |
 
 ---
-
-# PART 1 — SEGMENT TEMPLATES
-
----
-
----
-
-# PART 1 — SEGMENT TEMPLATES
-

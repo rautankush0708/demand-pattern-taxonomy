@@ -1,8 +1,15 @@
-## C5 · Skewed
+# Segment Model Template
+
+## Dimension 6 · Skewed
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where demand within a cycle is asymmetrically distributed — concentrated earlier or later in the cycle — requiring asymmetric seasonal indices and lead-time-aware inventory positioning to capture directional demand concentration.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Budget-front-loaded categories (spend early in fiscal year), end-of-period purchasing (budget flush), early adopter purchase patterns, product ramp-up within cycle
 - **Boundaries:**
 
@@ -29,16 +36,19 @@ Negative skewness (< −0.5): Left-skewed → demand concentrated LATE in cycle
 - **Differentiation from other models:** Unlike Peaked, no single dominant period — concentration is gradual; unlike Uniform, distribution is clearly asymmetric; unlike Bi-Modal/Multi-Modal, concentration is at one end of the cycle not in distinct peaks
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast for positive skew):** Over-ordering early; stock depletes quickly then demand falls away leaving no excess — lower risk
 - **Primary risk (negative skew over-forecast):** Carrying excess early-cycle stock before late-cycle demand arrives — highest risk for left-skewed categories
 - **Strategic importance:** Medium-high — correct timing of stock build relative to skew direction is the key operational challenge
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Skew direction determines inventory positioning strategy; medium complexity once direction confirmed.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Skew-Aware Seasonal Index
+
 ```
 Construct period-specific seasonal indices reflecting asymmetric pattern:
 
@@ -69,6 +79,7 @@ Verify skewness direction: skewness(SI values) confirms direction
 ### 6. Model Families
 
 #### 6.1 ML: LightGBM with cycle position and skew direction features
+
 - Objective: reg:squarederror; Metric: WMAPE
 - Cycle position ratio is the primary feature — captures gradual within-cycle concentration
 
@@ -105,6 +116,7 @@ For left-skewed (end-loaded): Reverse — faster update for late periods
 | Strong (\|skewness\| > 2.0) | 55% | 30% | 15% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression with cycle-position-conditioned intervals
 - Output: [P10, P50, P90] — asymmetric across cycle (wider early for right-skew; wider late for left-skew)
 - Use case:
@@ -112,6 +124,7 @@ For left-skewed (end-loaded): Reverse — faster update for late periods
   - Left-skew: Conservative early stock at P25; build to P75 approach to cycle end
 
 ### 9. Business Rules
+
 - Non-negativity: max(0, forecast)
 - Inventory build timing rule: Right-skew → front-load inventory; Left-skew → hold stock, build toward cycle end
 - Alignment: SI gradient direction must match historical skew direction — alert if reversed
@@ -134,6 +147,7 @@ For left-skewed (end-loaded): Reverse — faster update for late periods
 #### 10.3 Retraining — standard cadence + triggered on fiscal year / budget cycle change
 
 ### 11. Exception Handling
+
 - Alert: Skew direction reverses vs prior cycle → investigate structural change; |skewness| drops below 0.3 for 2 cycles → reclassify to Uniform or Peaked
 
 ### 12. Reclassification
@@ -146,9 +160,7 @@ For left-skewed (end-loaded): Reverse — faster update for late periods
 | Two peaks emerge at opposite ends of skew for 2 cycles | Bi-Modal | 2 cycles |
 
 ### 13. Review Cadence
+
 - Quarterly skewness monitor; annual skew direction confirmation; full re-evaluation on any fiscal/budget cycle change
 
 ---
-
-*End of Dimension 6 · Concentration Pattern*
-*5 Segments Complete · C1 through C5*

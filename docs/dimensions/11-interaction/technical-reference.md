@@ -1,175 +1,141 @@
-# PART 0 — SHARED FORMULA REFERENCE
-## Dimensions 9–12
+# PART 0 — FORMULA & THRESHOLD REFERENCE
+
+## Dimension 11 · Interaction Pattern
 
 ---
 
-## 0.1 Timing Pattern Metrics
+---
 
-### A. Lead-Lag Correlation
+## 0.1 Core Segmentation Metrics
+
+### A. Cross-SKU Pearson Correlation
+> Measures direction and strength of demand co-movement
+
 ```
-Cross-correlation at lag k:
-  CCF(k) = Σ[(d_t − d̄)(trigger_{t−k} − trigger̄)] / [n × σ_d × σ_trigger]
+r(A,B) = Σ[(d_A(t) − d̄_A)(d_B(t) − d̄_B)] / [n × σ_A × σ_B]
 
-Leading:    Max CCF at k < 0 (demand moves before trigger)
-Lagging:    Max CCF at k > 0 (demand moves after trigger)
-Coincident: Max CCF at k = 0 (demand moves with trigger)
-
-Significant lag: |CCF(k)| > 2/√n
+Strong complementary:  r > +0.50
+Weak complementary:    +0.20 < r ≤ +0.50
+Independent:           |r| ≤ 0.20
+Weak substitution:     −0.30 ≤ r < −0.20
+Strong substitution:   r < −0.30
 ```
 
-| Granularity | Lag Range Tested | Trigger Variables |
+| Granularity | Estimation Window | Min Overlap |
 |---|---|---|
-| **Daily** | k = −30 to +30 days | Competitor price, weather, news sentiment, mobility index |
-| **Weekly** | k = −13 to +13 weeks | Category trend, promotional activity, macroeconomic index |
-| **Monthly** | k = −6 to +6 months | GDP, industrial output, consumer confidence |
-| **Quarterly** | k = −4 to +4 quarters | GDP growth, capital expenditure |
-| **Yearly** | k = −2 to +2 years | Macro economic cycle, population growth |
-
-### B. Demand Arrival vs Expected Timing
-```
-Expected timing: t_expected = estimated from historical pattern or trigger date
-Actual timing:   t_actual = date of demand event
-
-Timing deviation: dev_timing = t_actual − t_expected (periods)
-
-Leading:     Mean(dev_timing) < −1 period (demand arrives early)
-Lagging:     Mean(dev_timing) > +1 period (demand arrives late)
-Coincident:  |Mean(dev_timing)| ≤ 1 period (demand on time)
-Deferred:    Mean(dev_timing) > granularity-specific threshold (demand significantly delayed)
-Accelerated: Mean(dev_timing) < −granularity-specific threshold (demand significantly pulled forward)
-```
-
-| Granularity | Deferred Threshold | Accelerated Threshold |
-|---|---|---|
-| **Daily** | dev > +7 days | dev < −7 days |
-| **Weekly** | dev > +3 weeks | dev < −3 weeks |
-| **Monthly** | dev > +2 months | dev < −2 months |
-| **Quarterly** | dev > +1 quarter | dev < −1 quarter |
-| **Yearly** | dev > +1 year | dev < −1 year |
+| **Daily** | 180-day rolling | ≥ 90 co-active days |
+| **Weekly** | 52-week rolling | ≥ 26 co-active weeks |
+| **Monthly** | 24-month rolling | ≥ 12 co-active months |
+| **Quarterly** | 8-quarter rolling | ≥ 4 co-active quarters |
+| **Yearly** | 3-year rolling | ≥ 2 co-active years |
 
 ---
 
-## 0.2 Recurrence Pattern Metrics
+### B. Substitution Rate
+> Quantifies demand shift from SKU_B to SKU_A during SKU_B stockout
 
-### A. Inter-Arrival Time Statistics
-```
-Inter-arrival time: IAT_i = t_i − t_{i-1} (periods between consecutive demand events)
-Mean IAT: μ_IAT = (1/n) × Σ IAT_i
-Std IAT:  σ_IAT = sqrt[(1/(n-1)) × Σ(IAT_i − μ_IAT)²]
-CV_IAT:   CV_IAT = σ_IAT / μ_IAT
-
-Regular:   CV_IAT < 0.20 (highly consistent intervals)
-Irregular: 0.20 ≤ CV_IAT < 0.60 (variable but recurring)
-One Time:  n = 1 (single demand event observed)
-```
-
-### B. Recurrence Rate Trend
-```
-Recurrence rate at time t: RR(t) = demand events in rolling window / window length
-Trend in RR: Mann-Kendall test on RR(t) series
-
-Declining Recurrence: Mann-Kendall p < 0.05; Z < 0 (demand frequency decreasing)
-Growing Recurrence:   Mann-Kendall p < 0.05; Z > 0 (demand frequency increasing)
-```
-
-| Granularity | Rolling Window for RR | Trend Window |
-|---|---|---|
-| **Daily** | 90-day | 180-day MK test |
-| **Weekly** | 26-week | 52-week MK test |
-| **Monthly** | 12-month | 24-month MK test |
-| **Quarterly** | 4-quarter | 8-quarter MK test |
-| **Yearly** | 3-year | 5-year MK test |
-
----
-
-## 0.3 Interaction Pattern Metrics
-
-### A. Cross-SKU Correlation
-```
-Pearson correlation between SKU_A and SKU_B demand:
-  r(A,B) = Σ[(d_A(t) − d̄_A)(d_B(t) − d̄_B)] / [n × σ_A × σ_B]
-
-Complementary: r > +0.50 (demand moves together)
-Substitution:  r < −0.30 AND SKU_B stockout → SKU_A spike
-Cannibalistic: r < −0.30 AND SKU_A grows → SKU_B shrinks
-Halo:          r > +0.40 AND causal direction (hero → follower)
-Independent:   |r| < 0.20
-```
-
-### B. Substitution Detection
 ```
 Substitution event: Period where SKU_B is OOS (stockout)
                     AND SKU_A demand spikes > 1.5σ above baseline
 
-Substitution rate: sub_rate = mean(d_A during SKU_B OOS) / mean(d_A during SKU_B available) − 1
+sub_rate(A←B) = mean(d_A during SKU_B OOS) / mean(d_A during SKU_B available) − 1
 
 Significant substitution: sub_rate > 0.20 AND confirmed in ≥ 3 OOS events
 ```
 
-### C. Cannibalism Detection
+| Granularity | OOS Threshold | Min OOS Events |
+|---|---|---|
+| **Daily** | Inventory on hand = 0 for ≥ 1 day | ≥ 3 events |
+| **Weekly** | Inventory = 0 for ≥ 1 day in week | ≥ 3 events |
+| **Monthly** | Inventory = 0 for ≥ 3 days in month | ≥ 3 events |
+| **Quarterly** | Inventory = 0 in quarter | ≥ 2 events |
+| **Yearly** | Inventory = 0 in year | ≥ 2 events |
+
+---
+
+### C. Cannibalism Coefficient
+> Measures demand lost from one SKU per unit gained by another
+
 ```
-Cannibalism coefficient: δ = ΔQ_B / ΔQ_A (demand lost from B per unit gained by A)
+Cannibalism coefficient:
+  δ = ΔQ_B / ΔQ_A   (demand lost from B per unit gained by A)
 
 Estimated via regression:
   ΔQ_B(t) = α + δ × ΔQ_A(t) + β × controls(t) + ε(t)
-  δ < 0 → A cannibalises B; |δ| = cannibalism rate
-  Significant: p < 0.05 for δ AND |δ| > 0.15
+
+Significant cannibalism: p < 0.05 for δ AND |δ| > 0.15 AND δ < 0
+```
+
+| Granularity | Estimation Window | Min Correlated Periods |
+|---|---|---|
+| **Daily** | 180-day | ≥ 60 overlapping days |
+| **Weekly** | 52-week | ≥ 26 overlapping weeks |
+| **Monthly** | 24-month | ≥ 12 overlapping months |
+| **Quarterly** | 8-quarter | ≥ 4 overlapping quarters |
+| **Yearly** | 3-year | ≥ 2 overlapping years |
+
+---
+
+### D. Granger Causality Test
+> Confirms causal direction for Halo and Complementary classifications
+
+```
+Granger causality from X to Y:
+  H0: X does NOT Granger-cause Y
+  Test: Does adding lagged X improve prediction of Y beyond Y's own lags?
+
+  F-statistic on added regressors; reject H0 at p < 0.05
+  Granger-causes confirmed: p < 0.05
+  Halo direction: hero Granger-causes follower (not reverse)
+```
+
+| Granularity | Max Lag Tested | Min History |
+|---|---|---|
+| **Daily** | 30 days | ≥ 180 days |
+| **Weekly** | 13 weeks | ≥ 52 weeks |
+| **Monthly** | 6 months | ≥ 24 months |
+| **Quarterly** | 4 quarters | ≥ 8 quarters |
+| **Yearly** | 2 years | ≥ 5 years |
+
+---
+
+### E. Portfolio Conservation Check
+> Ensures interaction models produce internally consistent portfolio totals
+
+```
+Total portfolio demand:  D_total(t) = Σ d_i(t) for all active SKUs
+Portfolio conservation:  |Σ F_i(t) − D_total_forecast(t)| / D_total_forecast(t) < 10%
+
+Cannibalism check: d_A(t) + d_B(t) ≤ M(t)   [market size constraint]
+  If violated → rescale proportionally to historical share
 ```
 
 ---
 
-## 0.4 Signal Pattern Metrics
+## 0.2 Classification Decision Rules
 
-### A. Signal Noise Ratio
 ```
-Signal-to-Noise Ratio (SNR):
-  Signal component: Trend + Seasonal = fitted values from STL decomposition
-  Noise component:  Residual from STL decomposition
+STEP 1: Compute cross-SKU Pearson r for all paired SKUs
+  |r| < 0.20 for all pairs → INDEPENDENT
 
-  SNR = Var(Signal) / Var(Noise)
-  SNR > 4.0 → Pure Signal (noise < 20% of total variance)
-  SNR 1.0–4.0 → Moderate noise
-  SNR < 1.0 → Noisy (noise > 50% of total variance)
-```
+STEP 2: For r < −0.20 (negative correlation)
+  Run substitution detection (Section 0.1B)
+  sub_rate > 0.20 in ≥ 3 OOS events → SUBSTITUTION
+  Else: run cannibalism test (Section 0.1C)
+  |δ| > 0.15; p < 0.05; δ < 0 → CANNIBALISTIC
 
-### B. Distortion Detection
-```
-Distortion factors: Supply constraints, returns, order cancellations, reporting errors
-Distortion index: DI = |d_observed(t) − d_true_estimate(t)| / d_true_estimate(t)
+STEP 3: For r > +0.20 (positive correlation)
+  Run Granger causality (Section 0.1D)
+  Hero Granger-causes follower (p < 0.05) → HALO
+  Mutual Granger causality OR VAR → COMPLEMENTARY
 
-Distorted: DI > 0.15 in > 20% of periods
-Pure: DI < 0.10 in > 90% of periods
-
-d_true_estimate(t) = unconstrained demand (Section D6 — Supply Constrained driver)
-```
-
-### C. Bullwhip Amplification
-```
-Bullwhip effect: Order variance amplifies upstream from retail to distributor to manufacturer
-
-Amplification ratio: AR = Var(Orders_upstream) / Var(Orders_downstream)
-AR > 1.5 → Amplified signal (upstream orders more variable than downstream demand)
-AR < 1.2 → Clean signal (minimal amplification)
-
-Measured at each supply chain tier where data available
-```
-
-### D. Lag Between Signal and Consumption
-```
-Signal lag: L = t_order − t_consumption (periods between order and actual use)
-Measured from order data vs consumption/POS data
-
-Lagged Signal: Mean(L) > granularity threshold
-  Daily: L > 3 days
-  Weekly: L > 1 week
-  Monthly: L > 1 month
-  Quarterly: L > 1 quarter
-  Yearly: L > 6 months
+STEP 4: Apply portfolio conservation check
+  Adjust cannibalistic and halo forecasts to maintain consistency
 ```
 
 ---
 
-## 0.5 Shared Rolling Window Reference
+## 0.3 Rolling Window Reference
 
 | Window | Daily | Weekly | Monthly | Quarterly | Yearly |
 |---|---|---|---|---|---|
@@ -181,24 +147,31 @@ Lagged Signal: Mean(L) > granularity threshold
 
 ---
 
-## 0.6 Shared Accuracy Metrics
+## 0.4 Accuracy Metrics
 
 ```
-WMAPE = Σ|Forecast_t − Actual_t| / Σ Actual_t × 100
-Bias  = Σ(Forecast_t − Actual_t) / Σ Actual_t × 100
-MAE   = (1/n) × Σ|Forecast_t − Actual_t|
-MASE  = MAE_model / MAE_naive
-Pinball(α) = α × (Actual − Q_α)_+ + (1−α) × (Q_α − Actual)_+
-Coverage  = P(Actual ∈ [P10,P90])   Target: 80%
+WMAPE   = Σ|Forecast_t − Actual_t| / Σ Actual_t × 100
+Bias    = Σ(Forecast_t − Actual_t) / Σ Actual_t × 100
+MAE     = (1/n) × Σ|Forecast_t − Actual_t|
+
+Interaction-specific:
+  Portfolio Consistency = |Σ Forecast_i − Σ Actual_i| / Σ Actual_i × 100  (Target < 5%)
+  Substitution Accuracy = |sub_rate_predicted − sub_rate_actual| / sub_rate_actual × 100
+  Cannibalism Coefficient Stability = CV(δ across rolling windows)  (Target < 0.30)
+  Halo Granger p-value              (Target < 0.05 maintained)
+  WMAPE Improvement vs Independent  (Target > 5% for non-independent segments)
 ```
 
 ---
 
-# DIMENSION 9 — TIMING PATTERN
+## 0.5 Retraining & Backtesting Reference
+
+| Granularity | Retraining | Latency | Train | Test |
+|---|---|---|---|---|
+| **Daily** | Daily | T+4 hours | 180 days | 30 days |
+| **Weekly** | Weekly | T+1 day | 52 weeks | 13 weeks |
+| **Monthly** | Monthly | T+2 days | 24 months | 6 months |
+| **Quarterly** | Quarterly | T+3 days | 8 quarters | 2 quarters |
+| **Yearly** | Annually | T+7 days | All available | 1 year |
 
 ---
-
----
-
-# PART 1 — SEGMENT TEMPLATES
-

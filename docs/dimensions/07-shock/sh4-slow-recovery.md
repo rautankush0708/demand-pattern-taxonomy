@@ -1,8 +1,15 @@
-## SH4 · Slow Recovery
+# Segment Model Template
+
+## Dimension 7 · Slow Recovery
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs that deviate significantly during shocks and require an extended period to return to pre-shock baseline, demanding prolonged recovery modelling, sustained safety stock buffers, and multi-horizon recovery path forecasting.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Consumer confidence-dependent categories, long-habit-formation categories, B2B contract-driven demand with long cycle changes, categories requiring infrastructure rebuilding
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs that deviate significantly during shocks and require an
 - **Differentiation from other models:** Unlike Fast Recovery, return to baseline is slow; unlike Permanent Shift, demand does eventually return; unlike Step Down, recovery is upward
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Early in recovery — applying pre-shock baseline before demand has recovered
 - **Primary risk (under-forecast):** Late in recovery — applying shock-era baseline when demand has already started to recover
 - **Strategic importance:** High — prolonged recovery creates sustained supply chain disruption; inventory strategy must evolve along recovery path
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Extended planning horizon required; blended model across recovery path is key.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Recovery Path Model
+
 ```
 Recovery path forecast at time t (post-shock, h periods into recovery):
   F(t+h) = μ_pre × RR_forecast(h) + μ_shock × (1 − RR_forecast(h))
@@ -55,6 +65,7 @@ Blend weight toward pre-shock baseline increases with h:
 ### 6. Model Families
 
 #### 6.1 ML: LightGBM trained on recovery phase data across historical slow-recovery shocks
+
 - Key: Recovery path features dominate; macro signals supplement
 
 #### 6.2 DL: TFT with long lookback covering full shock + early recovery periods
@@ -88,6 +99,7 @@ where h = periods since shock end
 | Late recovery (h > HRT) | Standard ensemble per behavior segment |
 
 ### 8. Uncertainty Quantification
+
 - Method: Scenario-based — slow recovery / fast recovery / permanent shift
 - Output:
 
@@ -100,6 +112,7 @@ where h = periods since shock end
 - Intervals: [P10, P50, P90] — widest at mid-recovery; narrows as recovery confirmed
 
 ### 9. Business Rules
+
 - Non-negativity: max(0, forecast)
 - Recovery ramp: Increase safety stock gradually as recovery progresses — step up at 25%, 50%, 75% RR milestones
 - Supply commitment rule: Increase commitments proportionally to RR confidence
@@ -116,6 +129,7 @@ where h = periods since shock end
 | Yearly | < 20% | RR within ±6% | Per Behavior standard | \|Bias\| > 6% |
 
 ### 11. Exception Handling
+
 - Alert: Recovery stalls at RR < 0.50 for 2× HRT → reclassify to Permanent Shift or Step Down; recovery completes faster than expected → reclassify to Fast Recovery for future shocks
 
 ### 12. Reclassification
@@ -127,6 +141,9 @@ where h = periods since shock end
 | No deviation in subsequent shock | Shock Resistant | Post-shock review |
 
 ### 13. Review Cadence
+
 - Weekly during active recovery; monthly recovery path calibration; quarterly HRT update; annual full re-evaluation
+
+---
 
 ---

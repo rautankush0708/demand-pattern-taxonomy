@@ -1,4 +1,5 @@
 # Dimension 2 · Behavior Pattern
+
 ## Demand Forecasting Model Templates
 
 ---

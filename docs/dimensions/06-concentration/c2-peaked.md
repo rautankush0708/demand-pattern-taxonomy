@@ -1,8 +1,15 @@
-## C2 · Peaked
+# Segment Model Template
+
+## Dimension 6 · Peaked
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where demand is concentrated in one dominant period within the cycle, requiring period-specific uplift modelling and asymmetric safety stock policies to capture the peak accurately while avoiding excess inventory in non-peak periods.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Holiday gift categories, summer peak products, back-to-school, Q4 budget flush categories, single-holiday driven demand
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs where demand is concentrated in one dominant period wit
 - **Differentiation from other models:** Unlike Bi-Modal, only one significant peak; unlike Uniform, strong period concentration; unlike Skewed, the concentrated demand is at a specific known point not asymmetrically distributed
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Post-peak overstock — acute markdown pressure after single peak
 - **Primary risk (under-forecast):** Stockout during the single peak — no recovery opportunity; peak is the season
 - **Strategic importance:** Very high — the peak period often represents 40–70% of annual revenue for this segment
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Peak accuracy is mission-critical; one peak per cycle means one chance per year; error is unrecoverable.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Dual-Model Approach
+
 - **Peak model:** Applied during peak window (±n periods around peak); high-complexity model
 - **Trough model:** Applied outside peak window; simpler level model
 - Peak window definition:
@@ -41,6 +51,7 @@ Predicts demand for SKUs where demand is concentrated in one dominant period wit
 | Yearly | Peak year segment only |
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 5 (same SKU prior years + similar category SKUs)
 - Similarity criteria: Peak timing (same period ±1), peak SI magnitude ±0.2, category
 - Temporal decay: weight = exp(−age / half-life)
@@ -77,12 +88,14 @@ SI_contrast = peak_SI / trough_SI  (ratio of peak to average trough)
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM — separate models for peak and trough periods
 - Peak model: Objective = reg:squarederror; emphasis on peak period accuracy; higher weight on peak observations in training
 - Trough model: Objective = reg:squarederror; emphasis on flat trough prediction
 - When to use: Primary model — always applied; peak/trough split is key architectural decision
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT with seasonal decomposition; N-BEATS with seasonality block (captures peak shape)
 
 | Granularity | Lookback | Key Advantage | Output |
@@ -96,6 +109,7 @@ SI_contrast = peak_SI / trough_SI  (ratio of peak to average trough)
 - Training: Loss = quantile loss with peak-period upweighting (×3 weight on peak periods); Adam lr = 0.001; Dropout = 0.1; Patience = 15
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,N,A) or ETS(M,N,M) with strong seasonal component
 
 **Seasonal Index for Peaked Demand:**
@@ -121,6 +135,7 @@ Forecast: F(t+h) = l_t × SI(period of t+h)
 - When to use: Always included — ETS seasonal models naturally capture single-peak patterns
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback: Prior year same period × trend adjustment factor
 - Peak period fallback: Prior year peak × (1 + trend_rate) — simple and robust
 - Logging & alerting: Alert if fallback deployed during peak window — P1 incident for Peaked SKUs
@@ -128,6 +143,7 @@ Forecast: F(t+h) = l_t × SI(period of t+h)
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_lgbm × LightGBM + w_dl × TFT/NBEATS + w_ets × ETS
 - Separate weights for peak vs trough periods
 
@@ -141,6 +157,7 @@ Forecast: F(t+h) = l_t × SI(period of t+h)
 | Trough periods | All | 50% | 20% | 30% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression with asymmetric intervals (wider at peak — higher uncertainty)
 - Output: [P10, P50, P90] — peak period intervals wider than trough
 
@@ -154,6 +171,7 @@ Pre-season buy: Use P75 for peak period stock commitment
 - Use case: Pre-season buy = P75 of peak period forecast; post-peak run-down using P25
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Peak cap: min(peak_forecast, 3 × trough_mean × peak_SI)
 - Trough floor: max(trough_forecast, 0) — allow near-zero in deep trough
@@ -194,6 +212,7 @@ Pre-season buy: Use P75 for peak period stock commitment
 | Yearly | Annually | Pre-season retrain | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: Peak timing shifts > 1 period vs prior year → alert and adjust peak window; peak SI changes > 25% vs prior year → flag for buyer review; forecast misses peak by > 30% → P1 incident review
 - Manual override: Buyer peak timing adjustment; early/late season call; peak magnitude input from commercial intelligence
 - Override expiration: Per peak occurrence
@@ -208,6 +227,9 @@ Pre-season buy: Use P75 for peak period stock commitment
 | |skewness| > 0.5 with no clear single peak | Skewed | 2 cycles |
 
 ### 13. Review Cadence
+
 - Pre-peak review (6–8 weeks before peak); post-peak debrief within 2 weeks; annual SI calibration; quarterly monitoring
+
+---
 
 ---

@@ -1,8 +1,15 @@
-## M3 · Low Volume
+# Segment Model Template
+
+## Dimension 4 · Low Volume
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs in the 5th–25th percentile of portfolio demand volume, where low absolute quantities make percentage-based metrics unreliable and specialist low-volume methods are required to avoid overfitting and metric distortion.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Long-tail variants, niche product lines, regional specialties, low-velocity B2B lines, specialty retail
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs in the 5th–25th percentile of portfolio demand volume
 - **Differentiation from other models:** Unlike Medium Volume, MAPE/WMAPE unreliable — use MAE and MASE; unlike Ultra Low, demand is more than single-unit; simple models outperform complex ones
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Holding cost on low-value items; portfolio-level waste from many small overstock positions
 - **Primary risk (under-forecast):** Long tail customers are disproportionately loyal; stockout damages relationship
 - **Strategic importance:** Medium — individually low impact; collectively significant (long tail effect)
 
 ### 4. Priority Level
+
 🟡 Tier 3 — Low individual priority; automation at scale is the key business requirement.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.70
 - Classifier: Logistic Regression (simple — prevent overfitting on low data)
 - Regressor: ETS or Theta — statistical methods outperform ML on low volume
 - Fallback: Rolling mean (short window)
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 5 (similar low-volume SKUs from same subcategory)
 - Cross-SKU pooling: Group Low Volume SKUs into demand pools for shared model training
 - Similarity: Subcategory, CV², ADI range, price tier
@@ -53,16 +64,19 @@ Predicts demand for SKUs in the 5th–25th percentile of portfolio demand volume
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM (heavily regularised)
 - Configuration: Objective = reg:absoluteerror (MAE preferred); max_depth = 3; num_leaves = 15; min_data_in_leaf = 10; lambda_l1 = 1.0
 - When to use: When portfolio large enough for cross-SKU learning (> 100 Low Volume SKUs)
 - Cross-SKU learning: Train single LightGBM model across all Low Volume SKUs — SKU ID as feature
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: Not recommended — data too sparse for individual DL; cross-SKU DeepAR acceptable if > 500 Low Volume SKUs in portfolio
 - When to use: Only if very large portfolio enables meaningful cross-learning
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: Theta method (primary); ETS(A,N,A) or ETS(A,N,N)
 
 | Granularity | Primary Model | Reason |
@@ -86,6 +100,7 @@ Forecast = α × θ_2_forecast + (1−α) × θ_0_forecast
 - When to use: Primary model for Low Volume — Theta consistently outperforms complex models on low-volume data
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback: 3-period moving average
 - Logging & alerting: Alert if fallback rate > 25%
 
@@ -101,6 +116,7 @@ Forecast = α × θ_2_forecast + (1−α) × θ_0_forecast
 | > 2 years | 40% | 40% | 20% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Bootstrap on historical residuals (simple; works on small samples)
 - Output: [P10, P50, P90]
 - Use case: Min/max stock policy — often binary (stock or not stock); P90 used for max stock level
@@ -114,6 +130,7 @@ Safety stock        = z × σ_demand × √Lead_time   [if σ reliable]
 ```
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Rounding: Round to nearest whole unit — fractional units meaningless at low volume
 - Minimum forecast consideration: Evaluate whether to stock at all (range rationalisation trigger)
@@ -154,16 +171,21 @@ Safety stock        = z × σ_demand × √Lead_time   [if σ reliable]
 | Yearly | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: Volume rises above 25th percentile for 4 months → reclassify to Medium Volume
 - Manual override: Range rationalisation trigger; special customer order flag
 - Override expiration: Single cycle
 
 ### 12. Reclassification
+
 - To Medium Volume: Percentile rises above 25th for 6 consecutive months
 - To Ultra Low: Percentile drops below 5th for 6 consecutive months
 - Soft blend over 4-period transition
 
 ### 13. Review Cadence
+
 - Monthly automated portfolio-level dashboard; quarterly range rationalisation review; annual full re-evaluation
+
+---
 
 ---

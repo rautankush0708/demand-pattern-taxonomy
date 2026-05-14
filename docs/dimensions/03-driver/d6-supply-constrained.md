@@ -1,8 +1,15 @@
-## D6 · Supply Constrained
+# Segment Model Template
+
+## Dimension 3 · Supply Constrained
+
+---
+
 ### 1. Definition
+
 Predicts true (unconstrained) demand for SKUs where historical observed demand is systematically below true demand due to supply stockouts, ensuring forecasts reflect genuine customer appetite rather than corrupted supply-limited actuals.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Frequently out-of-stock SKUs, supply-limited launches, allocation periods, supply chain disrupted categories
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts true (unconstrained) demand for SKUs where historical observed demand i
 - **Differentiation from other models:** Unlike all other segments, this is a **data correction driver** not a demand shape driver — the primary function is to reconstruct unconstrained demand before any other model is applied
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast of unconstrained):** Safety stock set too high post-correction
 - **Primary risk (under-correction):** Forecast trained on constrained demand perpetuates stockout cycle
 - **Strategic importance:** Critical — supply-constrained forecasts trained on raw actuals are systematically biased downward; this corrupts safety stock, reorder points, and capacity planning
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Must be corrected before any other model is applied; uncorrected supply constraint silently corrupts all downstream forecasting.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Lost Sales Reconstruction (Primary Step)
+
 - Step 1: Flag all stockout periods using inventory on hand data
 - Step 2: Estimate lost sales in each stockout period
 - Step 3: Replace observed demand with unconstrained demand estimate
@@ -61,6 +71,7 @@ Method 4 — Category Index (when no inventory data):
 | Yearly | Category Index (Method 4) | Pre-Stockout Extrapolation (Method 2) |
 
 #### 5.2 Feature Engineering (Post-Correction)
+
 - All features computed on **corrected unconstrained demand series**, not raw observed demand
 - Stockout flag retained as feature in downstream model
 - Stockout frequency feature: Number of stockout periods in rolling window
@@ -69,27 +80,33 @@ Method 4 — Category Index (when no inventory data):
 ### 6. Model Families
 
 #### 6.1 ML: LightGBM on corrected demand series
+
 - Additional feature: Stockout frequency, correction ratio, inventory policy flag
 - When to use: After demand correction; same as standard behavior model
 
 #### 6.2 DL: TFT on corrected demand series
+
 - Additional covariate: Stockout flag as past observed covariate
 
 #### 6.3 Statistical: Standard behavior model on corrected series
+
 - Croston if intermittent; ETS if stable — applied to corrected demand
 
 #### 6.4 Fallback: Category-level growth applied to last clean (non-stockout) demand observation
 
 ### 7. Ensemble & Weighting
+
 - Same ensemble as underlying behavior segment applied to corrected demand
 - Additional correction model weight: 10% weight to category index model as sanity check
 
 ### 8. Uncertainty Quantification
+
 - Wider intervals during correction: [P5, P50, P95] — higher uncertainty from correction assumptions
 - Standard intervals when correction validated: [P10, P50, P90]
 - Use case: Safety stock set higher than standard segment due to stockout risk; reorder point elevated
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, corrected forecast)
 - Correction cap: d_unconstrained ≤ 3 × d_observed (prevent over-correction)
 - Correction floor: d_unconstrained ≥ d_observed (correction only upward; stockout never inflates downward)
@@ -129,21 +146,21 @@ Method 4 — Category Index (when no inventory data):
 | Yearly | Annually | Quarterly | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Stockout rate > 20% in rolling window → escalate to supply chain; correction ratio > 3× → cap and alert; consecutive stockouts for 3+ periods → flag for root cause analysis
 - Manual override: Supply team root cause and resolution timeline input; allocation policy flag; force unconstrained demand value from commercial intelligence
 - Override expiration: Until stockout resolved and inventory replenished
 
 ### 12. Reclassification / Model Selection
+
 - Remove Supply Constrained driver: Stockout rate < 2% for 6 consecutive periods — demand signal clean
 - Retain flag: Even after stockout resolved, correct historical data permanently; do not revert to raw actuals
 - Escalate: Chronic supply constraint (> 4 quarters) → escalate to supply strategy review
 
 ### 13. Review Cadence
+
 - Performance monitoring: Daily stockout watchlist; weekly correction accuracy review
 - Model review meeting: Weekly supply review with procurement and supply chain teams
 - Full model re-evaluation: Quarterly; immediately on supply disruption resolution
 
 ---
-
-*End of Dimension 3 · Driver Pattern*
-*6 Segments Complete · D1 through D6*

@@ -1,8 +1,15 @@
-## L2 · New Launch
+# Segment Model Template
+
+## Dimension 1 · New Launch
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where an initial demand pattern is emerging but insufficient for full statistical modelling; hybrid of analogue and own-SKU signal, transitioning toward data-driven forecasting across 8–16 weeks of history.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Post-launch ramp, early velocity signal available, first reorder decisions
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 - **Differentiation from other models:** Unlike Cold Start, own SKU signal now contributes; unlike Growth, trend is not yet statistically confirmed
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Overcommit on second buy; excess inventory before demand curve confirmed
 - **Primary risk (under-forecast):** Missed velocity window; competitors fill shelf space
 - **Strategic importance:** High — ranging, distribution, and second buy decisions made in this window
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Second buy decision occurs here; error is costly and difficult to reverse.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.50
 - Classifier type: Logistic Regression with own SKU + analogue features
 - Regressor type: LightGBM — blended own + analogue features
 - Fallback when disagree: Forecast = 0 if classifier < 0.50
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 3 (weight reducing as own history grows)
 - Similarity criteria: Category, price tier, launch channel, early period demand shape correlation
 - Temporal decay weight: weight = exp(−age / half-life)
@@ -49,6 +60,7 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 - Aggregation method: Weighted mean blended with own SKU signal
 
 #### 5.3 Feature Engineering
+
 - Rolling statistics: Short window rolling mean and CV on own SKU
 
 | Granularity | Min Non-Zero Obs | Rolling Windows Used |
@@ -75,6 +87,7 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM
 - Configuration (classifier): Objective = binary:logistic; Metric = AUC
 - Configuration (regressor): Objective = reg:absoluteerror; Metric = MAE
@@ -82,16 +95,19 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 - When to use: Primary model when ≥ 4 periods of own non-zero demand exist
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: Not recommended — history too short for sequence learning
 - When to use: Not applicable
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,A,N) — additive error, additive trend, no seasonality
 - Trend: Additive — early ramp captured
 - Zero-demand handling: Croston initialisation for first periods
 - When to use: Supplementary model for ensemble; interpretability check
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Own demand = 0 for 3+ consecutive periods post-launch
 - Fallback model: Analogue-only weighted median
 - Logging & alerting: Alert if fallback rate > 25%
@@ -99,6 +115,7 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_own × LightGBM + w_analogue × analogue_model
 - Weight determination: Dynamic — own weight increases linearly with periods of history
 
@@ -113,11 +130,13 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 | Yearly | Year 1: Own 40% / Analogue 60% | Year 1.5: Own 60% / Analogue 40% | Year 2: Own 80% / Analogue 20% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression
 - Output: [P10, P50, P90]
 - Use case: Second buy quantity — P75 for safety stock; P50 for base order
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Capping: min(forecast, 2 × highest observed period demand so far)
 - Manual overrides: Commercial team velocity adjustment; distribution rollout plan multiplier
@@ -156,6 +175,7 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 | Yearly | Annually | No | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Zero demand for 3+ consecutive periods post-launch; forecast > 3 × period-peak demand to date
 - Manual override process: Category manager approval; timestamp and reason code logged
 - Override expiration: Single forecast cycle
@@ -174,8 +194,11 @@ Predicts demand for SKUs where an initial demand pattern is emerging but insuffi
 - Holding period: No early graduation — must complete New Launch window
 
 ### 13. Review Cadence
+
 - Performance monitoring: Weekly automated dashboard
 - Model review meeting: Bi-weekly launch performance review
 - Full model re-evaluation: Quarterly analogue pool refresh
+
+---
 
 ---

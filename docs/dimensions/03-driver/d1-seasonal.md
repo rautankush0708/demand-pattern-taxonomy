@@ -1,8 +1,15 @@
-## D1 · Seasonal
+# Segment Model Template
+
+## Dimension 3 · Seasonal
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where a statistically significant portion of demand variance is explained by repeating calendar-driven cycles, requiring seasonal decomposition and period-aware modelling to capture predictable peaks and troughs.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Holiday-driven categories, back-to-school, summer/winter cycles, quarterly budget cycles, agricultural seasons
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs where a statistically significant portion of demand var
 - **Differentiation from other models:** Unlike Event Driven, pattern repeats predictably every cycle without external trigger; unlike Promotional, not caused by pricing or trade activity
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Post-peak overstock — classic markdown and write-off problem
 - **Primary risk (under-forecast):** Stockout at seasonal peak — lost sales at highest value moment
 - **Strategic importance:** Very high — peak season performance disproportionately drives annual revenue
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Peak season stockouts and post-season overstock are the two most costly inventory errors in seasonal categories.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.60 in season; may approach 0 in off-season
 - Classifier type: Seasonal classifier — trained separately for in-season vs off-season periods
 - Regressor type: LightGBM with seasonal features; ETS with seasonal component
 - Fallback: Same period prior year × trend adjustment factor
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 3 (SKUs with similar seasonal profiles in same category)
 - Similarity criteria: Seasonal index correlation > 0.80, category, price tier
 - Temporal decay: weight = exp(−age / half-life)
@@ -71,12 +82,14 @@ Deseasonalised demand: d_adj(t) = d(t) / SI(period_of_t)
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM with seasonal index features
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, RMSE
 - Key features: Seasonal index, rolling mean (deseasonalised), period of year, holiday flag, days/weeks to peak, trend component
 - When to use: Primary model — seasonal features make ML very effective here
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT / N-BEATS (N-BEATS has explicit seasonality block)
 
 | Granularity | Lookback | Features | Output |
@@ -91,6 +104,7 @@ Deseasonalised demand: d_adj(t) = d(t) / SI(period_of_t)
 - When to use: Complex multi-frequency seasonality (e.g. day-of-week + annual); history > 2 full cycles
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,N,A) or ETS(M,N,M); SARIMA(p,d,q)(P,D,Q)_m; TBATS for multiple seasons
 
 | Granularity | Primary Model | Seasonal Period (m) | Variant |
@@ -113,6 +127,7 @@ Combine:      (1 − φ_1B − ... − φ_pB^p)(1 − Φ_1B^m − ... − Φ_PB^
 - When to use: Strong seasonal signal; interpretability and prediction intervals required
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Fewer than 2 full seasonal cycles; model convergence failure
 - Fallback model: Same period last year (naive seasonal) × trend factor
 - Logging & alerting: Alert if fallback rate > 15%
@@ -120,6 +135,7 @@ Combine:      (1 − φ_1B − ... − φ_pB^p)(1 − Φ_1B^m − ... − Φ_PB^
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_lgbm × LightGBM + w_stat × ETS/SARIMA + w_dl × TFT/NBEATS
 - Weight determination: Error-inverse weighting on rolling 4-period in-season WMAPE
 
@@ -132,11 +148,13 @@ Combine:      (1 − φ_1B − ... − φ_pB^p)(1 − Φ_1B^m − ... − Φ_PB^
 | ≥ 4 cycles | 40% | 25% | 35% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression + conformal prediction on seasonal residuals
 - Output: [P10, P50, P90] — wider at peak (higher uncertainty); narrower in trough
 - Use case: Pre-season buy quantity (P75–P90 for safety); post-season markdown trigger (P10 threshold)
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Peak cap: min(forecast, 1.5 × prior year same period peak demand)
 - Trough floor: max(forecast, 0) — allow zero in deep off-season
@@ -176,19 +194,24 @@ Combine:      (1 − φ_1B − ... − φ_pB^p)(1 − Φ_1B^m − ... − Φ_PB^
 | Yearly | Annually | No | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Peak forecast > 2 × prior year peak; seasonal index shift > 20% vs prior year; off-season demand unexpectedly non-zero for 3+ periods
 - Manual override process: Buyer pre-season sign-off; in-season reforecast approval; timestamp and reason logged
 - Override expiration: Per season unless permanent SI shift confirmed
 
 ### 12. Reclassification / Model Selection
+
 - Remove Seasonal driver: If ACF(seasonal lag) < 2/√n for 2 consecutive full cycles
 - Add Promotional driver: If promo uplift detected layered on seasonal signal
 - Add Event Driven driver: If one-time event distorts seasonal pattern
 - Switching logic: Driver flags are additive — seasonal flag removed if no longer significant
 
 ### 13. Review Cadence
+
 - Performance monitoring: Weekly in-season dashboard; monthly off-season check
 - Model review meeting: Pre-season review (6 weeks before peak); post-season debrief
 - Full model re-evaluation: Annually post full cycle; after any seasonal calendar change
+
+---
 
 ---

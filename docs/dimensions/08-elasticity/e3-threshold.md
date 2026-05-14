@@ -1,8 +1,15 @@
-## E3 · Threshold
+# Segment Model Template
+
+## Dimension 8 · Threshold
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where demand shows no meaningful response to stimulus below a critical activation threshold but responds strongly above it, requiring piecewise causal modelling with explicit threshold detection and non-linear response functions.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Categories with psychological price points (e.g. "nothing below 20% discount moves"), volume-deal trigger thresholds (e.g. bulk buy triggers at specific quantity), promotional activation thresholds in B2B
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs where demand shows no meaningful response to stimulus b
 - **Differentiation from other models:** Unlike Elastic, response is not proportional — there is a dead zone below the threshold; unlike Inelastic, large response does exist — just not at all stimulus levels; unlike Saturation, ceiling effect is not the primary feature — activation is
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Planning promotions below threshold — zero uplift; wasted promotional spend
 - **Primary risk (under-forecast):** Not deploying above-threshold stimulus when needed — missing demand surge opportunity
 - **Strategic importance:** High — threshold knowledge directly determines promotional effectiveness and ROI; knowing the activation point transforms trade planning
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Threshold value is a critical commercial input; incorrect threshold assumption wastes entire promotional budget or misses demand surge opportunity.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Piecewise Causal Model
+
 ```
 Below-threshold model (stimulus < T*):
   F_below(t) = baseline(t) × (1 + β_below × stimulus(t))
@@ -59,6 +69,7 @@ Threshold T* estimation:
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM with piecewise features (above-threshold indicator and excess features)
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, Uplift Accuracy above threshold
 - Key features: Above-threshold flag, excess above T*, stimulus level, promo type, baseline rolling mean, seasonal index
@@ -66,10 +77,12 @@ Threshold T* estimation:
 - When to use: Primary model — tree-based models naturally learn threshold-like splits
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT with stimulus level as known future covariate
 - When to use: When promotional plan is available as future input; history > 2 years with varied stimulus levels
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: Piecewise regression (threshold regression) + ARIMA residuals
 
 **Threshold Regression Formula:**
@@ -83,6 +96,7 @@ ln(Q_t) = α + β_below × stimulus_t × I(stimulus_t < T*)
 - When to use: Interpretability; threshold value reporting; trade planning
 
 #### 6.4 Baseline / Fallback Model
+
 - Below threshold: Baseline rolling mean (no uplift applied)
 - Above threshold: Baseline × category average elastic uplift
 - Alert if promotional plan does not specify whether stimulus is above or below T*
@@ -96,6 +110,7 @@ ln(Q_t) = α + β_below × stimulus_t × I(stimulus_t < T*)
 | Threshold vicinity (±5% of T*) | 40% | 20% | 40% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Scenario analysis — below threshold, at threshold, above threshold
 - Output:
 
@@ -108,6 +123,7 @@ ln(Q_t) = α + β_below × stimulus_t × I(stimulus_t < T*)
 - Bootstrap CI for T*: [T*_lower, T*_upper] — uncertainty in threshold value itself
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Threshold enforcement rule: If planned promo depth < T* → apply baseline forecast (no uplift); alert trade team
 - Above-threshold cap: min(above_threshold_forecast, 3 × baseline rolling mean)
@@ -127,15 +143,18 @@ ln(Q_t) = α + β_below × stimulus_t × I(stimulus_t < T*)
 | Yearly | < 8% | < 18% | T* within ±5% | \|Bias\| > 5% |
 
 #### 10.2 Backtesting Protocol
+
 - Separate backtesting for below-threshold and above-threshold periods
 - Leave-one-above-threshold-event-out for above-threshold model validation
 - Min events: ≥ 5 above-threshold and ≥ 5 below-threshold events
 
 #### 10.3 Retraining
+
 - Standard cadence per granularity
 - Additional trigger: Re-estimate T* on each promotional cycle completion — threshold may shift with market conditions
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: T* estimate shifts > 10% between estimations → alert and re-estimate; above-threshold response weakens (β_above drops) → reclassify to Elastic (if still responsive) or Saturation (if ceiling reached); below-threshold response grows → reclassify toward Elastic
 - Manual override: Trade team threshold challenge; market research input on psychological price points
 - Override expiration: Per promotional cycle
@@ -150,6 +169,9 @@ ln(Q_t) = α + β_below × stimulus_t × I(stimulus_t < T*)
 | Threshold T* approaches 50% (rarely above threshold) | Inelastic | 2 estimates |
 
 ### 13. Review Cadence
+
 - Monthly T* stability check; quarterly threshold re-estimation; annual trade planning alignment
+
+---
 
 ---

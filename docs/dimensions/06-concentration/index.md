@@ -1,4 +1,5 @@
 # Dimension 6 · Concentration Pattern
+
 ## Demand Forecasting Model Templates
 
 ---

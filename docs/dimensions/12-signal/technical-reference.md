@@ -1,175 +1,167 @@
-# PART 0 — SHARED FORMULA REFERENCE
-## Dimensions 9–12
+# PART 0 — FORMULA & THRESHOLD REFERENCE
+
+## Dimension 12 · Signal Pattern
 
 ---
 
-## 0.1 Timing Pattern Metrics
+---
 
-### A. Lead-Lag Correlation
+## 0.1 Core Segmentation Metrics
+
+### A. Signal-to-Noise Ratio (SNR)
+> Measures how much of demand variance is true signal vs random noise
+
 ```
-Cross-correlation at lag k:
-  CCF(k) = Σ[(d_t − d̄)(trigger_{t−k} − trigger̄)] / [n × σ_d × σ_trigger]
+STL decomposition:
+  d(t) = Trend(t) + Seasonal(t) + Remainder(t)
 
-Leading:    Max CCF at k < 0 (demand moves before trigger)
-Lagging:    Max CCF at k > 0 (demand moves after trigger)
-Coincident: Max CCF at k = 0 (demand moves with trigger)
+Signal component: Signal(t) = Trend(t) + Seasonal(t)
+Noise component:  Noise(t) = Remainder(t)
 
-Significant lag: |CCF(k)| > 2/√n
-```
+SNR = Var(Signal) / Var(Noise)
 
-| Granularity | Lag Range Tested | Trigger Variables |
-|---|---|---|
-| **Daily** | k = −30 to +30 days | Competitor price, weather, news sentiment, mobility index |
-| **Weekly** | k = −13 to +13 weeks | Category trend, promotional activity, macroeconomic index |
-| **Monthly** | k = −6 to +6 months | GDP, industrial output, consumer confidence |
-| **Quarterly** | k = −4 to +4 quarters | GDP growth, capital expenditure |
-| **Yearly** | k = −2 to +2 years | Macro economic cycle, population growth |
-
-### B. Demand Arrival vs Expected Timing
-```
-Expected timing: t_expected = estimated from historical pattern or trigger date
-Actual timing:   t_actual = date of demand event
-
-Timing deviation: dev_timing = t_actual − t_expected (periods)
-
-Leading:     Mean(dev_timing) < −1 period (demand arrives early)
-Lagging:     Mean(dev_timing) > +1 period (demand arrives late)
-Coincident:  |Mean(dev_timing)| ≤ 1 period (demand on time)
-Deferred:    Mean(dev_timing) > granularity-specific threshold (demand significantly delayed)
-Accelerated: Mean(dev_timing) < −granularity-specific threshold (demand significantly pulled forward)
+SNR > 4.0 → Pure Signal  (noise < 20% of total variance)
+SNR 1.0–4.0 → Moderate noise
+SNR < 1.0 → Noisy  (noise > 50% of total variance)
 ```
 
-| Granularity | Deferred Threshold | Accelerated Threshold |
-|---|---|---|
-| **Daily** | dev > +7 days | dev < −7 days |
-| **Weekly** | dev > +3 weeks | dev < −3 weeks |
-| **Monthly** | dev > +2 months | dev < −2 months |
-| **Quarterly** | dev > +1 quarter | dev < −1 quarter |
-| **Yearly** | dev > +1 year | dev < −1 year |
+| Granularity | STL Window | Min History for STL | Pure Signal | Noisy |
+|---|---|---|---|---|
+| **Daily** | Seasonal period = 7 or 365 | ≥ 365 days | SNR > 4.0 | SNR < 1.0 |
+| **Weekly** | Seasonal period = 52 | ≥ 104 weeks | SNR > 4.0 | SNR < 1.0 |
+| **Monthly** | Seasonal period = 12 | ≥ 24 months | SNR > 4.0 | SNR < 1.0 |
+| **Quarterly** | Seasonal period = 4 | ≥ 8 quarters | SNR > 3.0 | SNR < 0.8 |
+| **Yearly** | No seasonal | ≥ 5 years | SNR > 2.0 | SNR < 0.5 |
 
 ---
 
-## 0.2 Recurrence Pattern Metrics
+### B. Distortion Index (DI)
+> Measures systematic difference between observed and true demand
 
-### A. Inter-Arrival Time Statistics
 ```
-Inter-arrival time: IAT_i = t_i − t_{i-1} (periods between consecutive demand events)
-Mean IAT: μ_IAT = (1/n) × Σ IAT_i
-Std IAT:  σ_IAT = sqrt[(1/(n-1)) × Σ(IAT_i − μ_IAT)²]
-CV_IAT:   CV_IAT = σ_IAT / μ_IAT
+Distortion Index:
+  DI(t) = |d_observed(t) − d_true_estimate(t)| / d_true_estimate(t)
 
-Regular:   CV_IAT < 0.20 (highly consistent intervals)
-Irregular: 0.20 ≤ CV_IAT < 0.60 (variable but recurring)
-One Time:  n = 1 (single demand event observed)
-```
-
-### B. Recurrence Rate Trend
-```
-Recurrence rate at time t: RR(t) = demand events in rolling window / window length
-Trend in RR: Mann-Kendall test on RR(t) series
-
-Declining Recurrence: Mann-Kendall p < 0.05; Z < 0 (demand frequency decreasing)
-Growing Recurrence:   Mann-Kendall p < 0.05; Z > 0 (demand frequency increasing)
-```
-
-| Granularity | Rolling Window for RR | Trend Window |
-|---|---|---|
-| **Daily** | 90-day | 180-day MK test |
-| **Weekly** | 26-week | 52-week MK test |
-| **Monthly** | 12-month | 24-month MK test |
-| **Quarterly** | 4-quarter | 8-quarter MK test |
-| **Yearly** | 3-year | 5-year MK test |
-
----
-
-## 0.3 Interaction Pattern Metrics
-
-### A. Cross-SKU Correlation
-```
-Pearson correlation between SKU_A and SKU_B demand:
-  r(A,B) = Σ[(d_A(t) − d̄_A)(d_B(t) − d̄_B)] / [n × σ_A × σ_B]
-
-Complementary: r > +0.50 (demand moves together)
-Substitution:  r < −0.30 AND SKU_B stockout → SKU_A spike
-Cannibalistic: r < −0.30 AND SKU_A grows → SKU_B shrinks
-Halo:          r > +0.40 AND causal direction (hero → follower)
-Independent:   |r| < 0.20
-```
-
-### B. Substitution Detection
-```
-Substitution event: Period where SKU_B is OOS (stockout)
-                    AND SKU_A demand spikes > 1.5σ above baseline
-
-Substitution rate: sub_rate = mean(d_A during SKU_B OOS) / mean(d_A during SKU_B available) − 1
-
-Significant substitution: sub_rate > 0.20 AND confirmed in ≥ 3 OOS events
-```
-
-### C. Cannibalism Detection
-```
-Cannibalism coefficient: δ = ΔQ_B / ΔQ_A (demand lost from B per unit gained by A)
-
-Estimated via regression:
-  ΔQ_B(t) = α + δ × ΔQ_A(t) + β × controls(t) + ε(t)
-  δ < 0 → A cannibalises B; |δ| = cannibalism rate
-  Significant: p < 0.05 for δ AND |δ| > 0.15
-```
-
----
-
-## 0.4 Signal Pattern Metrics
-
-### A. Signal Noise Ratio
-```
-Signal-to-Noise Ratio (SNR):
-  Signal component: Trend + Seasonal = fitted values from STL decomposition
-  Noise component:  Residual from STL decomposition
-
-  SNR = Var(Signal) / Var(Noise)
-  SNR > 4.0 → Pure Signal (noise < 20% of total variance)
-  SNR 1.0–4.0 → Moderate noise
-  SNR < 1.0 → Noisy (noise > 50% of total variance)
-```
-
-### B. Distortion Detection
-```
-Distortion factors: Supply constraints, returns, order cancellations, reporting errors
-Distortion index: DI = |d_observed(t) − d_true_estimate(t)| / d_true_estimate(t)
+d_true_estimate options:
+  1. Fill rate adjustment: d_true = d_observed / Fill_Rate(t)
+  2. Pre-distortion rolling mean (if distortion dates known)
+  3. Category index proxy: d_true = d_observed × (Category_growth / SKU_growth_pre_distortion)
 
 Distorted: DI > 0.15 in > 20% of periods
-Pure: DI < 0.10 in > 90% of periods
-
-d_true_estimate(t) = unconstrained demand (Section D6 — Supply Constrained driver)
+Pure:      DI < 0.10 in > 90% of periods
 ```
 
-### C. Bullwhip Amplification
-```
-Bullwhip effect: Order variance amplifies upstream from retail to distributor to manufacturer
+| Granularity | Distortion Threshold | Pure Threshold | Computation Window |
+|---|---|---|---|
+| **Daily** | DI > 0.15 in > 20% of days | DI < 0.10 in > 90% of days | 90-day rolling |
+| **Weekly** | DI > 0.15 in > 20% of weeks | DI < 0.10 in > 90% of weeks | 52-week rolling |
+| **Monthly** | DI > 0.15 in > 20% of months | DI < 0.10 in > 90% of months | 24-month rolling |
+| **Quarterly** | DI > 0.15 in > 20% of quarters | DI < 0.10 in > 90% of quarters | 8-quarter rolling |
+| **Yearly** | DI > 0.15 in > 20% of years | DI < 0.10 in > 90% of years | 3-year rolling |
 
-Amplification ratio: AR = Var(Orders_upstream) / Var(Orders_downstream)
-AR > 1.5 → Amplified signal (upstream orders more variable than downstream demand)
+---
+
+### C. Bullwhip Amplification Ratio (AR)
+> Measures how much upstream order variance exceeds downstream demand variance
+
+```
+Amplification Ratio:
+  AR = Var(Orders_upstream) / Var(d_downstream)
+
+AR > 1.5 → Amplified signal (upstream orders much more variable than true demand)
+AR 1.2–1.5 → Mild amplification
 AR < 1.2 → Clean signal (minimal amplification)
 
-Measured at each supply chain tier where data available
+De-amplification smoothing factor:
+  α_deamp = 2 / (AR + 1)   [derived from AR]
+  Higher AR → lower α → more smoothing required
 ```
 
-### D. Lag Between Signal and Consumption
-```
-Signal lag: L = t_order − t_consumption (periods between order and actual use)
-Measured from order data vs consumption/POS data
+| Granularity | AR Estimation Window | Amplified Threshold | Clean Threshold |
+|---|---|---|---|
+| **Daily** | 90-day rolling | AR > 1.5 | AR < 1.2 |
+| **Weekly** | 52-week rolling | AR > 1.5 | AR < 1.2 |
+| **Monthly** | 24-month rolling | AR > 1.5 | AR < 1.2 |
+| **Quarterly** | 8-quarter rolling | AR > 1.5 | AR < 1.2 |
+| **Yearly** | 3-year rolling | AR > 1.5 | AR < 1.2 |
 
-Lagged Signal: Mean(L) > granularity threshold
-  Daily: L > 3 days
-  Weekly: L > 1 week
-  Monthly: L > 1 month
-  Quarterly: L > 1 quarter
-  Yearly: L > 6 months
+---
+
+### D. Signal Lag
+> Measures systematic delay between observed orders and true consumption
+
+```
+Signal lag estimation:
+  L = argmax CCF(d_observed, d_consumption)   for k = 0 to H
+  where d_consumption = POS/consumption data (if available)
+
+Signal lag confirmed: L > granularity threshold AND |CCF(L)| > 2/√n
+
+Alternative (no consumption data):
+  Estimate L from order-to-shipment-to-consumption pipeline:
+  L = order_lead_time + transit_time + customer_hold_time
+```
+
+| Granularity | Lagged Signal Threshold | Estimation Method |
+|---|---|---|
+| **Daily** | L > 3 days | CCF vs POS; or supply chain pipeline L |
+| **Weekly** | L > 1 week | CCF vs POS; or pipeline L |
+| **Monthly** | L > 1 month | CCF vs consumption data; or pipeline |
+| **Quarterly** | L > 1 quarter | Pipeline estimation |
+| **Yearly** | L > 6 months | Pipeline estimation |
+
+---
+
+## 0.2 Signal Classification Decision Rules
+
+```
+STEP 1: Check for supply constraint or reporting issues
+  Stockout events > threshold → FLAG as Distorted (supply constraint)
+  Returns > 10% of gross demand → FLAG as Distorted (returns)
+  Reporting gaps > 5% of periods → FLAG as Distorted (data quality)
+
+STEP 2: Compute SNR via STL decomposition
+  SNR > 4.0 → Pure Signal candidate (proceed to STEP 3)
+  SNR < 1.0 → Noisy
+
+STEP 3: Compute DI (if distortion suspected)
+  DI > 0.15 in > 20% periods → Distorted
+  DI < 0.10 in > 90% periods → Pure Signal confirmed
+
+STEP 4: Compute AR (if upstream order data available)
+  AR > 1.5 → Amplified
+
+STEP 5: Estimate signal lag L (if POS or consumption data available)
+  L > granularity threshold → Lagged Signal
+
+STEP 6: Default
+  No issues detected → Pure Signal
 ```
 
 ---
 
-## 0.5 Shared Rolling Window Reference
+## 0.3 Noise Reduction Methods
+
+```
+Hodrick-Prescott (HP) Filter:
+  min_τ Σ(d_t − τ_t)² + λ × Σ(Δ²τ_t)²
+  Daily: λ = 1,600 | Weekly: λ = 6,760 | Monthly: λ = 1,600
+  Quarterly: λ = 1,600 | Yearly: λ = 6.25
+
+Kalman Filter State Space:
+  State:       α(t) = T × α(t-1) + R × η(t)   η ~ N(0,Q)
+  Observation: d(t) = Z × α(t) + ε(t)          ε ~ N(0,H)
+  H >> Q → noisy observations; smooth state estimated from noisy signal
+
+Wavelet Denoising:
+  Decompose d(t) into wavelet coefficients
+  Threshold small coefficients (noise)
+  Reconstruct from thresholded coefficients
+```
+
+---
+
+## 0.4 Rolling Window Reference
 
 | Window | Daily | Weekly | Monthly | Quarterly | Yearly |
 |---|---|---|---|---|---|
@@ -181,24 +173,31 @@ Lagged Signal: Mean(L) > granularity threshold
 
 ---
 
-## 0.6 Shared Accuracy Metrics
+## 0.5 Accuracy Metrics
 
 ```
-WMAPE = Σ|Forecast_t − Actual_t| / Σ Actual_t × 100
-Bias  = Σ(Forecast_t − Actual_t) / Σ Actual_t × 100
-MAE   = (1/n) × Σ|Forecast_t − Actual_t|
-MASE  = MAE_model / MAE_naive
-Pinball(α) = α × (Actual − Q_α)_+ + (1−α) × (Q_α − Actual)_+
-Coverage  = P(Actual ∈ [P10,P90])   Target: 80%
+WMAPE   = Σ|Forecast_t − Actual_t| / Σ Actual_t × 100
+Bias    = Σ(Forecast_t − Actual_t) / Σ Actual_t × 100
+MAE     = (1/n) × Σ|Forecast_t − Actual_t|
+
+Signal-specific metrics:
+  SNR Post-Correction   (Target > 2.0 after noise reduction)
+  DI Post-Correction    (Target < 0.10 after distortion removal)
+  AR Post-De-amplification (Target < 1.2 after de-amplification)
+  Downstream Alignment  = r(corrected_forecast, POS_actuals)  (Target > 0.70)
+  Overfitting Check     = Validation WMAPE / Train WMAPE  (Target < 1.20)
 ```
 
 ---
 
-# DIMENSION 9 — TIMING PATTERN
+## 0.6 Retraining & Backtesting Reference
+
+| Granularity | Retraining | Latency | Train | Test |
+|---|---|---|---|---|
+| **Daily** | Daily | T+4 hours | 180 days | 30 days |
+| **Weekly** | Weekly | T+1 day | 52 weeks | 13 weeks |
+| **Monthly** | Monthly | T+2 days | 24 months | 6 months |
+| **Quarterly** | Quarterly | T+3 days | 8 quarters | 2 quarters |
+| **Yearly** | Annually | T+7 days | All available | 1 year |
 
 ---
-
----
-
-# PART 1 — SEGMENT TEMPLATES
-

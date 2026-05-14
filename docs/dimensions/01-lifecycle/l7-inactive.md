@@ -1,8 +1,15 @@
-## L7 · Inactive
+# Segment Model Template
+
+## Dimension 1 · Inactive
+
+---
+
 ### 1. Definition
+
 Assigns zero forecast to SKUs with zero demand beyond the inactive threshold while continuously monitoring for reactivation signals to enable rapid lifecycle graduation.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Obsolete SKUs, delisted products, seasonal items in off-season, temporarily suspended lines
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Assigns zero forecast to SKUs with zero demand beyond the inactive threshold whi
 - **Differentiation from other models:** Unlike Phasing Out, no planned end date may exist — item may reactivate; unlike Cold Start, has prior demand history available
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Stock build for items with no demand — pure waste
 - **Primary risk (under-forecast):** Missing reactivation signal — lost sales on relaunch
 - **Strategic importance:** Low for pure obsoletes; high for seasonal items approaching active season
 
 ### 4. Priority Level
+
 🟡 Tier 3 — Monitoring only; exception-driven rather than routine forecasting.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Reactivation Classifier (Hurdle)
+
 - Default forecast: 0 (no model runs unless reactivation triggered)
 - Reactivation trigger: P(reactivation) > 0.60
 - Classifier type: Logistic Regression
@@ -41,9 +51,11 @@ Assigns zero forecast to SKUs with zero demand beyond the inactive threshold whi
 | Yearly | Annual scan | Long-cycle demand pattern, macro index |
 
 #### 5.2 Analogue / Similarity Logic
+
 - Not applicable unless reactivation detected — graduate to Cold Start on trigger
 
 #### 5.3 Feature Engineering
+
 - Periods since last non-zero demand
 - Prior year same-period demand (if available)
 - Seasonal index for current period
@@ -53,28 +65,35 @@ Assigns zero forecast to SKUs with zero demand beyond the inactive threshold whi
 ### 6. Model Families
 
 #### 6.1 Machine Learning
+
 - Reactivation classifier only: Logistic Regression
 - Features: Periods since last demand, prior year demand, seasonal flag, category trend index
 - Metric: Sensitivity (recall) on reactivation events — minimise missed reactivations
 
 #### 6.2 Deep Learning
+
 - Not applicable — default zero forecast
 
 #### 6.3 Statistical
+
 - Not applicable — default zero forecast
 
 #### 6.4 Baseline / Fallback
+
 - Default: Zero forecast always
 - Immediate alert on any non-zero demand observation
 
 ### 7. Ensemble & Weighting
+
 - Not applicable — zero forecast by default; no ensemble
 
 ### 8. Uncertainty Quantification
+
 - Binary probability: P(reactivation) reported weekly to planners
 - Alert dashboard: SKUs with P(reactivation) > 0.40 flagged as watchlist
 
 ### 9. Business Rules & Post-Processing
+
 - Forecast = 0 unless P(reactivation) > 0.60
 - On trigger: Immediately graduate to Cold Start model — no blending
 - Manual overrides: Relaunch plan input by commercial team — overrides classifier threshold
@@ -115,6 +134,7 @@ Assigns zero forecast to SKUs with zero demand beyond the inactive threshold whi
 | Yearly | Annually | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Any non-zero demand observation after inactive threshold — immediate system alert
 - Manual override: Commercial team relaunch flag → graduate to Cold Start immediately, bypass classifier
 - Override expiration: Permanent until reclassification completes
@@ -128,11 +148,9 @@ Assigns zero forecast to SKUs with zero demand beyond the inactive threshold whi
 | Commercial relaunch flag set | Cold Start | Immediate hard switch |
 
 ### 13. Review Cadence
+
 - Performance monitoring: Per granularity cycle — reactivation watchlist dashboard
 - Model review meeting: Monthly obsolescence and reactivation review
 - Full model re-evaluation: Semi-annually
 
 ---
-
-*End of Dimension 1 · Lifecycle Pattern*
-*7 Segments Complete · L1 through L7*

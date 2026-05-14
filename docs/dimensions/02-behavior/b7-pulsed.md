@@ -1,8 +1,15 @@
-## B7 · Pulsed
+# Segment Model Template
+
+## Dimension 2 · Pulsed
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with regular inter-arrival intervals and consistent quantities, where demand arrives in predictable bulk pulses — typically driven by periodic ordering behavior rather than underlying consumption patterns.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** B2B periodic procurement, regular bulk orders, contract call-offs, distributor stocking orders
 - **Boundaries:**
 
@@ -18,22 +25,26 @@ Predicts demand for SKUs with regular inter-arrival intervals and consistent qua
 - **Differentiation:** Unlike Intermittent, inter-arrival intervals are regular (CV_arrival < 0.30); unlike Stable, demand does not occur every period; unlike Lumpy, quantity variance is low
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Stock build between pulse events
 - **Primary risk (under-forecast):** Shortage when pulse arrives — often large quantity impact
 - **Strategic importance:** High in B2B — pulse timing is the critical forecast dimension
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Timing accuracy is more important than quantity accuracy for this segment.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Hurdle (Timing Model)
+
 - Primary task: Predict when next pulse will occur
 - Threshold: P(pulse in period t) > 0.50
 - Classifier: Logistic Regression on inter-arrival time features
 - Quantity model: Rolling non-zero mean (quantity is stable — low CV²)
 
 #### 5.2 Analogue Logic
+
 - k = 3 (pulsed SKUs from same customer or category)
 - Similarity: Inter-arrival mean ±1 period, CV² ±0.1, customer type
 
@@ -50,6 +61,7 @@ Predicts demand for SKUs with regular inter-arrival intervals and consistent qua
 ### 6. Model Families
 
 #### 6.1 ML: Two-stage — Logistic Regression (timing) + Rolling Mean (quantity)
+
 #### 6.2 DL: DeepAR — handles periodic patterns with zero inflation
 
 | Granularity | Lookback | Features |
@@ -81,10 +93,12 @@ Predicts demand for SKUs with regular inter-arrival intervals and consistent qua
 | > 20 events | 50% | 25% | 25% |
 
 ### 8. Uncertainty Quantification
+
 - [P10, P50, P90] — narrower than Intermittent due to regular timing
 - Primary uncertainty: Timing of pulse (±1–2 periods); quantity uncertainty is low
 
 ### 9. Business Rules
+
 - Forecast = 0 outside predicted pulse window (P(pulse) < 0.50)
 - Pulse window: Center on predicted timing ± half inter-arrival std
 
@@ -99,6 +113,7 @@ Predicts demand for SKUs with regular inter-arrival intervals and consistent qua
 | Yearly | Pulse predicted within ±1 year | < 10% | \|Bias\| > 6% |
 
 ### 11. Exception Handling
+
 - Alert: Pulse expected but not arrived within 2× mean inter-arrival — check supply and customer status
 - Alert: Inter-arrival CV rises above 0.30 for 5 events → reclassify to Intermittent
 
@@ -111,6 +126,9 @@ Predicts demand for SKUs with regular inter-arrival intervals and consistent qua
 | ADI drops below threshold for 8 periods | Stable | 8 periods |
 
 ### 13. Review Cadence
+
 - Per pulse event review; monthly pulsed portfolio review; quarterly full re-evaluation
+
+---
 
 ---

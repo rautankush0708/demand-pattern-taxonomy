@@ -1,30 +1,41 @@
-## L5 · Decline
+# Segment Model Template
+
+## Dimension 1 · Decline
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with a statistically confirmed negative demand slope, requiring trend-aware models with downward bias controls to avoid systematic over-forecasting and inventory accumulation.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Ageing products, distribution losses, category contraction, competitive displacement
 - **Boundaries:** History ≥ New Launch upper bound; Mann-Kendall p < 0.05 negative slope
 - **Key demand characteristics:** Consistent downward slope, shrinking volume, possibly rising CV² as volume drops
 - **Differentiation from other models:** Unlike Phasing Out, decline is market-driven not supply-decision-driven; unlike Inactive, demand still exists
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Excess inventory accumulation — write-offs and obsolescence dominant risk
 - **Primary risk (under-forecast):** Minimal concern — declining SKU stockouts are low priority
 - **Strategic importance:** Medium — inventory risk and write-off prevention are primary objectives
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Over-forecast risk dominates; inventory write-off prevention is key business objective.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.50 — declining SKUs approach zero over time
 - Classifier type: Logistic Regression with trend features
 - Regressor type: LightGBM with negative slope features
 - Fallback when disagree: Forecast = 0 if classifier < 0.50
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 3 (declining SKUs from same category)
 - Similarity criteria: Category, decline rate (weekly slope coefficient), volume at decline start
 - Temporal decay weight: weight = exp(−age / half-life)
@@ -54,16 +65,19 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, r
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM with downward bias correction
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, MAE
 - Key features: Slope coefficient, periods since peak, rolling mean, distribution loss rate, category index
 - When to use: Primary model
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: Not recommended — complexity unwarranted for declining SKUs
 - When to use: Not applicable
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: ETS(A,A,N) with damped trend — prevents over-extrapolation of decline
 
 | Granularity | Damping Factor (phi) |
@@ -77,6 +91,7 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, r
 - When to use: When interpretability needed; damped trend prevents forecast crossing zero prematurely
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: Slope reversal for 3+ consecutive periods
 - Fallback model: Short rolling mean — conservative hold
 - Logging & alerting: Alert if fallback rate > 20%
@@ -84,6 +99,7 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, r
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_lgbm × LightGBM + w_ets × ETS(damped)
 - Weight determination: Error-inverse weighting on 4-period rolling MAE
 
@@ -95,11 +111,13 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, r
 | Late decline (steep slope, rising CV²) | 50% | 50% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression
 - Output: [P10, P50, P90]
 - Use case: P10 for minimum buy; P50 for base; P90 for worst-case inventory cover
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Capping: min(forecast, prior period rolling mean) — prevent upward drift in forecast
 - Manual overrides: Delisting date input; clearance promotion flags
@@ -128,6 +146,7 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, r
 | Yearly | Annually | No | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Forecast > prior rolling mean; slope reversal for 3+ consecutive periods
 - Manual override process: Supply chain planner sign-off; reason code logged
 - Override expiration: Single cycle
@@ -143,8 +162,11 @@ Predicts demand for SKUs with a statistically confirmed negative demand slope, r
 | Yearly | 0 demand ≥ 1 consecutive year | Slope reverses positive p < 0.05 for 2 windows | Inactive = hard; Mature = soft blend 2 years |
 
 ### 13. Review Cadence
+
 - Performance monitoring: Per cycle — over-forecast alert primary watch item
 - Model review meeting: Bi-weekly — focus on obsolescence risk
 - Full model re-evaluation: Quarterly or on delisting decision
+
+---
 
 ---

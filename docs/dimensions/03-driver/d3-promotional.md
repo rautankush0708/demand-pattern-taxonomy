@@ -1,8 +1,15 @@
-## D3 · Promotional
+# Segment Model Template
+
+## Dimension 3 · Promotional
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where internal pricing and trade promotion activities cause statistically significant demand uplifts, requiring promotion calendar integration, uplift modelling, and post-promotion dip correction.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Price promotions, multi-buy offers, display/feature promotions, trade deal periods, loyalty reward events, clearance sales
 - **Boundaries:**
 
@@ -18,21 +25,25 @@ Predicts demand for SKUs where internal pricing and trade promotion activities c
 - **Differentiation from other models:** Unlike Event Driven, promotions are internally controlled and planned; unlike Seasonal, timing is commercially set not calendar-driven; post-promo dip is a distinct Promotional characteristic
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Excess promotional stock left after promotion ends; post-promo inventory overhang
 - **Primary risk (under-forecast):** Out-of-stock during promotion — lost sales at promoted price; retailer penalty
 - **Strategic importance:** Very high — promotional ROI is directly linked to forecast accuracy
 
 ### 4. Priority Level
+
 🔴 Tier 1 — Promotional forecast errors have immediate P&L impact; over-stock post-promo forces clearance at further discount.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Zero-Demand Handling (Hurdle)
+
 - Active event threshold: P(demand > 0) > 0.85 during promotion; standard threshold in baseline
 - Classifier: Rule-based — promotional period always active
 - Regressor: LightGBM with promotion depth and type features
 
 #### 5.2 Analogue / Similarity Logic
+
 - Number of analogues: k = 5 (prior promotions of same type on same or similar SKU)
 - Similarity criteria: Promotion type (price/multi-buy/display), discount depth ±5%, category, season
 - Temporal decay: weight = exp(−age / half-life)
@@ -76,6 +87,7 @@ Uplift factor:      Estimated = f(promo_depth, promo_type, category_elasticity)
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM — separate models for promotional and baseline periods
 - Configuration (promo model): Objective = reg:squarederror; Metric = WMAPE, Uplift Accuracy
 - Configuration (baseline model): Objective = reg:squarederror; Metric = WMAPE
@@ -83,6 +95,7 @@ Uplift factor:      Estimated = f(promo_depth, promo_type, category_elasticity)
 - When to use: Primary model when ≥ 5 prior promotions in history
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT with promotion calendar as known future covariate
 
 | Granularity | Lookback | Future Covariates | Output |
@@ -97,6 +110,7 @@ Uplift factor:      Estimated = f(promo_depth, promo_type, category_elasticity)
 - When to use: When promo calendar available as future input; complex promo patterns
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: RegARIMA with promotion dummy variables + post-promo dip correction
 
 **Promotional Uplift Model:**
@@ -112,6 +126,7 @@ promo_type_factor = {price_cut: 1.0, multibuy: 0.8, display: 0.6, TPR: 0.9}
 - When to use: Interpretability required; uplift coefficients needed for trade planning
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback triggers: No prior promotions; promotion calendar missing
 - Fallback model: Baseline forecast × category average uplift factor for promotion type
 - Logging & alerting: Alert if promo period detected without model coverage; alert if post-promo dip not modelled
@@ -119,6 +134,7 @@ promo_type_factor = {price_cut: 1.0, multibuy: 0.8, display: 0.6, TPR: 0.9}
 ### 7. Ensemble & Weighting
 
 #### 7.1 Ensemble Scheme
+
 - Combination: D̂_t = w_lgbm × LightGBM + w_tft × TFT + w_stat × RegARIMA
 - Weight determination: Error-inverse on promotional period WMAPE
 
@@ -131,11 +147,13 @@ promo_type_factor = {price_cut: 1.0, multibuy: 0.8, display: 0.6, TPR: 0.9}
 | > 10 promotions | 60% | 30% | 10% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Quantile regression on promotional residuals
 - Output: [P10, P50, P90] — wider during promotion; narrower in baseline
 - Use case: Promotional stock buy = P75; post-promo rundown = P25 for residual stock
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Promo cap: min(forecast, 3 × baseline rolling mean)
 - Post-promo dip: max(forecast_postpromo, 0.5 × baseline) — prevent over-correction
@@ -175,18 +193,23 @@ promo_type_factor = {price_cut: 1.0, multibuy: 0.8, display: 0.6, TPR: 0.9}
 | Yearly | Annually | On annual plan | T+7 days |
 
 ### 11. Exception Handling & Overrides
+
 - Automatic exception detection: Promo period demand < baseline (promotion had no effect → flag for review); post-promo demand > promo demand (demand timing anomaly); forecast > 3 × baseline during non-promo period
 - Manual override process: Trade manager promo depth confirmation; display uplift manual input; logistics team stock availability confirmation
 - Override expiration: Per promotion occurrence
 
 ### 12. Reclassification / Model Selection
+
 - Remove Promotional driver: If uplift consistently < 10% across last 5 promotions (promotion-insensitive)
 - Promote to Event Driven: If promotions are discrete, non-recurring events rather than regular trade activity
 - Add Seasonal driver: If promotional calendar aligns with seasonal peaks
 
 ### 13. Review Cadence
+
 - Performance monitoring: Per promotion debrief within 1 week post-promotion end
 - Model review meeting: Monthly promotional planning review with trade/commercial team
 - Full model re-evaluation: Quarterly or after major promotional strategy change
+
+---
 
 ---

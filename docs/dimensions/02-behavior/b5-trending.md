@@ -1,8 +1,15 @@
-## B5 · Trending
+# Segment Model Template
+
+## Dimension 2 · Trending
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs with a statistically confirmed directional slope (either positive or negative) that sits within the Stable/Slow Mover CV²-ADI quadrant, requiring trend-aware models to avoid systematic directional bias.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Gradually growing or declining product lines without discrete lifecycle reclassification trigger, slow burn trends, gradual market share shifts
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs with a statistically confirmed directional slope (eithe
 - **Differentiation:** Unlike Stable, a trend exists; unlike Growth/Decline Lifecycle, this is behavioral — the Lifecycle segment may be Mature but demand still has a trend component
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Over-forecast on downward trending SKUs — inventory build
 - **Primary risk (under-forecast):** Under-forecast on upward trending SKUs — stockouts
 - **Strategic importance:** Medium-high — trend direction determines inventory strategy
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Trend models prevent systematic directional bias; medium complexity.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Hurdle
+
 - Threshold: P(demand > 0) > 0.75 — trending SKUs are regularly demanded
 - Regressor: LightGBM / ETS with trend component
 
@@ -44,6 +54,7 @@ Predicts demand for SKUs with a statistically confirmed directional slope (eithe
 ### 6. Model Families
 
 #### 6.1 ML: LightGBM with slope and direction features
+
 - Regressor: reg:squarederror | WMAPE, RMSE
 
 #### 6.2 DL: TFT — captures trend via attention mechanism
@@ -69,10 +80,12 @@ Predicts demand for SKUs with a statistically confirmed directional slope (eithe
 | > 12 months equiv. | 50% | 40% | 10% |
 
 ### 8. Uncertainty Quantification
+
 - Quantile regression: [P10, P50, P90]
 - Upward trend: P75 for safety stock; downward trend: P50 for base (conservative)
 
 ### 9. Business Rules
+
 - Capping: Upward — min(forecast, 2 × rolling max); Downward — max(forecast, 0) with decay cap
 - Manual overrides: Commercial confirmation of trend continuation/reversal
 
@@ -87,6 +100,7 @@ Predicts demand for SKUs with a statistically confirmed directional slope (eithe
 | Yearly | < 12% | Directional Bias > 5% |
 
 ### 11. Exception Handling
+
 - Alert: Trend reversal for 3 consecutive periods → evaluate reclassification to Stable
 
 ### 12. Reclassification
@@ -98,6 +112,9 @@ Predicts demand for SKUs with a statistically confirmed directional slope (eithe
 | ADI rises above threshold | Lumpy or Intermittent | 8 periods |
 
 ### 13. Review Cadence
+
 - Per cycle with slope monitor; bi-weekly review; quarterly full re-evaluation
+
+---
 
 ---

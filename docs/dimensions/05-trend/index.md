@@ -1,4 +1,5 @@
 # Dimension 5 · Trend Pattern
+
 ## Demand Forecasting Model Templates
 
 ---

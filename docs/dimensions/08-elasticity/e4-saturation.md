@@ -1,8 +1,15 @@
-## E4 · Saturation
+# Segment Model Template
+
+## Dimension 8 · Saturation
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs where demand response to stimulus follows a diminishing returns curve, reaching a maximum ceiling beyond which additional stimulus generates negligible incremental demand, requiring non-linear causal models and saturation-aware promotional investment optimisation.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Market-penetration-limited categories, loyalty-capped demand, population-constrained categories, categories where all reachable customers have already responded, high-frequency-purchase categories where stockpiling is limited
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs where demand response to stimulus follows a diminishing
 - **Differentiation from other models:** Unlike Elastic, response is not proportional — it decelerates with stimulus; unlike Threshold, response starts immediately (no dead zone); unlike Inelastic, there IS a strong response — just with a ceiling
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Over-estimating ceiling — deploying excessive promotional spend beyond saturation point
 - **Primary risk (under-forecast):** Under-deploying promotion below saturation — leaving demand unrealised
 - **Strategic importance:** High — Q_max defines the revenue ceiling for promotional investment; optimal promotional depth is the inflection point of ROI curve
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Non-linear model required; primary business value is defining optimal promotional depth and ROI ceiling.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Saturation Curve Model
+
 ```
 Logistic saturation model:
   Q(t) = Q_max / (1 + e^{−λ × (stimulus(t) − T_mid)})
@@ -59,12 +69,14 @@ Optimal promotional depth (ROI maximisation):
 ### 6. Model Families
 
 #### 6.1 Machine Learning (ML)
+
 - Architectures: LightGBM with non-linear stimulus features (stimulus^0.5, stimulus^2, saturation ratio)
 - Configuration: Objective = reg:squarederror; Metric = WMAPE, Uplift Accuracy
 - Key features: Stimulus^0.5 (primary non-linear feature), saturation ratio, baseline rolling mean, seasonal index, promo type
 - When to use: Primary model — non-linear features enable tree models to learn saturation curve
 
 #### 6.2 Deep Learning (DL)
+
 - Architectures: TFT with non-linear stimulus encoding as known future covariate
 
 | Granularity | Lookback | Future Covariates | Output |
@@ -76,6 +88,7 @@ Optimal promotional depth (ROI maximisation):
 | Yearly | 5 years | Annual promo plan | P10, P50, P90 |
 
 #### 6.3 Statistical / Time Series Models
+
 - Architectures: Non-linear least squares (NLS) — logistic saturation curve
 
 **NLS Saturation Fitting:**
@@ -89,6 +102,7 @@ Starting values: Q_max_0 = 1.5 × max(Q_observed); λ_0 = 0.05
 - When to use: Interpretability; Q_max reporting; ROI curve generation for trade planning
 
 #### 6.4 Baseline / Fallback Model
+
 - Fallback: Baseline × min(saturation_factor, 2.0) where saturation_factor based on historical mean uplift at current stimulus level
 - Alert if Q_max estimate changes > 20% between estimations
 
@@ -101,6 +115,7 @@ Starting values: Q_max_0 = 1.5 × max(Q_observed); λ_0 = 0.05
 | High (> 90% of saturation point — near ceiling) | 30% | 20% | 50% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Q_max bootstrap CI + quantile regression on residuals
 - Output: [P10, P50, P90] — P90 capped at Q_max upper confidence bound
 - Key output: Q_max estimate + 90% CI for trade planning
@@ -115,6 +130,7 @@ For each stimulus level s ∈ {0%, 5%, 10%, ..., 50%}:
 ```
 
 ### 9. Business Rules & Post-Processing
+
 - Non-negativity: max(0, forecast)
 - Ceiling enforcement: max(forecast, 0); min(forecast, Q_max × 1.05) — hard ceiling with 5% buffer
 - Over-promotion flag: If planned stimulus > optimal s* → alert trade team; ROI negative beyond s*
@@ -134,15 +150,18 @@ For each stimulus level s ∈ {0%, 5%, 10%, ..., 50%}:
 | Yearly | < 8% | < 15% | Q_max within ±6% | ROI peak within ±5% | \|Bias\| > 5% |
 
 #### 10.2 Backtesting Protocol
+
 - Validate Q_max estimate on held-out near-ceiling promotional events
 - Leave-one-out on events at different stimulus levels
 - Min events: ≥ 3 events at stimulus levels > 80% of saturation point
 
 #### 10.3 Retraining
+
 - Standard cadence per granularity
 - Re-estimate Q_max quarterly — saturation ceiling may shift with distribution or market size changes
 
 ### 11. Exception Handling & Overrides
+
 - Auto-detect: Q_max rises significantly (> 20%) → market expansion detected; re-evaluate saturation model; β₂ rises above 0.80 → diminishing returns weakening → reclassify to Elastic; Q_max approaches zero (category collapse) → Lifecycle: Decline
 - Manual override: Market expansion plan (new distribution, new geography) that raises effective Q_max; trade team ceiling challenge
 - Override expiration: Per quarterly re-estimation
@@ -157,9 +176,7 @@ For each stimulus level s ∈ {0%, 5%, 10%, ..., 50%}:
 | New distribution expands Q_max significantly | Elastic (temporarily) | Until new Q_max estimated |
 
 ### 13. Review Cadence
+
 - Monthly saturation ratio monitor; quarterly Q_max re-estimation and ROI curve refresh; annual trade strategy alignment
 
 ---
-
-*End of Dimension 8 · Elasticity Pattern*
-*4 Segments Complete · E1 through E4*

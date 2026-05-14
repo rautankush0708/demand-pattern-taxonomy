@@ -1,4 +1,5 @@
 # PART 0 — FORMULA & THRESHOLD REFERENCE
+
 ## Driver Pattern Specific
 
 ---
@@ -221,12 +222,3 @@ Coverage = Actuals within [P10, P90] / Total Periods × 100  (Target: 80%)
 | **Yearly** | Annually | T+7 days | All available | 1 year |
 
 ---
-
-# PART 1 — SEGMENT TEMPLATES
-
----
-
----
-
-# PART 1 — SEGMENT TEMPLATES
-

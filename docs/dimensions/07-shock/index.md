@@ -1,4 +1,5 @@
 # Dimension 7 · Shock Pattern
+
 ## Demand Forecasting Model Templates
 
 ---

@@ -1,4 +1,5 @@
 # Dimension 4 · Magnitude Pattern
+
 ## Demand Forecasting Model Templates
 
 ---

@@ -1,8 +1,15 @@
-## T4 · Cyclical Trend
+# Segment Model Template
+
+## Dimension 5 · Cyclical Trend
+
+---
+
 ### 1. Definition
+
 Predicts demand for SKUs exhibiting long-wave demand cycles beyond the primary seasonal frequency, where standard seasonal models underfit and multi-period cycle-aware models are required to capture boom-bust or long-cycle patterns.
 
 ### 2. Detailed Description
+
 - **Applicable scenarios:** Business cycle-sensitive categories, commodities, capital goods, construction materials, economic-cycle-driven categories, fashion macro-cycles
 - **Boundaries:**
 
@@ -18,16 +25,19 @@ Predicts demand for SKUs exhibiting long-wave demand cycles beyond the primary s
 - **Differentiation from other models:** Unlike Seasonal (short calendar cycle), cycles are longer; unlike Upward/Downward Trend, direction reverses cyclically; unlike Reverting, deviations are not random but structured
 
 ### 3. Business Impact
+
 - **Primary risk (over-forecast):** Inventory build at cycle peak — missed trough
 - **Primary risk (under-forecast):** Stockout at cycle trough recovery — missed upturn
 - **Strategic importance:** High for capital goods, industrial, and economic-cycle-sensitive categories
 
 ### 4. Priority Level
+
 🟠 Tier 2 — Complex modelling required; data pipeline for macro indicators needed; medium-high implementation effort.
 
 ### 5. Model Strategy Overview
 
 #### 5.1 Cycle Decomposition (Primary Pre-Processing Step)
+
 ```
 STEP 1: Remove seasonal component → d_adj(t) = d(t) / SI(t)
 STEP 2: Remove linear trend → d_dt(t) = d_adj(t) − (β₀ + β₁ × t)
@@ -50,6 +60,7 @@ STEP 5: Reconstruct forecast → F(t) = Trend(t) + Seasonal(t) + Cycle(t) + ε(t
 ### 6. Model Families
 
 #### 6.1 ML: LightGBM with cycle phase features + macro economic indicators
+
 - Objective: reg:squarederror | Metric: WMAPE, RMSE
 - Key features: Cycle phase, cycle amplitude, macro index, rolling means, seasonal index
 
@@ -91,11 +102,13 @@ where λ = 2π / T_c (cycle frequency); ρ ∈ (0,1) = damping factor
 | ≥ 4 cycles | 40% | 35% | 25% |
 
 ### 8. Uncertainty Quantification
+
 - Method: Scenario analysis — early cycle, mid-cycle, late cycle scenarios
 - Output: [P10, P50, P90] conditioned on cycle position
 - Use case: Strategic inventory positioning at cycle trough; run-down at cycle peak
 
 ### 9. Business Rules
+
 - Non-negativity: max(0, forecast)
 - Cycle position flag: Attach cycle phase label (early expansion / late expansion / early contraction / late contraction) to all forecasts for planner context
 - Manual overrides: Macro economist input on cycle turning point; commodity price signal
@@ -111,6 +124,7 @@ where λ = 2π / T_c (cycle frequency); ρ ∈ (0,1) = damping factor
 | Yearly | < 15% | Peak/trough < 20% | \|Bias\| > 5% |
 
 ### 11. Exception Handling
+
 - Alert: Cycle period changes significantly (> 20%) between detections → re-detect cycle; macro shock → evaluate permanent cycle disruption
 
 ### 12. Reclassification
@@ -121,6 +135,9 @@ where λ = 2π / T_c (cycle frequency); ρ ∈ (0,1) = damping factor
 | Mann-Kendall p < 0.05 confirms monotonic direction | Upward or Downward Trend | 4 periods |
 
 ### 13. Review Cadence
+
 - Quarterly cycle position update; semi-annual macro review; annual full re-evaluation
+
+---
 
 ---
