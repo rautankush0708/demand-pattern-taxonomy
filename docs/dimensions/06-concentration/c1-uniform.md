@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 6 · Uniform
+# Dimension 6 · Uniform
 
 ---
 
@@ -183,7 +181,7 @@ Expected: σ_residual / μ_demand < 0.20 for well-performing Uniform segment
 - Manual override: Level change event only — seasonal pattern adjustment not applicable
 - Override expiration: Single cycle
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Holding Period |
 |---|---|---|

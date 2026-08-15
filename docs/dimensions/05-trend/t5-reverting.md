@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 5 · Reverting
+# Dimension 5 · Reverting
 
 ---
 
@@ -139,7 +137,7 @@ Half-life HL = ln(2) / θ
 
 - Alert: ADF p rises above 0.10 (non-stationary → reclassify); half-life estimate > extended window (too slow to confirm reversion); mean level shift detected (structural break → Step Change behavior)
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

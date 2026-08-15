@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 3 · Seasonal
+# Dimension 3 · Seasonal
 
 ---
 

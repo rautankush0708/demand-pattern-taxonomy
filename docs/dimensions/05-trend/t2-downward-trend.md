@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 5 · Downward Trend
+# Dimension 5 · Downward Trend
 
 ---
 
@@ -175,7 +173,7 @@ phi < 1 → trend fades over horizon (prevents forecast going negative)
 - Manual override: Commercial decision to reinvest; distribution plan reversal
 - Override expiration: Single cycle
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Holding Period | Transition |
 |---|---|---|---|

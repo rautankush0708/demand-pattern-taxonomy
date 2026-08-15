@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 1 · Phasing Out
+# Dimension 1 · Phasing Out
 
 ---
 

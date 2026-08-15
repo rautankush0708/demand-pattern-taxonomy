@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 2 · Slow Mover
+# Dimension 2 · Slow Mover
 
 ---
 
@@ -114,7 +112,7 @@ Predicts demand for SKUs with regular demand frequency and low variance (same CV
 
 - Alert: Volume rises above 5th percentile for 8 periods → reclassify to Stable
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

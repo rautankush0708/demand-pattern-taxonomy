@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 3 · Promotional
+# Dimension 3 · Promotional
 
 ---
 

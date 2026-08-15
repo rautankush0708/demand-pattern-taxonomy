@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 2 · Lumpy
+# Dimension 2 · Lumpy
 
 ---
 
@@ -169,7 +167,7 @@ Note: For lumpy, z_t has high variance — wide prediction intervals required
 
 - Alert: Demand event > 3 × historical max; forecast > 2 × historical max for 3+ periods
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Holding Period |
 |---|---|---|

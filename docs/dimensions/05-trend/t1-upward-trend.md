@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 5 · Upward Trend
+# Dimension 5 · Upward Trend
 
 ---
 

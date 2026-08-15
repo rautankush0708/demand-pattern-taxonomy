@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 6 · Peaked
+# Dimension 6 · Peaked
 
 ---
 
@@ -217,7 +215,7 @@ Pre-season buy: Use P75 for peak period stock commitment
 - Manual override: Buyer peak timing adjustment; early/late season call; peak magnitude input from commercial intelligence
 - Override expiration: Per peak occurrence
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Holding Period |
 |---|---|---|

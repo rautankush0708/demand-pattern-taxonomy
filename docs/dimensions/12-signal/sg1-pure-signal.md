@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 12 · Pure Signal
+# Dimension 12 · Pure Signal
 
 ---
 

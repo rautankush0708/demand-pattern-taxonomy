@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 3 · Customer Driven
+# Dimension 3 · Customer Driven
 
 ---
 

@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 3 · Event Driven
+# Dimension 3 · Event Driven
 
 ---
 

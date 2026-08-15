@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 4 · High Volume
+# Dimension 4 · High Volume
 
 ---
 

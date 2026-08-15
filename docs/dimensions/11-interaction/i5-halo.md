@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 11 · Halo
+# Dimension 11 · Halo
 
 ---
 

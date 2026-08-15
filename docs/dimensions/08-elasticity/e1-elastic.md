@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 8 · Elastic
+# Dimension 8 · Elastic
 
 ---
 
@@ -191,7 +189,7 @@ Post-promo forecast = baseline × (1 − dip_factor × e^{−λ_dip × h})
 - Manual override: Trade manager promo depth confirmation; pricing team price change input; competitor response flag
 - Override expiration: Per price/promo event
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Holding Period |
 |---|---|---|

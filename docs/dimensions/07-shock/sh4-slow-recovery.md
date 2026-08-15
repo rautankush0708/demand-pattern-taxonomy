@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 7 · Slow Recovery
+# Dimension 7 · Slow Recovery
 
 ---
 
@@ -132,7 +130,7 @@ where h = periods since shock end
 
 - Alert: Recovery stalls at RR < 0.50 for 2× HRT → reclassify to Permanent Shift or Step Down; recovery completes faster than expected → reclassify to Fast Recovery for future shocks
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Trigger |
 |---|---|---|

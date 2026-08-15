@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 1 · Growth
+# Dimension 1 · Growth
 
 ---
 

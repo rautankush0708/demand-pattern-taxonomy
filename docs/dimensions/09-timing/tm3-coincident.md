@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 9 · Coincident
+# Dimension 9 · Coincident
 
 ---
 

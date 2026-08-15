@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 9 · Leading
+# Dimension 9 · Leading
 
 ---
 

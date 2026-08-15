@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 6 · Skewed
+# Dimension 6 · Skewed
 
 ---
 
@@ -150,7 +148,7 @@ For left-skewed (end-loaded): Reverse — faster update for late periods
 
 - Alert: Skew direction reverses vs prior cycle → investigate structural change; |skewness| drops below 0.3 for 2 cycles → reclassify to Uniform or Peaked
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

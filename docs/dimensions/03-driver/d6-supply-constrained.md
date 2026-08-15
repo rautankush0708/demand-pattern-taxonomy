@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 3 · Supply Constrained
+# Dimension 3 · Supply Constrained
 
 ---
 

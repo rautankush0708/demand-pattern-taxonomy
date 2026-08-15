@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 1 · Decline
+# Dimension 1 · Decline
 
 ---
 

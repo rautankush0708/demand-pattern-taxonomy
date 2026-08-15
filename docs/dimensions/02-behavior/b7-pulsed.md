@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 2 · Pulsed
+# Dimension 2 · Pulsed
 
 ---
 
@@ -117,7 +115,7 @@ Predicts demand for SKUs with regular inter-arrival intervals and consistent qua
 - Alert: Pulse expected but not arrived within 2× mean inter-arrival — check supply and customer status
 - Alert: Inter-arrival CV rises above 0.30 for 5 events → reclassify to Intermittent
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

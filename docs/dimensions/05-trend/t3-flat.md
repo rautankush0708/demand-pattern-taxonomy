@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 5 · Flat
+# Dimension 5 · Flat
 
 ---
 
@@ -169,7 +167,7 @@ Forecast: F(t+h) = l_t + s_{t+h−m}
 - Manual override: S&OP consensus adjustment; known structural change input
 - Override expiration: Single cycle unless permanent change confirmed
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Holding Period | Transition |
 |---|---|---|---|

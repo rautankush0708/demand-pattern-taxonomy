@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 2 · Intermittent
+# Dimension 2 · Intermittent
 
 ---
 

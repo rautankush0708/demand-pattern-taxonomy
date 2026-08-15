@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 2 · Step Change
+# Dimension 2 · Step Change
 
 ---
 
@@ -103,7 +101,7 @@ F > F_critical (p < 0.05) → structural break confirmed
 - Alert: Break detected → immediate planner notification with pre/post level comparison
 - False positive monitoring: Track break detections that revert — tune test sensitivity
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 - After warm-up: Automatic reclassification to appropriate behavior segment using post-break data
 - No holding period — reclassification is the exit from Step Change

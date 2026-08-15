@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 8 · Saturation
+# Dimension 8 · Saturation
 
 ---
 
@@ -166,7 +164,7 @@ For each stimulus level s ∈ {0%, 5%, 10%, ..., 50%}:
 - Manual override: Market expansion plan (new distribution, new geography) that raises effective Q_max; trade team ceiling challenge
 - Override expiration: Per quarterly re-estimation
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

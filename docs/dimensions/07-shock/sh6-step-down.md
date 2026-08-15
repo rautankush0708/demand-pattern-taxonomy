@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 7 · Step Down
+# Dimension 7 · Step Down
 
 ---
 
@@ -57,9 +55,9 @@ On Step Down confirmation:
 
 ### 6. Model Families
 
-- Immediate: Emergency flat forecast at post-shift rolling mean — prevent any upward drift
-- Warm-up: Cold Start model on post-shift data
-- Post-warm-up: Standard behavior model at new baseline; Decline Lifecycle likely
+#### 6.1 ML: Immediate emergency flat forecast at post-shift rolling mean (prevent any upward drift); Cold Start ML model on post-shift data during warm-up; standard ML model at new baseline post-warm-up (Decline Lifecycle likely)
+
+#### 6.2 DL: Not used during warm-up — insufficient post-shift history; standard DL model per Behavior × Magnitude segment, when eligible, post-warm-up
 
 #### 6.3 Statistical: ETS reinitialised at new (lower) level; use high α (0.4) initially — fast level adaptation critical
 
@@ -107,7 +105,7 @@ b_0 = 0 or slight negative if further decline detected
 - Alert: Any forecast above new baseline → immediate over-forecast alert; further step down detected (second Δ < −15%) → emergency review; pre-shift data accidentally used → retrain immediately with post-shift data only
 - Manual override: Emergency supply stop order; accelerated clearance authorisation
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Trigger |
 |---|---|---|

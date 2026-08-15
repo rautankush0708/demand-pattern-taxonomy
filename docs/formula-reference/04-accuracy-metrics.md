@@ -203,13 +203,13 @@ To calculate these indicators, the following data points must be captured daily:
 Instead of predicting a single number and adding a safety stock buffer, this approach trains models to predict the **conditional quantiles** directly.
 
 ### The Pinball Loss Function
-The model minimizes this loss to find the optimal quantile $Q_q$:
-$$L_q(y, ŷ) = q \cdot \max(y - ŷ, 0) + (1-q) \cdot \max(ŷ - y, 0)$$
+The model minimizes this loss to find the optimal quantile \(Q_q\):
+\[L_q(y, ŷ) = q \cdot \max(y - ŷ, 0) + (1-q) \cdot \max(ŷ - y, 0)\]
 
 ### Implementation Framework
-*   **P10 (Lower Bound)**: Optimized for $q=0.10$. Represents the "Low Demand" scenario.
-*   **P50 (Point Forecast)**: Optimized for $q=0.50$. The median forecast (often more robust than mean).
-*   **P90 (Upper Bound)**: Optimized for $q=0.90$. High-coverage scenario for service level targets.
+*   **P10 (Lower Bound)**: Optimized for \(q=0.10\). Represents the "Low Demand" scenario.
+*   **P50 (Point Forecast)**: Optimized for \(q=0.50\). The median forecast (often more robust than mean).
+*   **P90 (Upper Bound)**: Optimized for \(q=0.90\). High-coverage scenario for service level targets.
 
 ### Supported Algorithms
 | Model Type | Quantile Implementation |

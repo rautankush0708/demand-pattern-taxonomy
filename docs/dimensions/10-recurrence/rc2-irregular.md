@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 10 · Irregular
+# Dimension 10 · Irregular
 
 ---
 

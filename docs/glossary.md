@@ -82,9 +82,9 @@ L_q(y, ŷ) = q * max(y - ŷ, 0) + (1-q) * max(ŷ - y, 0)
 *   **q = 0.50**: Median forecast (often more robust than the Mean).
 
 ### CI Construction
-*   **CI Lower**: Predicted $Q_{0.10}(X_t)$
-*   **Point Forecast**: Predicted $Q_{0.50}(X_t)$
-*   **CI Upper**: Predicted $Q_{0.90}(X_t)$
+*   **CI Lower**: Predicted \(Q_{0.10}(X_t)\)
+*   **Point Forecast**: Predicted \(Q_{0.50}(X_t)\)
+*   **CI Upper**: Predicted \(Q_{0.90}(X_t)\)
 
 ### Implementation recommendation
 *   **LightGBM / XGBoost**: Use `objective="quantile"` and `alpha=[0.1, 0.5, 0.9]`.

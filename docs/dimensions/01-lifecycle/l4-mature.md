@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 1 · Mature
+# Dimension 1 · Mature
 
 ---
 

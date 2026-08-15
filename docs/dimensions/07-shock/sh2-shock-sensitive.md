@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 7 · Shock Sensitive
+# Dimension 7 · Shock Sensitive
 
 ---
 
@@ -173,7 +171,7 @@ shock_indicator(t) = 1 during shock period; 0 otherwise
 - Manual override: Crisis team shock severity and expected duration input; supply allocation decision override
 - Override expiration: Per shock event
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Trigger |
 |---|---|---|

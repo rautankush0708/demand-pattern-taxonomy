@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 12 · Amplified
+# Dimension 12 · Amplified
 
 ---
 

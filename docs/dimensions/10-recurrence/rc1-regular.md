@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 10 · Regular
+# Dimension 10 · Regular
 
 ---
 

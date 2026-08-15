@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 7 · Permanent Shift
+# Dimension 7 · Permanent Shift
 
 ---
 
@@ -59,8 +57,9 @@ Warm-up period after shift:
 
 ### 6. Model Families
 
-- During warm-up: Cold Start model (Dimension 1 — L1 template)
-- After warm-up: Standard behavior model on post-shift data (per Behavior × Magnitude segment)
+#### 6.1 ML: During warm-up, Cold Start ML model (Dimension 1 — L1 template); after warm-up, standard ML model per Behavior × Magnitude segment on post-shift data only
+
+#### 6.2 DL: Not used during warm-up — insufficient post-shift history; after warm-up, standard DL model per Behavior × Magnitude segment, when eligible, trained on post-shift data only
 
 #### 6.3 Statistical: ETS reinitialized at shift point; α = 0.3 (faster adaptation) during first post-shift cycle
 
@@ -100,7 +99,7 @@ Warm-up period after shift:
 - Alert: New baseline shows decline → assess if reversion; post-shift CV² increases → Erratic emerging from shift
 - Manual override: If shift reverts → discard post-shift history and revert to pre-shift baseline
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Trigger |
 |---|---|---|

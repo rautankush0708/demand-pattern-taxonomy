@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 8 · Threshold
+# Dimension 8 · Threshold
 
 ---
 
@@ -159,7 +157,7 @@ ln(Q_t) = α + β_below × stimulus_t × I(stimulus_t < T*)
 - Manual override: Trade team threshold challenge; market research input on psychological price points
 - Override expiration: Per promotional cycle
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

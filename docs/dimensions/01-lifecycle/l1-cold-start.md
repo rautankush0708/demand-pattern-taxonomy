@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 1 · Cold Start
+# Dimension 1 · Cold Start
 
 ---
 

@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 4 · Medium Volume
+# Dimension 4 · Medium Volume
 
 ---
 
@@ -168,7 +166,7 @@ Predicts demand for SKUs in the 25th–75th percentile of portfolio demand volum
 - Manual override: Planner dashboard approval; reason code required
 - Override expiration: Single cycle
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 - To High Volume: Percentile rises above 75th for 6 consecutive months
 - To Low Volume: Percentile drops below 25th for 6 consecutive months

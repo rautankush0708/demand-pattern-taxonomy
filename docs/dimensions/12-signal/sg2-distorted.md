@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 12 · Distorted
+# Dimension 12 · Distorted
 
 ---
 

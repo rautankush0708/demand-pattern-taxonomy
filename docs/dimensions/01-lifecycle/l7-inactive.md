@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 1 · Inactive
+# Dimension 1 · Inactive
 
 ---
 

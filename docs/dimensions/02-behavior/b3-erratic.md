@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 2 · Erratic
+# Dimension 2 · Erratic
 
 ---
 

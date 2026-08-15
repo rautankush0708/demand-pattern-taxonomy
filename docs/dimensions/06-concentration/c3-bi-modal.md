@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 6 · Bi-Modal
+# Dimension 6 · Bi-Modal
 
 ---
 
@@ -131,7 +129,7 @@ Example monthly: TBATS with m_1 = 6 (6-month peak gap), m_2 = 12 (annual)
 
 - Alert: Peak timing shifts > 1 period for either peak; peak magnitude changes > 25%; one peak disappears for 1 cycle → reclassify to Peaked
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

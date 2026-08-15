@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 5 · Cyclical Trend
+# Dimension 5 · Cyclical Trend
 
 ---
 
@@ -127,7 +125,7 @@ where λ = 2π / T_c (cycle frequency); ρ ∈ (0,1) = damping factor
 
 - Alert: Cycle period changes significantly (> 20%) between detections → re-detect cycle; macro shock → evaluate permanent cycle disruption
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 8 · Inelastic
+# Dimension 8 · Inelastic
 
 ---
 
@@ -162,7 +160,7 @@ Predicts demand for SKUs where demand quantity responds less than proportionally
 - Manual override: Pricing team major price change input (even if inelastic, very large changes may have some impact); supply constraint flag
 - Override expiration: Single cycle
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Holding Period |
 |---|---|---|

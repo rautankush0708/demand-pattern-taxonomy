@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 4 · Low Volume
+# Dimension 4 · Low Volume
 
 ---
 
@@ -176,7 +174,7 @@ Safety stock        = z × σ_demand × √Lead_time   [if σ reliable]
 - Manual override: Range rationalisation trigger; special customer order flag
 - Override expiration: Single cycle
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 - To Medium Volume: Percentile rises above 25th for 6 consecutive months
 - To Ultra Low: Percentile drops below 5th for 6 consecutive months

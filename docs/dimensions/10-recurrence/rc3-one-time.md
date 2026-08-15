@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 10 · One Time
+# Dimension 10 · One Time
 
 ---
 

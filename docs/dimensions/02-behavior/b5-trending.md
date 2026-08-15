@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 2 · Trending
+# Dimension 2 · Trending
 
 ---
 
@@ -103,7 +101,7 @@ Predicts demand for SKUs with a statistically confirmed directional slope (eithe
 
 - Alert: Trend reversal for 3 consecutive periods → evaluate reclassification to Stable
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

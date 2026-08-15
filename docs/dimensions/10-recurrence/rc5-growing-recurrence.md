@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 10 · Growing Recurrence
+# Dimension 10 · Growing Recurrence
 
 ---
 

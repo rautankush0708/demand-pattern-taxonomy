@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 4 · Ultra Low
+# Dimension 4 · Ultra Low
 
 ---
 
@@ -179,7 +177,7 @@ Threshold = f(holding_cost, stockout_cost, service_level_target)
 - Manual override: Commercial team range retention decision; customer special order flag
 - Override expiration: Per review cycle
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 - To Low Volume: Percentile rises above 5th for 4 consecutive months
 - To Inactive: Zero demand ≥ 13 consecutive weeks (Lifecycle reclassification triggered simultaneously)

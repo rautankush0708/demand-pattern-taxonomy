@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 7 · Shock Resistant
+# Dimension 7 · Shock Resistant
 
 ---
 
@@ -55,8 +53,17 @@ Predicts demand for SKUs where historical shock events have caused no statistica
 
 ### 6. Model Families
 
-- Apply standard model family per Behavior × Lifecycle × Magnitude segment
-- No shock-specific model component required
+#### 6.1 Machine Learning (ML)
+
+- No shock-specific ML component — apply standard ML model per Behavior × Lifecycle × Magnitude segment
+
+#### 6.2 Deep Learning (DL)
+
+- No shock-specific DL component — apply standard DL model per Behavior × Lifecycle × Magnitude segment, when eligible
+
+#### 6.3 Statistical / Time Series Models
+
+- No shock-specific statistical component — apply standard statistical model per Behavior × Lifecycle × Magnitude segment
 
 #### 6.4 Baseline / Fallback Model
 
@@ -109,7 +116,7 @@ Predicts demand for SKUs where historical shock events have caused no statistica
 - Manual override: Supply chain team shock flag (supply disruption may create apparent demand shock on resistant SKU)
 - Override expiration: Per shock event
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target Segment | Trigger |
 |---|---|---|

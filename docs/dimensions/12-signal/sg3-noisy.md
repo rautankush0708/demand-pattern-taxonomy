@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 12 · Noisy
+# Dimension 12 · Noisy
 
 ---
 

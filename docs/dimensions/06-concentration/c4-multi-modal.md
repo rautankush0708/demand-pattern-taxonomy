@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 6 · Multi-Modal
+# Dimension 6 · Multi-Modal
 
 ---
 
@@ -124,7 +122,7 @@ Optimise m_k via FFT peak detection on detrended series
 
 - Alert: Number of peaks changes vs prior cycle → reclassify; any peak amplitude changes > 30%; peak timing shifts > 1 period
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Holding Period |
 |---|---|---|

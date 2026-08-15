@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 11 · Cannibalistic
+# Dimension 11 · Cannibalistic
 
 ---
 

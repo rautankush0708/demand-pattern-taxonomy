@@ -1,4 +1,4 @@
-# Dimension 09 · Timing Pattern
+# Dimension 9 · Timing Pattern
 
 ## Demand Forecasting Model Templates
 

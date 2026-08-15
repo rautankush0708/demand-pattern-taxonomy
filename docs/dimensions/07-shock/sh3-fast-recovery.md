@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 7 · Fast Recovery
+# Dimension 7 · Fast Recovery
 
 ---
 
@@ -145,7 +143,7 @@ pent_up(t) = max(0, 1 − e^{−λ_pud × (t − t_shock_end)}) × pud_magnitude
 
 - Alert: Recovery not confirmed by HRT → reclassify to Slow Recovery; permanent level change detected → Permanent Shift or Step Down
 
-### 12. Reclassification
+### 12. Reclassification / Model Selection
 
 | Condition | Target | Trigger |
 |---|---|---|

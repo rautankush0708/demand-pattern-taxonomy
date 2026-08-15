@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 12 · Lagged Signal
+# Dimension 12 · Lagged Signal
 
 ---
 

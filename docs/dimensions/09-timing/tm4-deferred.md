@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 9 · Deferred
+# Dimension 9 · Deferred
 
 ---
 

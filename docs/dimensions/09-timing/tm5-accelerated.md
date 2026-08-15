@@ -1,6 +1,4 @@
-# Segment Model Template
-
-## Dimension 9 · Accelerated
+# Dimension 9 · Accelerated
 
 ---
 
