@@ -187,7 +187,7 @@ nav:
         - SG3 · Noisy: dimensions/12-signal/sg3-noisy.md
         - SG4 · Lagged signal: dimensions/12-signal/sg4-lagged-signal.md
         - SG5 · Amplified: dimensions/12-signal/sg5-amplified.md
-  - Templates: templates/segment-template.md
+  - Templates: page-templates/segment-template.md
 
 plugins:
   - search

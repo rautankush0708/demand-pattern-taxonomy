@@ -24,7 +24,7 @@ If you want to implement a new formula or fix a bug in the code:
 If you have a proposal for a 13th dimension:
 1. Open an Issue with the label `new-dimension`.
 2. Provide the mathematical definition and the 5-granularity threshold table.
-3. Once discussed, use the `docs/templates/segment-template.md` to create the specification.
+3. Once discussed, use the `docs/page-templates/segment-template.md` to create the specification.
 
 ## Code Style
 - Use `numpy` for mathematical operations where possible.
